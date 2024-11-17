@@ -1,6 +1,6 @@
 # FitHub - Set Workout Tracker App
 
-## FitHub - Set Workout Tracker App using Java
+### FitHub - Set Workout Tracker App using Java
 
 
 
@@ -16,6 +16,7 @@ git branch
 ```bash
 git checkout <branch-name>
 ```
+
 ### Pushing Changes to GitHub
 - #### 1. Add the files you only want to commit:
  ```bash
@@ -32,5 +33,15 @@ git commit -m "Your example commit message"
 - #### 3. Push the changes to the remote repository:
  ```bash
 git push origin <branch-name exmaple LoginForm>
+ ```
+
+### Checking Status of Git Repositories
+- #### To view all branches available on the remote repository:
+ ```bash
+git branch -r
+ ```
+- #### To Check Status if behind:
+ ```bash
+git status
  ```
   
