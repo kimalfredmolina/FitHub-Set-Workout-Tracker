@@ -30,7 +30,7 @@ git add .
  ```bash
 git commit -m "Your example commit message"
  ```
-- #### 3. Push the changes to the remote repository:
+- #### 3. Push the changes to the remote repository: (no need for "<>" branch name only)
  ```bash
 git push origin <branch-name exmaple LoginForm>
  ```
