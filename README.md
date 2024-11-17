@@ -22,7 +22,7 @@ git checkout <branch-name>
  ```bash
 git add <file-name>
  ```
-- #### 1. To add all changes:
+- #### 1.2. To add all changes:
  ```bash
 git add .
  ```
