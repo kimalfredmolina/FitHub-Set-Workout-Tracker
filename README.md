@@ -1,6 +1,6 @@
 # FitHub - Set Workout Tracker App
+FitHub - Set Workout Tracker is an Android app designed to help users organize and track their workout routines efficiently. This app allows users to log their workouts by recording sets, reps, and other relevant details, creating a personalized workout history. FitHub aims to motivate users by providing an easy-to-use interface that displays workout progress over time. With features such as customizable workout plans, a beginner’s guide, and integration of meal planning and AI assistance, FitHub is your all-in-one fitness companion, ensuring a more structured and goal-oriented fitness journey.
 
-### FitHub - Set Workout Tracker App using Java
 
 
 
