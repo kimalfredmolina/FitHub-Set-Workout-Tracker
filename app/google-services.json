@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "391234366901",
+    "project_id": "fithubdatabase",
+    "storage_bucket": "fithubdatabase.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391234366901:android:7dc3ff02275d58f168bdfc",
+        "android_client_info": {
+          "package_name": "com.example.fithub_set_workout_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv6la45Tr3VZhBAIjaCadDAbKdVJJDbW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
