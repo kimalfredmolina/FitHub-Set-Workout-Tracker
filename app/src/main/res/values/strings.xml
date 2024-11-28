@@ -23,4 +23,18 @@
     <string name="home">Home</string>
     <string name="sets">Sets</string>
     <string name="user">User</string>
+    <string name="app_name">FitHub-Set-Workout-Tracker</string>
+    <string name="client_id">391234366901-89jd7v5nt3ibsk7bsdtbapsjkmnss3bh.apps.googleusercontent.com</string>
+
+    <!-- LoginPage Strings -->
+    <string name="login">Login</string>
+    <string name="user">Username</string>
+    <string name="pass">Password</string>
+    <string name="continues">Or Login with</string>
+    <string name="google_auth">Login with Google</string>
+    <string name="fb_auth">Login with Google</string>
+    <string name="signup_now">Not yet registered? SignUp Now</string>
+
+
+
 </resources>

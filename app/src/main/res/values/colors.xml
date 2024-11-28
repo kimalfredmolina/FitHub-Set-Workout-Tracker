@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- LightMode Theme -->
+    <color name="dark_blue">#3C5069</color>
+    <color name="light_blue">#89CFF0</color>
+    <color name="light_grey">#B0B3C3</color>
+
 </resources>
