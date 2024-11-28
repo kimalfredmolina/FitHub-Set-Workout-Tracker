@@ -1,46 +1,31 @@
 package com.example.fithub_set_workout_tracker;
-
 import android.os.Bundle;
 import android.widget.CalendarView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 public class HomePage extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-
         // Initialize the toolbar
         Toolbar toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
-
         // Set navigation icon click listener
         toolbar.setNavigationOnClickListener(v ->
                 Toast.makeText(HomePage.this, "Navigation icon clicked!", Toast.LENGTH_SHORT).show()
         );
-
         // Initialize the CalendarView
         CalendarView calendarView = findViewById(R.id.calendarView);
-
         // Set a listener for date selection
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
             Toast.makeText(HomePage.this, "Selected Date: " + selectedDate, Toast.LENGTH_SHORT).show();
         });
-
         // Initialize the BottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-
         // Set up navigation item selected listener
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
@@ -56,15 +41,6 @@ public class HomePage extends AppCompatActivity {
             } else {
                 return false;
             }
-        });
-    }
-}
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home_page);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
         });
     }
 }

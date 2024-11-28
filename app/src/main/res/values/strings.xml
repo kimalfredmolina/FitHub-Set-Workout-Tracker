@@ -1,30 +1,24 @@
 <resources>
-    <!-- Home Page -->
+    <string name="client_id">391234366901-89jd7v5nt3ibsk7bsdtbapsjkmnss3bh.apps.googleusercontent.com</string>
     <!-- App Title -->
-    <string name="app_name">GYM PROGRESS</string>
+    <string name="app_name">FitHub-Set Workout Tracker</string>
 
-    <!-- Calendar Section -->
+    <!-- Home Page Strings-->
     <string name="calendar_title">November 2024</string>
-
-    <!-- Workout Splits Section -->
     <string name="workout_splits_title">WORKOUT SPLITS</string>
     <string name="push_pull_legs_title">Push, Pull, and Legs</string>
     <string name="push_description">Chest\nShoulder\nTriceps</string>
     <string name="pull_description">Back\nBiceps</string>
     <string name="legs_description">Lower Body</string>
-
-    <!-- 6-Day Split Section -->
     <string name="six_day_split_title">6-Day Split</string>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation Strings -->
     <string name="nav_sets">Sets</string>
     <string name="nav_home">Home</string>
     <string name="nav_user">User</string>
     <string name="home">Home</string>
     <string name="sets">Sets</string>
-    <string name="user">User</string>
-    <string name="app_name">FitHub-Set-Workout-Tracker</string>
-    <string name="client_id">391234366901-89jd7v5nt3ibsk7bsdtbapsjkmnss3bh.apps.googleusercontent.com</string>
+    <string name="user_icon">User</string>
 
     <!-- LoginPage Strings -->
     <string name="login">Login</string>
