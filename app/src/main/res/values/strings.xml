@@ -21,13 +21,17 @@
     <string name="user_icon">User</string>
 
     <!-- LoginPage Strings -->
-    <string name="login">Login</string>
-    <string name="user">Username</string>
+    <string name="login">Sign In</string>
+    <string name="login_2">Sign Up</string>
+    <string name="save">Save</string>
+    <string name="terms">Terms and Condition</string>
+    <string name="email">Email</string>
     <string name="pass">Password</string>
-    <string name="continues">Or Login with</string>
-    <string name="google_auth">Login with Google</string>
-    <string name="fb_auth">Login with Google</string>
-    <string name="signup_now">Not yet registered? SignUp Now</string>
+    <string name="name">Full Name</string>
+    <string name="continues">Or Sign in with</string>
+    <string name="google_auth">Sign in with Google</string>
+    <string name="fb_auth">Sign in with Google</string>
+    <string name="signup_now">Not yet registered? Sign Up Now</string>
 
 
 

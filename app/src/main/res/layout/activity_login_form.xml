@@ -40,11 +40,13 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:textSize="14sp"
                 android:id="@+id/username"
                 android:background="@drawable/custom_login"
-                android:drawableLeft="@drawable/baseline_person_24"
+                android:drawableLeft="@drawable/baseline_email_24"
                 android:drawablePadding="8dp"
-                android:hint="@string/user"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
@@ -53,6 +55,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:textSize="14sp"
                 android:id="@+id/password"
                 android:background="@drawable/custom_login"
                 android:drawableLeft="@drawable/baseline_lock_24"
@@ -118,14 +121,28 @@
 
 
     <TextView
+        android:id="@+id/signupText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="@string/signup_now"
         android:textSize="14sp"
         android:textAlignment="center"
-        android:id="@+id/signupText"
         android:textColor="@color/white"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/terms"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:id="@+id/terms"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>
