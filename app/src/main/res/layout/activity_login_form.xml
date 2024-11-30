@@ -126,7 +126,7 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="@string/signup_now"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:layout_marginBottom="20dp"
