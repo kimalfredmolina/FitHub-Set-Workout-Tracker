@@ -43,7 +43,7 @@
     <string name="google_auth">Sign in with Google</string>
     <string name="fb_auth">Sign in with Google</string>
     <string name="signup_now">Not yet registered? <u>Sign Up Now</u></string>
-    <string name="loginhere">Already a user? Login here</string>
+    <string name="login_here">Already a user? Login here</string>
 
 
 </resources>

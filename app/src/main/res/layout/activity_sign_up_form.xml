@@ -92,6 +92,17 @@
                 android:backgroundTint="@color/light_blue"
                 app:cornerRadius="20dp" />
 
+            <TextView
+                android:id="@+id/loginhere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_here"
+                android:layout_gravity="center"
+                android:textColor="#77B5FE"
+                android:fontFamily="@font/medium"
+                android:padding="8dp"
+                android:layout_marginTop="10dp"/>
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
