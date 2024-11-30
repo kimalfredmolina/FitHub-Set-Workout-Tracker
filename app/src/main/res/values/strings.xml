@@ -24,9 +24,9 @@
     <!-- Account Page -->
     <string name="acc_page">Account</string>
     <string name="sign_out">Sign Out</string>
-    <string name="send_feedback">Send Feedback</string>
-    <string name="help_and_support">Help and Support</string>
-    <string name="follow">Follow @CBZ Inc.</string>
+    <string name="send_feedback"><u>Send Feedback</u></string>
+    <string name="help_and_support"><u>Help and Support</u></string>
+    <string name="follow"><u>Follow @CBZ Inc.</u></string>
     <string name="edit_exercise">Edit Exercise</string>
     <string name="edit_categories">Edit Categories</string>
 
