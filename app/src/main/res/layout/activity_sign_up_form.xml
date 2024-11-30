@@ -45,6 +45,7 @@
                 android:background="@drawable/custom_login"
                 android:drawableLeft="@drawable/baseline_email_24"
                 android:drawablePadding="8dp"
+                android:fontFamily="@font/mediumitalic"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:padding="8dp"
@@ -60,6 +61,7 @@
                 android:background="@drawable/custom_login"
                 android:drawableLeft="@drawable/baseline_person_4_24"
                 android:drawablePadding="8dp"
+                android:fontFamily="@font/mediumitalic"
                 android:hint="@string/name"
                 android:padding="8dp"
                 android:textColor="@color/black"
@@ -74,6 +76,7 @@
                 android:background="@drawable/custom_login"
                 android:drawableLeft="@drawable/baseline_lock_24"
                 android:drawablePadding="8dp"
+                android:fontFamily="@font/mediumitalic"
                 android:hint="@string/pass"
                 android:padding="8dp"
                 android:inputType="textPassword"
@@ -82,14 +85,15 @@
                 android:layout_marginTop="20dp" />
 
             <Button
+                android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:id="@+id/loginButton"
-                android:text="@string/save"
-                android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                android:textColor="@color/dark_blue"
                 android:backgroundTint="@color/light_blue"
+                android:text="@string/save"
+                android:textColor="@color/dark_blue"
+                android:fontFamily="@font/bold"
+                android:textSize="18sp"
                 app:cornerRadius="20dp" />
 
 
@@ -102,10 +106,11 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:text="@string/terms"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:textAlignment="center"
         android:id="@+id/terms"
         android:textColor="@color/white"
+        android:fontFamily="@font/mediumitalic"
         android:layout_marginTop="90dp"
         android:clickable="true"
         android:focusable="true"/>
