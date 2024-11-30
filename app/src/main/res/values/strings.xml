@@ -1,15 +1,37 @@
 <resources>
-    <string name="app_name">FitHub-Set-Workout-Tracker</string>
     <string name="client_id">391234366901-89jd7v5nt3ibsk7bsdtbapsjkmnss3bh.apps.googleusercontent.com</string>
+    <!-- App Title -->
+    <string name="app_name">FitHub-Set Workout Tracker</string>
+
+    <!-- Home Page Strings-->
+    <string name="calendar_title">November 2024</string>
+    <string name="workout_splits_title">WORKOUT SPLITS</string>
+    <string name="push_pull_legs_title">Push, Pull, and Legs</string>
+    <string name="push_description">Chest\nShoulder\nTriceps</string>
+    <string name="pull_description">Back\nBiceps</string>
+    <string name="legs_description">Lower Body</string>
+    <string name="six_day_split_title">6-Day Split</string>
+
+    <!-- Bottom Navigation Strings -->
+    <string name="nav_sets">Sets</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_user">User</string>
+    <string name="home">Home</string>
+    <string name="sets">Sets</string>
+    <string name="user_icon">User</string>
 
     <!-- LoginPage Strings -->
-    <string name="login">Login</string>
-    <string name="user">Username</string>
+    <string name="login">Sign In</string>
+    <string name="login_2">Sign Up</string>
+    <string name="save">Save</string>
+    <string name="terms"><u>Terms and Condition</u></string>
+    <string name="email">Email</string>
     <string name="pass">Password</string>
-    <string name="continues">Or Login with</string>
-    <string name="google_auth">Login with Google</string>
-    <string name="fb_auth">Login with Google</string>
-    <string name="signup_now">Not yet registered? SignUp Now</string>
+    <string name="name">Full Name</string>
+    <string name="continues">Or Sign in with</string>
+    <string name="google_auth">Sign in with Google</string>
+    <string name="fb_auth">Sign in with Google</string>
+    <string name="signup_now">Not yet registered? <u>Sign Up Now</u></string>
 
 
 
