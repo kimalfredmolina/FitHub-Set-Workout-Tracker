@@ -1,5 +1,6 @@
 <resources>
     <string name="client_id">391234366901-89jd7v5nt3ibsk7bsdtbapsjkmnss3bh.apps.googleusercontent.com</string>
+
     <!-- App Title -->
     <string name="app_name">FitHub-Set Workout Tracker</string>
 
@@ -19,6 +20,16 @@
     <string name="home">Home</string>
     <string name="sets">Sets</string>
     <string name="user_icon">User</string>
+
+    <!-- Account Page -->
+    <string name="acc_page">Account</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="help_and_support">Help and Support</string>
+    <string name="follow">Follow @CBZ Inc.</string>
+    <string name="edit_exercise">Edit Exercise</string>
+    <string name="edit_categories">Edit Categories</string>
+
 
     <!-- LoginPage Strings -->
     <string name="login">Sign In</string>
