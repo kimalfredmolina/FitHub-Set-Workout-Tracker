@@ -29,6 +29,12 @@
             android:textStyle="bold" />
     </com.google.android.material.appbar.MaterialToolbar>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
     <!-- CalendarView -->
     <CalendarView
         android:id="@+id/calendarView"
@@ -37,6 +43,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="#BBDEFB" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" />
 
     <!-- Workout Splits Section -->
 
