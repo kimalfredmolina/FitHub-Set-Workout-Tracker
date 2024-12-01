@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/fithub_bg"
+    android:background="@drawable/fithub_bg2"
     tools:context=".LoginForm">
 
 
@@ -26,6 +26,11 @@
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
             android:padding="24dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/fithub_logo"/>
 
             <TextView
                 android:layout_width="match_parent"

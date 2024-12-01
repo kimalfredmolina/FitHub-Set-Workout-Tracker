@@ -25,16 +25,6 @@ public class SplashScreenForm extends AppCompatActivity {
             return insets;
         });
 
-        ImageView splashLine = findViewById(R.id.imageView);
-        ImageView splashTrack = findViewById(R.id.imageView2);
-        ImageView splashSleep = findViewById(R.id.imageView3);
-        ImageView splashRepeat = findViewById(R.id.imageView4);
-
-        showElementWithDelay(splashLine, 0);
-        showElementWithDelay(splashTrack, 1000);
-        showElementWithDelay(splashSleep, 1500);
-        showElementWithDelay(splashRepeat, 2000);
-
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(SplashScreenForm.this, LoginForm.class);
             startActivity(intent);
