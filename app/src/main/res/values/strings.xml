@@ -38,7 +38,6 @@
     <string name="terms"><u>Terms and Condition</u></string>
     <string name="email">Email</string>
     <string name="pass">Password</string>
-    <string name="name">Full Name</string>
     <string name="continues">Or Sign in with</string>
     <string name="google_auth">Sign in with Google</string>
     <string name="fb_auth">Sign in with Google</string>
