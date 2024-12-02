@@ -2,9 +2,12 @@ package com.example.fithub_set_workout_tracker;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,9 @@ public class SignUpForm extends AppCompatActivity {
     private Button LoginButton;
     private TextView clickhere;
 
+    private ImageView eyeIcon;
+    private boolean isPasswordVisible = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,8 @@ public class SignUpForm extends AppCompatActivity {
         PassWord = findViewById(R.id.password);
         clickhere = findViewById(R.id.loginhere);
         LoginButton = findViewById(R.id.loginButton);
-
+        eyeIcon = findViewById(R.id.eye_icon);
+        eyeIcon.setOnClickListener(v -> togglePasswordVisibility()); // for see/hide password icon
 
 
 
@@ -66,7 +73,7 @@ public class SignUpForm extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
-                                Toast.makeText(SignUpForm.this, "SignUp Successful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUpForm.this, "Account Created Successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(SignUpForm.this, LoginForm.class));
                             } else{
                                 Toast.makeText(SignUpForm.this, "SignUp Failed" + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
@@ -84,5 +91,18 @@ public class SignUpForm extends AppCompatActivity {
                 startActivity(new Intent(SignUpForm.this, LoginForm.class));
             }
         });
+    }
+
+    private void togglePasswordVisibility() {
+        if (isPasswordVisible) {
+            PassWord.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            eyeIcon.setImageResource(R.drawable.eye_close);
+        } else {
+            PassWord.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            eyeIcon.setImageResource(R.drawable.eye_open);
+        }
+        isPasswordVisible = !isPasswordVisible;
+
+        PassWord.setSelection(PassWord.getText().length());
     }
 }
