@@ -17,7 +17,6 @@
         android:visibility="visible" />
 
     <ScrollView
-        android:id="@+id/data_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingTop="30dp"
@@ -114,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
         android:layout_marginStart="40dp"
-        android:layout_marginBottom="95dp"
+        android:layout_marginBottom="75dp"
         android:backgroundTint="@color/light_blue"
         android:contentDescription="@string/add_exercise_description"
         android:src="@drawable/add"
