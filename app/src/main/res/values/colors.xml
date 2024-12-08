@@ -6,6 +6,7 @@
     <!-- LightMode Theme -->
     <color name="dark_blue">#3C5069</color>
     <color name="light_blue">#89CFF0</color>
+    <color name="baby_blue">#F0F8FF</color>
     <color name="light_grey">#B0B3C3</color>
 
     <color name="red">#BF0A0A</color>

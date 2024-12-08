@@ -15,6 +15,9 @@
         android:theme="@style/Theme.FitHubSetWorkoutTracker"
         tools:targetApi="31">
         <activity
+            android:name=".MainPage"
+            android:exported="false" />
+        <activity
             android:name=".SetTrackerPage"
             android:exported="false" />
         <activity

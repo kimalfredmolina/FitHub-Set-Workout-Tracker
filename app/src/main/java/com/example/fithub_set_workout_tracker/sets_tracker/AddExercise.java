@@ -17,7 +17,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fithub_set_workout_tracker.R;
-import com.example.fithub_set_workout_tracker.SetTrackerPage;
+import com.example.fithub_set_workout_tracker.main_pages.SetTrackerPage;
 
 import java.util.Calendar;
 
