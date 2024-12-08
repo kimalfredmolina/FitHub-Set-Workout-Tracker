@@ -55,6 +55,7 @@
     <string name="S_time">Start Time</string>
     <string name="E_time">End Time</string>
     <string name="Notes">Notes</string>
+    <string name="finish">Finish</string>
     <string name="Add_Exercise">Add Exercise</string>
     <string name="Select_exercise">Select Exercise</string>
     <string name="Select_Workout">Select Workout</string>
