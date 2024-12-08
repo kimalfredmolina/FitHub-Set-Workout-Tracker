@@ -1,80 +1,93 @@
 package com.example.fithub_set_workout_tracker.main_pages;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import com.example.fithub_set_workout_tracker.LoginForm;
+import com.example.fithub_set_workout_tracker.SignUpForm;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 
 import com.example.fithub_set_workout_tracker.R;
 import com.google.android.material.appbar.MaterialToolbar;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AccountPage#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AccountPage extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private TextView signedEmail;
+    private Button signOut;
+    FirebaseAuth mAuth;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+
+
 
     public AccountPage() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AccountPage.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AccountPage newInstance(String param1, String param2) {
-        AccountPage fragment = new AccountPage();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        // Default constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_account_page, container, false);
+
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mAuth = FirebaseAuth.getInstance();
+
+        signedEmail = view.findViewById(R.id.signed_in_as);
+        signOut = view.findViewById(R.id.sign_out_button);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null){
+            String email = currentUser.getEmail();
+            signedEmail.setText("Signed in as: " + email);
+
+        } else {
+            signedEmail.setText("No Current email signed in");
+        }
+
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mAuth.signOut();
+                signOutUser();
+
+            }
+        });
+
+
+
+        // Setup MaterialToolbar
         MaterialToolbar toolbar = view.findViewById(R.id.topAppBar);
         toolbar.setNavigationOnClickListener(v -> {
-            // Handle menu icon click
+            // Handle toolbar navigation click
         });
     }
 
+    private void signOutUser() {
+        Intent mainAct = new Intent(getActivity(),LoginForm.class);
+        mainAct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(mainAct);
+        requireActivity().finish();
+
+    }
 }

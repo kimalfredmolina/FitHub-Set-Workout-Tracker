@@ -37,7 +37,6 @@ public class LoginForm extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
-
     private EditText passwordEditText;
     private ImageView eyeIcon;
     private boolean isPasswordVisible = false;
@@ -61,6 +60,7 @@ public class LoginForm extends AppCompatActivity {
                 .build();
 
         passwordEditText = findViewById(R.id.password);
+
         eyeIcon = findViewById(R.id.eye_icon);
         eyeIcon.setOnClickListener(v -> togglePasswordVisibility()); // for see/hide password icon
 

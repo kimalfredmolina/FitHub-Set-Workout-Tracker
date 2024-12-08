@@ -1,6 +1,7 @@
 package com.example.fithub_set_workout_tracker;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,8 @@ public class MainPage extends AppCompatActivity {
     ViewPager2 viewPager2;
     ViewAdapter viewAdapter;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,7 @@ public class MainPage extends AppCompatActivity {
         viewPager2 =findViewById(R.id.view_pager);
         viewAdapter = new ViewAdapter(this);
         viewPager2.setAdapter(viewAdapter);
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -58,5 +62,6 @@ public class MainPage extends AppCompatActivity {
                 Objects.requireNonNull(tabLayout.getTabAt(position)).select();
             }
         });
+
     }
 }
