@@ -46,4 +46,24 @@
     <string name="login_here">Already a user? Login here</string>
 
 
+    <!-- SetTrackerPage Strings -->
+    <string name="add_exercise_description">Add Exercise</string>
+    <string name="Back_arrow_description">Back Button</string>
+    <string name="Program">Program</string>
+    <string name="Weight">BW(Lb)</string>
+    <string name="Date">mm/d/yyyy</string>
+    <string name="S_time">Start Time</string>
+    <string name="E_time">End Time</string>
+    <string name="Notes">Notes</string>
+    <string name="Add_Exercise">Add Exercise</string>
+    <string name="Select_exercise">Select Exercise</string>
+    <string name="Select_Workout">Select Workout</string>
+    <string name="Reps">Reps</string>
+    <string name="LB">Lb</string>
+    <string name="workoutName">Workout Name</string>
+    <string name="hashtag">#</string>
+    <string name="one">1</string>
+    <string name="zero">0</string>
+    <string name="add_set">+ Add Set</string>
+
 </resources>

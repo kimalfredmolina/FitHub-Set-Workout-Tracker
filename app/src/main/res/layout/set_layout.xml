@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/set_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:layout_marginEnd="8dp" />
+
+    <EditText
+        android:id="@+id/lb_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/add_exercise_bg"
+        android:backgroundTint="@color/blue"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:padding="8dp"
+        android:hint="0" />
+
+    <EditText
+        android:id="@+id/reps_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/add_exercise_bg"
+        android:backgroundTint="@color/blue"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:padding="8dp"
+        android:hint="0" />
+
+    <EditText
+        android:id="@+id/notes_field"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/add_exercise_bg"
+        android:backgroundTint="@color/blue"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:padding="8dp"
+        android:hint="" />
+
+</LinearLayout>
