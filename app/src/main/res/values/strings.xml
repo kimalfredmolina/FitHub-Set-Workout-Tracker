@@ -6,12 +6,7 @@
 
     <!-- Home Page Strings-->
     <string name="calendar_title">November 2024</string>
-    <string name="workout_splits_title">WORKOUT SPLITS</string>
-    <string name="push_pull_legs_title">Push, Pull, and Legs</string>
-    <string name="push_description">Chest\nShoulder\nTriceps</string>
-    <string name="pull_description">Back\nBiceps</string>
-    <string name="legs_description">Lower Body</string>
-    <string name="six_day_split_title">6-Day Split</string>
+    <string name="name_txt">FitHub</string>
 
     <!-- Bottom Navigation Strings -->
     <string name="nav_sets">Sets</string>

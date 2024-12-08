@@ -11,11 +11,11 @@
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="#6A0DAD"
+        android:background="@color/light_blue"
         android:layout_alignParentBottom="true"
         app:tabTextColor="@color/black"
-        app:tabIndicator="@color/black"
-        app:tabSelectedTextColor="@color/black">
+        app:tabIndicator="@color/gold"
+        app:tabSelectedTextColor="@color/gold">
 
 
         <com.google.android.material.tabs.TabItem
