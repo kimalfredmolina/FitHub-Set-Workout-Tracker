@@ -33,6 +33,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.AddExercise"
+            android:exported="true" />
+        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.SelectWorkout"
+            android:exported="true" />
+        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Abs" />
+        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Back" />
+        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Biceps" />
+        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Chest" />
+        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Legs" />
+        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Shoulders" />
+        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Triceps" />
+
     </application>
 
 </manifest>

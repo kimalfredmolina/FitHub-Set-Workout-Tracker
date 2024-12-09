@@ -295,7 +295,7 @@
                     android:layout_weight="1"
                     android:autofillHints="notes"
                     android:background="@drawable/add_exercise_bg"
-                    android:backgroundTint="@color/dark_blue"
+                    android:backgroundTint="@color/blue"
                     android:inputType="text"
                     android:textColorHint="@color/blue"
                     android:textColor="@color/black"
