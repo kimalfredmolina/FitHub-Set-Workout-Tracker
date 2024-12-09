@@ -27,8 +27,7 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:navigationIcon="@drawable/ic_menu">
+                android:layout_height="wrap_content">
 
                 <!-- Centered Title -->
                 <TextView
@@ -56,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/blackitalic"
-                android:text="Signed in as: jonelobrian@gmail.com"
+                android:text="@string/account"
                 android:textSize="16sp"
                 android:layout_marginBottom="8dp" />
 

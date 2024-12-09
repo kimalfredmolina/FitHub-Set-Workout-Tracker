@@ -24,6 +24,7 @@
     <string name="follow"><u>Follow @CBZ Inc.</u></string>
     <string name="edit_exercise">Edit Exercise</string>
     <string name="edit_categories">Edit Categories</string>
+    <string name="account">Signed in as:</string>
 
 
     <!-- LoginPage Strings -->

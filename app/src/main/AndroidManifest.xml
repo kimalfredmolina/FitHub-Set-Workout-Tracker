@@ -18,15 +18,6 @@
             android:name=".MainPage"
             android:exported="false" />
         <activity
-            android:name=".SetTrackerPage"
-            android:exported="false" />
-        <activity
-            android:name=".AccountPage"
-            android:exported="false" />
-        <activity
-            android:name=".HomePage"
-            android:exported="false" />
-        <activity
             android:name=".LoginForm"
             android:exported="false" />
         <activity
