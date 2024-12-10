@@ -9,7 +9,7 @@
         android:id="@+id/set_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1"
+        android:text="@string/one"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         android:layout_marginEnd="8dp" />
@@ -23,9 +23,11 @@
         android:backgroundTint="@color/blue"
         android:inputType="number"
         android:textColor="@color/black"
+        android:fontFamily="@font/medium"
         android:textColorHint="@color/black"
         android:padding="8dp"
-        android:hint="0" />
+        android:layout_marginEnd="8dp"
+        android:hint="@string/zero" />
 
     <EditText
         android:id="@+id/reps_field"
@@ -36,9 +38,11 @@
         android:backgroundTint="@color/blue"
         android:inputType="number"
         android:textColor="@color/black"
+        android:fontFamily="@font/medium"
         android:textColorHint="@color/black"
         android:padding="8dp"
-        android:hint="0" />
+        android:layout_marginEnd="8dp"
+        android:hint="@string/zero" />
 
     <EditText
         android:id="@+id/notes_field"
@@ -47,9 +51,9 @@
         android:layout_weight="1"
         android:background="@drawable/add_exercise_bg"
         android:backgroundTint="@color/blue"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
         android:padding="8dp"
-        android:hint="" />
+        android:textColor="@color/black"
+        android:fontFamily="@font/light"
+        android:textColorHint="@color/black" />
 
 </LinearLayout>

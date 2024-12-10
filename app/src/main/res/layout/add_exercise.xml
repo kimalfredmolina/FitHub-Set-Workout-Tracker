@@ -63,6 +63,8 @@
                     android:background="@drawable/add_exercise_bg"
                     android:backgroundTint="@color/blue"
                     android:hint="@string/Program"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/medium"
                     android:inputType="text"
                     android:padding="15dp"
                     android:textColor="@color/black"
@@ -81,6 +83,8 @@
                     android:autofillHints="weight"
                     android:background="@drawable/add_exercise_bg"
                     android:hint="@string/Weight"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/medium"
                     android:inputType="number"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
@@ -110,6 +114,8 @@
                     android:autofillHints="date"
                     android:background="@drawable/add_exercise_bg"
                     android:hint="@string/Date"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/medium"
                     android:inputType="date"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
@@ -133,6 +139,8 @@
                     android:autofillHints="Time"
                     android:background="@drawable/add_exercise_bg"
                     android:hint="@string/S_time"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/medium"
                     android:inputType="time"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
@@ -154,6 +162,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/add_exercise_bg"
                     android:hint="@string/E_time"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/medium"
                     android:inputType="time"
                     android:textColorHint="@color/black"
                     android:backgroundTint="@color/blue"
@@ -177,6 +187,8 @@
                 android:background="@drawable/add_exercise_bg"
                 android:backgroundTint="@color/blue"
                 android:hint="@string/Notes"
+                android:textSize="17sp"
+                android:fontFamily="@font/medium"
                 android:autofillHints="notes"
                 android:textColorHint="@color/black"
                 android:textColor="@color/black"
@@ -212,15 +224,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="8dp"
-                android:background="@color/blue">
+                android:padding="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hashtag"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/bold"
                     android:layout_marginEnd="8dp" />
 
                 <TextView
@@ -229,7 +240,7 @@
                     android:layout_weight="1"
                     android:text="@string/LB"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/bold" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -237,7 +248,7 @@
                     android:layout_weight="1"
                     android:text="@string/Reps"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/bold" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -245,7 +256,7 @@
                     android:layout_weight="1"
                     android:text="@string/Notes"
                     android:textColor="@android:color/black"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -272,9 +283,11 @@
                     android:backgroundTint="@color/blue"
                     android:text="@string/zero"
                     android:textColorHint="@color/black"
+                    android:fontFamily="@font/medium"
                     android:textColor="@color/black"
                     android:inputType="number"
-                    android:padding="8dp" />
+                    android:padding="8dp"
+                    android:layout_marginEnd="8dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -285,9 +298,11 @@
                     android:inputType="number"
                     android:text="@string/zero"
                     android:textColorHint="@color/black"
+                    android:fontFamily="@font/medium"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/blue"
-                    android:padding="8dp" />
+                    android:padding="8dp"
+                    android:layout_marginEnd="8dp" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -297,8 +312,8 @@
                     android:background="@drawable/add_exercise_bg"
                     android:backgroundTint="@color/blue"
                     android:inputType="text"
-                    android:textColorHint="@color/blue"
                     android:textColor="@color/black"
+                    android:fontFamily="@font/light"
                     android:padding="8dp" />
             </LinearLayout>
 
@@ -318,6 +333,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/Add_Exercise"
+            android:textSize="16sp"
+            android:fontFamily="@font/medium"
             android:backgroundTint="@color/light_blue"
             android:textColor="@android:color/black"
             android:layout_marginTop="16dp" />
