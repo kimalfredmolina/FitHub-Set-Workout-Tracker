@@ -67,4 +67,11 @@
 
     <!-- SetTrackerPage Strings -->
 
+    <!-- Homepage Strings -->
+    <string name="appname">Navigation Drawer</string>
+    <string name="open">Open Navigation Drawer</string>
+    <string name="close">Close Navigation Drawer</string>
+    <string name="user">User</string>
+
+
 </resources>
