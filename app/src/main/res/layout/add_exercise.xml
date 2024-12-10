@@ -40,6 +40,18 @@
                 android:paddingStart="25dp"
                 android:textSize="16sp"/>
 
+            <ImageButton
+                android:id="@+id/Popup_menu_main"
+                android:layout_width="35dp"
+                android:layout_height="38dp"
+                android:src="@drawable/menu"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="3dp"
+                android:contentDescription="@string/Menu_Description"
+                android:background="@null"
+                android:scaleType="fitCenter"/>
+
         </RelativeLayout>
 
         <LinearLayout
@@ -314,7 +326,18 @@
                     android:inputType="text"
                     android:textColor="@color/black"
                     android:fontFamily="@font/light"
-                    android:padding="8dp" />
+                    android:padding="8dp"
+                    android:layout_marginEnd="5dp"/>
+
+                <ImageButton
+                    android:id="@+id/Popup_menu"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/menu"
+                    android:contentDescription="@string/Menu_Description"
+                    android:background="@null"
+                    android:scaleType="fitCenter"/>
+
             </LinearLayout>
 
             <Button

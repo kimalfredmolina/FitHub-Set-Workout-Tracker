@@ -1,5 +1,4 @@
 package com.example.fithub_set_workout_tracker.sets_tracker;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.fithub_set_workout_tracker.R;
 import com.example.fithub_set_workout_tracker.main_pages.SetTrackerPage;
@@ -57,17 +57,19 @@ public class AddExercise extends AppCompatActivity {
         workout_Details.setVisibility(View.GONE);
 
         backButton.setOnClickListener(v -> {
-            // Navigate to MainActivity and not back to previous
-            Intent intent = new Intent(AddExercise.this, SetTrackerPage.class);
-            startActivity(intent);
-            finish();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            SetTrackerPage setTrackerPageFragment = new SetTrackerPage();
+            transaction.replace(R.id.fragment_container, setTrackerPageFragment);
+            transaction.commit();
         });
 
         finishButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AddExercise.this, SetTrackerPage.class);
-            startActivity(intent);
-            finish();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            SetTrackerPage setTrackerPage = new SetTrackerPage();
+            transaction.replace(R.id.fragment_container, setTrackerPage);
+            transaction.commit();
         });
+
 
         date.setOnClickListener(v -> {
             showDatePicker();

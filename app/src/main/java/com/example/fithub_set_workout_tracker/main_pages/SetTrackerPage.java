@@ -21,13 +21,11 @@ public class SetTrackerPage extends Fragment {
     private ScrollView dataLayout;
     private FloatingActionButton addExerciseButton;
 
-    // TextViews to display selected exercise data
     private TextView workoutNameTextView, dateTextView, timeTextView, notesTextView;
 
     private static final int REQUEST_CODE = 1;
 
     public SetTrackerPage() {
-        // Required empty public constructor
     }
 
     @Nullable

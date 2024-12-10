@@ -44,7 +44,6 @@
         <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Legs" />
         <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Shoulders" />
         <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Triceps" />
-
     </application>
 
 </manifest>
