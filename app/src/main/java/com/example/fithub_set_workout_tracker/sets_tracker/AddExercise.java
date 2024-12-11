@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -122,9 +126,30 @@ public class AddExercise extends AppCompatActivity {
         program.addTextChangedListener(textWatcher);
         weight.addTextChangedListener(textWatcher);
         notes.addTextChangedListener(textWatcher);
+
+    ImageButton popupMenuButton = findViewById(R.id.Popup_menu);
+        popupMenuButton.setOnClickListener(v -> {
+        PopupMenu popupMenu = new PopupMenu(AddExercise.this, v);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.custom_menu, popupMenu.getMenu());
+
+        popupMenu.show();
+
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.edit) {
+                Toast.makeText(AddExercise.this, "Edit clicked", Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (item.getItemId() == R.id.delete) {
+                Toast.makeText(AddExercise.this, "Delete clicked", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+            return false;
+
+        });
+        });
     }
 
-    private void showDatePicker() {
+            private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -169,6 +194,33 @@ public class AddExercise extends AppCompatActivity {
 
         setNumber.setText(String.valueOf(setCount));
         setCount++;
+
+        // Add popup menu for this specific set
+        ImageButton popupMenuButton = setView.findViewById(R.id.Popup_Menu);
+        popupMenuButton.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(AddExercise.this, v);
+            MenuInflater inflater1 = popupMenu.getMenuInflater();
+            inflater1.inflate(R.menu.custom_menu, popupMenu.getMenu());
+
+            // Show the PopupMenu
+            popupMenu.show();
+
+            // Handle item clicks using if-else
+            popupMenu.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.edit) {
+                    // Handle edit action
+                    Toast.makeText(AddExercise.this, "Edit clicked for set " + setNumber.getText(), Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (item.getItemId() == R.id.delete) {
+                    // Handle delete action
+                    Toast.makeText(AddExercise.this, "Delete clicked for set " + setNumber.getText(), Toast.LENGTH_SHORT).show();
+                    workout_Details.removeView(setView);  // Remove the set view
+                    setCount--;  // Decrement the count to reflect the removed set
+                    return true;
+                }
+                return false;
+            });
+        });
 
         workout_Details.removeView(addSetButton);
         workout_Details.addView(setView);
