@@ -15,6 +15,9 @@
         android:theme="@style/Theme.FitHubSetWorkoutTracker"
         tools:targetApi="31">
         <activity
+            android:name=".item_workout"
+            android:exported="false" />
+        <activity
             android:name=".MainPage"
             android:exported="false" />
         <activity
@@ -26,25 +29,25 @@
         <activity
             android:name=".SplashScreenForm"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.AddExercise"
+        <activity
+            android:name=".sets_tracker.AddExercise"
             android:exported="true" />
-        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.SelectWorkout"
+        <activity
+            android:name=".sets_tracker.SelectWorkout"
             android:exported="true" />
-        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Abs" />
-        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Back" />
-        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Biceps" />
-        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Chest" />
-        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Legs" />
-        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Shoulders" />
-        <activity android:name="com.example.fithub_set_workout_tracker.sets_tracker.Triceps" />
-
+        <activity android:name=".sets_tracker.Abs" />
+        <activity android:name=".sets_tracker.Back" />
+        <activity android:name=".sets_tracker.Biceps" />
+        <activity android:name=".sets_tracker.Chest" />
+        <activity android:name=".sets_tracker.Legs" />
+        <activity android:name=".sets_tracker.Shoulders" />
+        <activity android:name=".sets_tracker.Triceps" />
     </application>
 
 </manifest>

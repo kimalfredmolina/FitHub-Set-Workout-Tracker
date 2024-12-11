@@ -1,4 +1,5 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,92 +18,22 @@
         android:visibility="visible" />
 
     <ScrollView
+        android:id="@+id/scroll_view_data"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingTop="30dp"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
+            android:id="@+id/exercise_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="10dp"
-            android:visibility="gone">
+            android:paddingHorizontal="10dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp"
-                android:padding="8dp"
-                android:background="@color/light_blue"
-                android:elevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:paddingHorizontal="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="FRI"
-                        android:textStyle="bold"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/date_display"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="15\nNov"
-                        android:gravity="center"
-                        android:lineSpacingExtra="4dp"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@color/white"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/workout_subtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Chest and Back"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/workout_name_display"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="\n3x Bench Press\n3x Incline Bench Press\n3x Cable Crossover"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="normal" />
-
-                    <TextView
-                        android:id="@+id/time_display"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="120 min"
-                        android:textColor="#000000"
-                        android:textSize="12sp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:textStyle="normal"
-                        android:paddingEnd="8dp"
-                        android:paddingTop="8dp" />
-                </RelativeLayout>
-            </LinearLayout>
+            <!-- Placeholder content for dynamic workout details -->
+            <!-- Workout items will be added programmatically here -->
 
         </LinearLayout>
     </ScrollView>

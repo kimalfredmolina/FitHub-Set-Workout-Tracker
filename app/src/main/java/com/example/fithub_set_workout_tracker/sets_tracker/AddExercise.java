@@ -18,8 +18,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fithub_set_workout_tracker.R;
 import com.example.fithub_set_workout_tracker.main_pages.SetTrackerPage;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AddExercise extends AppCompatActivity {
 
@@ -57,17 +63,65 @@ public class AddExercise extends AppCompatActivity {
         workout_Details.setVisibility(View.GONE);
 
         backButton.setOnClickListener(v -> {
-            // Navigate to MainActivity and not back to previous
             Intent intent = new Intent(AddExercise.this, SetTrackerPage.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         });
 
+
         finishButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AddExercise.this, SetTrackerPage.class);
-            startActivity(intent);
-            finish();
+            DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("workouts");
+
+            String workoutId = databaseRef.push().getKey();
+
+            String workoutProgram = program.getText().toString();
+            String bodyWeight = weight.getText().toString();
+            String workoutNotes = notes.getText().toString();
+            String workoutDate = date.getText().toString();
+            String workoutStartTime = time.getText().toString();
+            String workoutEndTime = endTime.getText().toString();
+
+            Map<String, Object> workoutData = new HashMap<>();
+            workoutData.put("program", workoutProgram);
+            workoutData.put("bodyWeight", bodyWeight);
+            workoutData.put("notes", workoutNotes);
+            workoutData.put("date", workoutDate);
+            workoutData.put("startTime", workoutStartTime);
+            workoutData.put("endTime", workoutEndTime);
+
+            List<Map<String, Object>> sets = new ArrayList<>();
+            for (int i = 0; i < workout_Details.getChildCount(); i++) {
+                View setView = workout_Details.getChildAt(i);
+                if (setView.findViewById(R.id.set_number) != null) {
+                    EditText lbField = setView.findViewById(R.id.lb_field);
+                    EditText repsField = setView.findViewById(R.id.reps_field);
+                    EditText notesField = setView.findViewById(R.id.notes_field);
+
+                    Map<String, Object> setData = new HashMap<>();
+                    setData.put("lb", lbField.getText().toString());
+                    setData.put("reps", repsField.getText().toString());
+                    setData.put("notes", notesField.getText().toString());
+                    sets.add(setData);
+                }
+            }
+            workoutData.put("sets", sets);
+
+            // Save data to Firebase
+            if (workoutId != null) {
+                databaseRef.child(workoutId).setValue(workoutData)
+                        .addOnSuccessListener(aVoid -> {
+                            Intent intent = new Intent(AddExercise.this, SetTrackerPage.class);
+                            intent.putExtra("workoutId", workoutId); // Pass the workout ID
+                            startActivity(intent);
+                            finish();
+                        })
+                        .addOnFailureListener(e -> {
+                            e.printStackTrace();
+                        });
+            }
         });
+
 
         date.setOnClickListener(v -> {
             showDatePicker();
