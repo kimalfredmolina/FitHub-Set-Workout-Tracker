@@ -62,6 +62,7 @@
     <string name="one">1</string>
     <string name="zero">0</string>
     <string name="add_set">+ Add Set</string>
+    <string name="Menu_Description">menu_icon</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
