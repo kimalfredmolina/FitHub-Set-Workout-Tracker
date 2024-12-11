@@ -2,16 +2,12 @@ package com.example.fithub_set_workout_tracker;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -23,14 +19,13 @@ import java.util.Objects;
 
 public class MainPage extends AppCompatActivity {
 
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle drawerToggle;
 
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    ActionBarDrawerToggle drawerToggle;
-
-    TabLayout tabLayout;
-    ViewPager2 viewPager2;
-    ViewAdapter viewAdapter;
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager2;
+    private ViewAdapter viewAdapter;
 
     private final int[] tabIcons = {
             R.drawable.ic_sets,
@@ -39,72 +34,51 @@ public class MainPage extends AppCompatActivity {
     };
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        if(drawerToggle.onOptionsItemSelected(item))
-        {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_page);
 
+        // Setup Toolbar
+        Toolbar toolbar = findViewById(R.id.topAppBar);
+        setSupportActionBar(toolbar);
+
+        // Initialize DrawerLayout and NavigationView
         drawerLayout = findViewById(R.id.main);
         navigationView = findViewById(R.id.nav);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.string.open,R.string.close);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                drawerLayout.closeDrawer(GravityCompat.START); // Close the drawer after selection
-                return true; // Indicate the event is handled
-            }
+        // Handle NavigationView item clicks
+        navigationView.setNavigationItemSelectedListener(item -> {
+            handleNavigation(item);
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
 
-
-
-
-
-
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
+        // Initialize TabLayout and ViewPager2
         tabLayout = findViewById(R.id.tablayout);
         viewPager2 = findViewById(R.id.view_pager);
         viewAdapter = new ViewAdapter(this);
         viewPager2.setAdapter(viewAdapter);
 
-        //for bottom navbar icons
+        // Setup TabLayout with ViewPager2 and Icons
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+            tab.setIcon(tabIcons[position]);
             switch (position) {
                 case 0:
-                    tab.setIcon(tabIcons[0]);
                     tab.setText(R.string.nav_sets);
                     break;
                 case 1:
-                    tab.setIcon(tabIcons[1]);
                     tab.setText(R.string.nav_home);
                     break;
                 case 2:
-                    tab.setIcon(tabIcons[2]);
                     tab.setText(R.string.nav_user);
                     break;
             }
         }).attach();
 
+        // Synchronize ViewPager2 with TabLayout
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -120,24 +94,37 @@ public class MainPage extends AppCompatActivity {
             }
         });
 
+        // Synchronize TabLayout with ViewPager2
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
-                super.onPageSelected(position);
                 Objects.requireNonNull(tabLayout.getTabAt(position)).select();
             }
         });
-
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START); // Close the drawer if it's open
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed(); // Default behavior for the back button
+            super.onBackPressed();
         }
     }
 
+    private void handleNavigation(MenuItem item) {
+        switch (item.getItemId()) {
 
+            default:
+                break;
+        }
+    }
 }
-
