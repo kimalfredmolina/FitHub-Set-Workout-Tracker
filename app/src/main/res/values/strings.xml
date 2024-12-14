@@ -65,8 +65,6 @@
     <string name="Menu_Description">menu_icon</string>
 
 
-    <!-- SetTrackerPage Strings -->
-
     <!-- Homepage Strings -->
     <string name="appname">Navigation Drawer</string>
     <string name="open">Open Navigation Drawer</string>

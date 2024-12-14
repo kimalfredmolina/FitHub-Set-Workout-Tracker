@@ -48,7 +48,7 @@ public class AddExercise extends AppCompatActivity {
     private ImageView backButton;
     private Button addExerciseButton, addSetButton, finishButton, Btnsave;
     private LinearLayout workout_Details;
-    private int setCount = 0;
+    private int setCount = 2;
     private static final int MAX_SETS = 5;
     private EditText notesfield, reps, lbs;
 
@@ -99,8 +99,8 @@ public class AddExercise extends AppCompatActivity {
 
         backButton.setOnClickListener(v -> {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            SetTrackerPage setTrackerPageFragment = new SetTrackerPage();
-            transaction.replace(R.id.fragment_container, setTrackerPageFragment);
+            SetTrackerPage setTrackerPage = new SetTrackerPage();
+            transaction.replace(R.id.fragment_container, setTrackerPage);
             transaction.commit();
         });
 
