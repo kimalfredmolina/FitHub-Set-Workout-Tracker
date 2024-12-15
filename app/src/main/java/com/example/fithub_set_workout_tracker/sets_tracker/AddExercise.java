@@ -1,8 +1,10 @@
 package com.example.fithub_set_workout_tracker.sets_tracker;
 
+import android.app.AlertDialog;  //ahwh
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences; //ewfwefw
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -59,10 +61,64 @@ public class AddExercise extends AppCompatActivity {
     private String muscleGroup = null;
     private String selectedExercise = null;
 
+    private void saveData() {
+        SharedPreferences preferences = getSharedPreferences("AddExerciseData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putString("selectedExercise", selectedExercise);
+        editor.putString("muscleGroup", muscleGroup);
+        editor.putString("notes", notes.getText().toString());
+        editor.putString("weight", weight.getText().toString());
+        editor.putString("date", date.getText().toString());
+        editor.putString("time", time.getText().toString());
+        editor.putString("endTime", endTime.getText().toString());
+
+        editor.apply();
+    }
+    private void loadData() {
+        SharedPreferences preferences = getSharedPreferences("AddExerciseData", MODE_PRIVATE);
+
+        selectedExercise = preferences.getString("selectedExercise", "");
+        muscleGroup = preferences.getString("muscleGroup", "");
+        notes.setText(preferences.getString("notes", ""));
+        weight.setText(preferences.getString("weight", ""));
+        date.setText(preferences.getString("date", ""));
+        time.setText(preferences.getString("time", ""));
+        endTime.setText(preferences.getString("endTime", ""));
+
+        if (!selectedExercise.isEmpty()) {
+            workoutName.setVisibility(View.VISIBLE);
+            workoutName.setText(selectedExercise);
+            workout_Details.setVisibility(View.VISIBLE);
+        } else {
+            workoutName.setVisibility(View.GONE);
+        }
+    }
+
+    private void clearData() {
+        SharedPreferences preferences = getSharedPreferences("AddExerciseData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
+
+        // Reset input fields
+        notes.setText("");
+        weight.setText("");
+        date.setText("");
+        time.setText("");
+        endTime.setText("");
+        workoutName.setText("");
+        workout_Details.removeAllViews();
+        setCount = 2; // Reset set counter
+        finishButton.setVisibility(View.GONE);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_exercise);
+        initializeViews();
+        loadData();
 
         LayoutInflater inflaters = LayoutInflater.from(this);
         View anotherLayout = inflaters.inflate(R.layout.set_layout, null);
@@ -98,12 +154,16 @@ public class AddExercise extends AppCompatActivity {
         muscleGroup = getIntent().getStringExtra("selectedMuscleGroup");
 
         backButton.setOnClickListener(v -> {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            SetTrackerPage setTrackerPage = new SetTrackerPage();
-            transaction.replace(R.id.fragment_container, setTrackerPage);
-            transaction.commit();
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirm Exit")
+                    .setMessage("Are you sure you want to discard your workout and go back?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        clearData();
+                        finish();
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
         });
-
 
         Btnsave.setOnClickListener(v -> {
             String note = notes.getText().toString().trim();
@@ -155,14 +215,15 @@ public class AddExercise extends AppCompatActivity {
 
                 // Save the workout data
                 databaseref.child(uid).child("workouts").child(muscleGroup).child(key).setValue(workout)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(AddExercise.this, "Workout saved successfully!", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(AddExercise.this, "Failed to save workout", Toast.LENGTH_SHORT).show();
-                                }
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(AddExercise.this, "Workout saved successfully!", Toast.LENGTH_SHORT).show();
+                                clearData();
+                                Intent intent = new Intent(AddExercise.this, SetTrackerPage.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(AddExercise.this, "Failed to save workout", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -242,7 +303,49 @@ public class AddExercise extends AppCompatActivity {
         });
     }
 
-            private void showDatePicker() {
+    private void initializeViews() {
+        date = findViewById(R.id.date_picker_actions);
+        time = findViewById(R.id.time);
+        endTime = findViewById(R.id.end_time);
+        workoutName = findViewById(R.id.workout_name);
+
+        backButton = findViewById(R.id.arrow_back);
+        addExerciseButton = findViewById(R.id.btn_add_exercise);
+        addSetButton = findViewById(R.id.btn_add_set);
+        finishButton = findViewById(R.id.finish_button);
+        Btnsave = findViewById(R.id.save_btn);
+
+        workout_Details = findViewById(R.id.workout_details);
+
+        notes = findViewById(R.id.notes);
+        weight = findViewById(R.id.weight);
+        program = findViewById(R.id.Program);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveData();
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Exit")
+                .setMessage("Are you sure you want to discard your workout and go back?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    clearData();
+                    super.onBackPressed();
+                    Intent intent = new Intent(AddExercise.this, SetTrackerPage.class);
+                    startActivity(intent);
+                    finish();
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
