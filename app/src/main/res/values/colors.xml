@@ -12,5 +12,6 @@
     <color name="red">#BF0A0A</color>
     <color name="blue">#D0E7FF</color>
     <color name="gold">#FFD700</color>
+    <color name="dark_red">#742222</color>
 
 </resources>

@@ -49,6 +49,16 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp" />
 
+            <!-- Profile Picture -->
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="@string/prof_pic"
+                android:scaleType="centerCrop"
+                android:background="@drawable/prof_pic" />
+
             <!-- Signed-in Email -->
             <TextView
                 android:id="@+id/signed_in_as"
@@ -100,6 +110,17 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:layout_marginBottom="8dp" />
 
+            <TextView
+                android:id="@+id/terms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/terms"
+                android:padding="12dp"
+                android:fontFamily="@font/medium"
+                android:gravity="center_vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginBottom="8dp" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
@@ -126,34 +147,6 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Edit Options -->
-            <TextView
-                android:id="@+id/edit_exercise"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/edit_exercise"
-                android:padding="12dp"
-                android:fontFamily="@font/medium"
-                android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:id="@+id/edit_categories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/edit_categories"
-                android:padding="12dp"
-                android:fontFamily="@font/medium"
-                android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#000000"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
 
 
         </LinearLayout>
