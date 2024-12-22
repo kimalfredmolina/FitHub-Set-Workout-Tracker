@@ -38,8 +38,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AddExercise extends AppCompatActivity {
@@ -124,7 +126,11 @@ public class AddExercise extends AppCompatActivity {
         View anotherLayout = inflaters.inflate(R.layout.set_layout, null);
 
         mAuth = FirebaseAuth.getInstance();
+
         databaseref = FirebaseDatabase.getInstance().getReference("users");
+
+
+
 
         date = findViewById(R.id.date_picker_actions);
         time = findViewById(R.id.time);
@@ -166,82 +172,125 @@ public class AddExercise extends AppCompatActivity {
         });
 
         Btnsave.setOnClickListener(v -> {
+            // Log button click
+            Log.d("AddExercise", "Save button clicked");
+
+            // Retrieve inputs from dynamically added fields
+            List<String> lbsValues = new ArrayList<>();
+            List<String> repsValues = new ArrayList<>();
+            for (EditText lbField : lbsFields) {
+                lbsValues.add(lbField.getText().toString().trim());
+            }
+
+            for (EditText repsField : repsFields) {
+                repsValues.add(repsField.getText().toString().trim());
+            }
+
             String note = notes.getText().toString().trim();
-            String weights = weight.getText().toString();
-            String sets = lbs.getText().toString();
-            String Reps = reps.getText().toString();
-            String Date = date.getText().toString();
-            String startTime = time.getText().toString();
-            String Endtime = endTime.getText().toString();
+            String weights = weight.getText().toString().trim();
+            String dateValue = date.getText().toString().trim();
+            String startTime = time.getText().toString().trim();
+            String endTimeValue = endTime.getText().toString().trim();
 
-            Log.d("Validation", "Sets: " + sets);
-            Log.d("Validation", "Reps: " + Reps);
-            Log.d("Validation", "Note: " + note);
-            Log.d("Validation", "Weights: " + weights);
-            Log.d("Validation", "Date: " + Date);
-            Log.d("Validation", "StartTime: " + startTime);
-            Log.d("Validation", "EndTime: " + Endtime);
-
-            // Check if all fields are filled
-            if (sets.isEmpty() || Reps.isEmpty() || note.isEmpty() || weights.isEmpty() || Date.isEmpty() || startTime.isEmpty() || Endtime.isEmpty()) {
+            // Validate required fields
+            if (lbsValues.contains("") || repsValues.contains("") || note.isEmpty() ||
+                    weights.isEmpty() || dateValue.isEmpty() || startTime.isEmpty() || endTimeValue.isEmpty()) {
                 Toast.makeText(AddExercise.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                Log.e("AddExercise", "Validation failed: Missing required fields");
                 return;
             }
 
             FirebaseUser user = mAuth.getCurrentUser();
-            if (user != null) {
-                String uid = user.getUid();
+            if (user == null) {
+                Log.e("AddExercise", "User is not authenticated");
+                Toast.makeText(AddExercise.this, "User not authenticated", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                // Create the workout object
-                Map<String, Object> workout = new HashMap<>();
-                workout.put("exercise", selectedExercise);
-                workout.put("Lbs", Integer.parseInt(sets));
-                workout.put("reps", Integer.parseInt(Reps));
-                workout.put("date", Date);
-                workout.put("startTime", startTime);
-                workout.put("endTime", Endtime);
-                workout.put("SetCount", setCount - 1);
+            String uid = user.getUid();
+            Log.d("AddExercise", "Current user UID: " + uid);
 
-                // Generate a unique key for this workout
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference databaseref = database.getReference();
+            if (muscleGroup == null || muscleGroup.isEmpty()) {
+                Toast.makeText(AddExercise.this, "Muscle group data is missing. Please select again.", Toast.LENGTH_SHORT).show();
+                Log.e("AddExercise", "muscleGroup is null or empty");
+                return;
+            }
 
-                String key = databaseref.child(uid).child("workouts").child(muscleGroup).push().getKey();
-                if (key == null) {
-                    Toast.makeText(AddExercise.this, "Failed to generate key", Toast.LENGTH_SHORT).show();
+            Log.d("AddExercise", "Muscle group: " + muscleGroup);
+
+            // Create the workout object
+            Map<String, Object> workout = new HashMap<>();
+            workout.put("exercise", selectedExercise);
+            workout.put("date", dateValue);
+            workout.put("startTime", startTime);
+            workout.put("endTime", endTimeValue);
+            workout.put("setCount", setCount - 1);
+
+            // Add sets data
+            for (int i = 0; i < lbsValues.size(); i++) {
+                Map<String, Object> setData = new HashMap<>();
+                try {
+                    int lbsValue = Integer.parseInt(lbsValues.get(i));
+                    int repsValue = Integer.parseInt(repsValues.get(i));
+
+                    // Validate positive numbers
+                    if (lbsValue <= 0 || repsValue <= 0) {
+                        Toast.makeText(AddExercise.this, "Lbs and Reps must be positive numbers", Toast.LENGTH_SHORT).show();
+                        Log.e("AddExercise", "Validation failed for lbs or reps at index " + i);
+                        return;
+                    }
+
+                    setData.put("lbs", lbsValue);
+                    setData.put("reps", repsValue);
+                } catch (NumberFormatException e) {
+                    Log.e("AddExercise", "Invalid input for lbs or reps at index " + i, e);
+                    Toast.makeText(AddExercise.this, "Invalid input in sets", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                workout.put("key", key);
-
-                // Save the workout data
-                databaseref.child(uid).child("workouts").child(muscleGroup).child(key).setValue(workout)
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(AddExercise.this, "Workout saved successfully!", Toast.LENGTH_SHORT).show();
-                                clearData();
-                                Intent intent = new Intent(AddExercise.this, SetTrackerPage.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                Toast.makeText(AddExercise.this, "Failed to save workout", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                // Save weight and notes data for the user
-                double userWeight = Double.parseDouble(weights);
-                String userNotes = note;
-
-                databaseref.child(uid).child("weight").setValue(userWeight);
-                databaseref.child(uid).child("notes").setValue(userNotes)
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(AddExercise.this, "Weight and notes saved successfully!", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(AddExercise.this, "Failed to save weight or notes", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                workout.put("set_" + (i + 1), setData);
             }
+
+            Log.d("AddExercise", "Complete workout object: " + workout);
+
+            // Generate a unique key for the workout
+            String key = databaseref.child(uid).child("workouts").child(muscleGroup).push().getKey();
+            if (key == null) {
+                Toast.makeText(AddExercise.this, "Failed to generate key", Toast.LENGTH_SHORT).show();
+                Log.e("AddExercise", "Failed to generate key for workout");
+                return;
+            }
+            workout.put("key", key);
+
+            // Save workout and additional data
+            Map<String, Object> userAdditionalData = new HashMap<>();
+            try {
+                double weightValue = Double.parseDouble(weights);
+                userAdditionalData.put("weight", weightValue);
+            } catch (NumberFormatException e) {
+                Log.e("AddExercise", "Invalid weight value: " + weights, e);
+                Toast.makeText(AddExercise.this, "Invalid weight value", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            userAdditionalData.put("notes", note);
+
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("workouts/" + muscleGroup + "/" + key, workout);
+            updates.putAll(userAdditionalData);
+
+            databaseref.child(uid).updateChildren(updates).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(AddExercise.this, "Workout saved successfully!", Toast.LENGTH_SHORT).show();
+                    Log.d("AddExercise", "Workout and additional data saved successfully!");
+                    clearData();
+                    finish();
+                } else {
+                    Toast.makeText(AddExercise.this, "Failed to save data", Toast.LENGTH_SHORT).show();
+                    Log.e("AddExercise", "Failed to save data to database");
+                }
+            });
         });
+
+
 
 
         date.setOnClickListener(v -> {
@@ -374,6 +423,9 @@ public class AddExercise extends AppCompatActivity {
         timePickerDialog.show();
     }
 
+    private List<EditText> lbsFields = new ArrayList<>();
+    private List<EditText> repsFields = new ArrayList<>();
+
     private void addSet() {
         if (setCount > MAX_SETS) {
             addSetButton.setEnabled(false);
@@ -390,6 +442,10 @@ public class AddExercise extends AppCompatActivity {
 
         setNumber.setText(String.valueOf(setCount));
         setCount++;
+
+        // Add dynamically created EditText fields to the lists
+        lbsFields.add(lbField);
+        repsFields.add(repsField);
 
         // Attach TextWatchers to dynamically added fields
         lbField.addTextChangedListener(new TextWatcher() {

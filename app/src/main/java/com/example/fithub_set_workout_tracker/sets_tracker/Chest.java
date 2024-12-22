@@ -2,8 +2,6 @@ package com.example.fithub_set_workout_tracker.sets_tracker;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -16,6 +14,7 @@ public class Chest extends AppCompatActivity {
     private ListView lvExercises;
     private ArrayAdapter<String> adapter;
     private String[] exercises;
+    private String selectedMuscleGroup; // Declare to hold the muscle group
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,13 @@ public class Chest extends AppCompatActivity {
         lvExercises = findViewById(R.id.Workout_list);
 
         // Get the selected muscle group from the intent
-        String selectedMuscleGroup = getIntent().getStringExtra("selectedMuscleGroup");
+        selectedMuscleGroup = getIntent().getStringExtra("selectedMuscleGroup");
+
+        if (selectedMuscleGroup == null) {
+            // Log or handle error if no muscle group is passed
+            selectedMuscleGroup = "Unknown";
+            finish();
+        }
 
         // Load exercises based on the muscle group selected
         loadExercisesForMuscleGroup(selectedMuscleGroup);
@@ -38,9 +43,10 @@ public class Chest extends AppCompatActivity {
         lvExercises.setOnItemClickListener((parent, view, position, id) -> {
             String selectedExercise = exercises[position];
 
-            // Start WorkoutActivity to record the workout
+            // Start AddExercise activity to record the workout
             Intent intent = new Intent(Chest.this, AddExercise.class);
             intent.putExtra("selectedExercise", selectedExercise);
+            intent.putExtra("selectedMuscleGroup", selectedMuscleGroup); // Pass muscle group
             startActivity(intent);
         });
     }
@@ -67,8 +73,7 @@ public class Chest extends AppCompatActivity {
                 exercises = new String[]{"Tricep Dips", "Tricep Pushdown", "Overhead Tricep Extension"};
                 break;
             default:
-                exercises = new String[]{};
+                exercises = new String[]{"No exercises available"};
         }
     }
 }
-

@@ -30,9 +30,9 @@ public class SelectWorkout extends AppCompatActivity {
         lvMuscleGroups.setOnItemClickListener((parent, view, position, id) -> {
             String selectedMuscleGroup = muscleGroups[position];
 
-            // Start ExerciseListActivity and pass the selected muscle group
+            // Start Chest activity (or any specific activity for selected muscle group)
             Intent intent = new Intent(SelectWorkout.this, Chest.class);
-            intent.putExtra("selectedMuscleGroup", selectedMuscleGroup);
+            intent.putExtra("selectedMuscleGroup", selectedMuscleGroup); // Pass selected muscle group
             startActivity(intent);
         });
     }
