@@ -1,10 +1,10 @@
 package com.example.fithub_set_workout_tracker.sets_tracker;
 
-import android.app.AlertDialog;  //ahwh
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences; //ewfwefw
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -175,7 +175,6 @@ public class AddExercise extends AppCompatActivity {
 
             mAuth = FirebaseAuth.getInstance();
 
-
             Log.d("AddExercise", "Save button clicked");
 
             // Collect inputs
@@ -190,7 +189,7 @@ public class AddExercise extends AppCompatActivity {
 
             String note = notes.getText().toString().trim();
             String weights = weight.getText().toString().trim();
-            String dateValue = date.getText().toString().trim();
+            String dateValue = date.getText().toString().trim(); // Use date as the key for organizing data
             String startTime = time.getText().toString().trim();
             String endTimeValue = endTime.getText().toString().trim();
 
@@ -214,7 +213,7 @@ public class AddExercise extends AppCompatActivity {
             }
 
             String uid = user.getUid();
-            databaseref= FirebaseDatabase.getInstance().getReference("Users").child(uid);
+            databaseref = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("workout").child(dateValue);
 
             // Prepare setCount array
             List<Map<String, Object>> setCountList = new ArrayList<>();
@@ -222,21 +221,17 @@ public class AddExercise extends AppCompatActivity {
                 Map<String, Object> setData = new HashMap<>();
                 setData.put("lbs", lbsValues.get(i));
                 setData.put("reps", repsValues.get(i));
-                setData.put("startTime", startTime); // Assuming the same startTime for all sets
+                setData.put("startTime", startTime);
                 setCountList.add(setData);
             }
 
             // Prepare workout data
             Map<String, Object> exerciseData = new HashMap<>();
-            exerciseData.put("date", dateValue);
             exerciseData.put("endTime", endTimeValue);
             exerciseData.put("setCount", setCountList);
 
-            // Insert workout data into the specified structure
-            databaseref.child("workout")
-                    .child(muscleGroup)
-                    .child(selectedExercise)
-                    .setValue(exerciseData)
+            // Save workout data under the muscle group and exercise
+            databaseref.child(muscleGroup).child(selectedExercise).setValue(exerciseData)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Log.d("AddExercise", "Workout saved successfully!");
@@ -246,12 +241,12 @@ public class AddExercise extends AppCompatActivity {
                         }
                     });
 
-            // Save note and weight separately
+            // Save note and weight separately under the same date
             Map<String, Object> additionalData = new HashMap<>();
             additionalData.put("note", note);
             additionalData.put("weight", weights);
 
-           databaseref.updateChildren(additionalData).addOnCompleteListener(task -> {
+            databaseref.updateChildren(additionalData).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d("AddExercise", "Note and weight saved successfully!");
                 } else {
