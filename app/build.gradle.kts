@@ -42,7 +42,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.google.firebase.auth)
-    implementation(libs.google.firebase.database)
+
+    implementation("com.google.firebase:firebase-database:21.0.0")
 
     implementation(libs.play.services.auth)
 
