@@ -105,7 +105,6 @@ public class AddExercise extends AppCompatActivity {
         editor.clear();
         editor.apply();
 
-        // Reset input fields
         notes.setText("");
         weight.setText("");
         date.setText("");
@@ -174,18 +173,16 @@ public class AddExercise extends AppCompatActivity {
         });
 
         Btnsave.setOnClickListener(v -> {
-
             mAuth = FirebaseAuth.getInstance();
 
             Log.d("AddExercise", "Number of sets: " + inflatedViews.size());
 
-            // Collect inputs
             String programText = program.getText().toString().trim();
             String bodyWeight = weight.getText().toString().trim();
             String startTime = time.getText().toString().trim();
             String endTimeValue = endTime.getText().toString().trim();
             String note = notes.getText().toString().trim();
-            String dateValue = date.getText().toString().trim(); // Use date as the key for organizing data
+            String dateValue = date.getText().toString().trim();
 
             if (programText.isEmpty() || bodyWeight.isEmpty() || startTime.isEmpty() || endTimeValue.isEmpty() ||
                     note.isEmpty() || dateValue.isEmpty()) {
@@ -198,16 +195,6 @@ public class AddExercise extends AppCompatActivity {
                 return;
             }
 
-            List<String> lbsValues = new ArrayList<>();
-            List<String> repsValues = new ArrayList<>();
-            List<String> exerciseNotes = new ArrayList<>();
-            for (EditText lbField : lbsFields) {
-                lbsValues.add(lbField.getText().toString().trim());
-            }
-            for (EditText repsField : repsFields) {
-                repsValues.add(repsField.getText().toString().trim());
-            }
-
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user == null) {
                 Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
@@ -215,10 +202,26 @@ public class AddExercise extends AppCompatActivity {
             }
 
             String uid = user.getUid();
-            databaseref = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("workout").child(dateValue);
 
-            // Prepare exercise data
-            List<Map<String, Object>> exercises = new ArrayList<>();
+            // to get muscle groups
+            String selectedMuscleGroup = getIntent().getStringExtra("selectedMuscleGroup");
+            String selectedExercise = getIntent().getStringExtra("selectedExercise");
+
+            if (selectedMuscleGroup == null || selectedExercise == null) {
+                Toast.makeText(this, "Muscle group or exercise not selected", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            databaseref = FirebaseDatabase.getInstance()
+                    .getReference("Users")
+                    .child(uid)
+                    .child("workout")
+                    .child(dateValue)
+                    .child(selectedMuscleGroup)
+                    .child(selectedExercise);
+
+            // Prepare the exercise sets
+            List<Map<String, Object>> setsData = new ArrayList<>();
             for (View inflatedView : inflatedViews) {
                 EditText lbField = inflatedView.findViewById(R.id.lb_field);
                 EditText repsField = inflatedView.findViewById(R.id.reps_field);
@@ -233,23 +236,22 @@ public class AddExercise extends AppCompatActivity {
                     return;
                 }
 
-                Map<String, Object> exerciseData = new HashMap<>();
-                exerciseData.put("lbs", lbs);
-                exerciseData.put("reps", reps);
-                exerciseData.put("note", exerciseNote);
-                exercises.add(exerciseData);
+                Map<String, Object> setData = new HashMap<>();
+                setData.put("lbs", lbs);
+                setData.put("reps", reps);
+                setData.put("note", exerciseNote);
+                setsData.add(setData);
             }
 
             // Prepare workout data
             Map<String, Object> workoutData = new HashMap<>();
-            workoutData.put("program", program.getText().toString());
-            workoutData.put("bodyWeight", weight.getText().toString());
-            workoutData.put("startTime", time.getText().toString());
-            workoutData.put("endTime", endTime.getText().toString());
-            workoutData.put("note", notes.getText().toString());
-            workoutData.put("exercises", exercises);
+            workoutData.put("program", programText);
+            workoutData.put("bodyWeight", bodyWeight);
+            workoutData.put("startTime", startTime);
+            workoutData.put("endTime", endTimeValue);
+            workoutData.put("note", note);
+            workoutData.put("sets", setsData);
 
-            // Save data to Firebase
             databaseref.setValue(workoutData)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -390,10 +392,9 @@ public class AddExercise extends AppCompatActivity {
         setNumber.setText(String.valueOf(setCount));
         setCount++;
 
-        // Add dynamically created EditText fields to the list of views
+        // Add dynamically
         inflatedViews.add(setView);
 
-        // Attach TextWatchers or other listeners to dynamically added fields, if needed
         lbField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -420,35 +421,33 @@ public class AddExercise extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
 
-        // Add popup menu for this specific set
         ImageButton popupMenuButton = setView.findViewById(R.id.Popup_Menu);
         popupMenuButton.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(AddExercise.this, v);
             MenuInflater inflater1 = popupMenu.getMenuInflater();
             inflater1.inflate(R.menu.custom_menu, popupMenu.getMenu());
 
-            // Show the PopupMenu
+
             popupMenu.show();
 
-            // Handle item clicks
             popupMenu.setOnMenuItemClickListener(item -> {
                 if (item.getItemId() == R.id.edit) {
                     Toast.makeText(AddExercise.this, "Edit clicked for set " + setNumber.getText(), Toast.LENGTH_SHORT).show();
                     return true;
                 } else if (item.getItemId() == R.id.delete) {
-                    workout_Details.removeView(setView);  // Remove the set view
-                    inflatedViews.remove(setView);  // Remove from the list of inflated views
+                    workout_Details.removeView(setView);
+                    inflatedViews.remove(setView);
                     setCount--;
-                    checkIfFinishButtonShouldBeVisible();  // Revalidate finish button visibility
+                    checkIfFinishButtonShouldBeVisible();
                     return true;
                 }
                 return false;
             });
         });
 
-        workout_Details.removeView(addSetButton); // Remove the "Add Set" button temporarily
-        workout_Details.addView(setView); // Add the new set view
-        workout_Details.addView(addSetButton); // Re-add the "Add Set" button at the end
+        workout_Details.removeView(addSetButton);
+        workout_Details.addView(setView);
+        workout_Details.addView(addSetButton);
         checkIfFinishButtonShouldBeVisible();
     }
 
@@ -497,9 +496,9 @@ public class AddExercise extends AppCompatActivity {
                 !date.getText().toString().isEmpty() &&
                 !time.getText().toString().isEmpty() &&
                 !endTime.getText().toString().isEmpty()) {
-            finishButton.setVisibility(View.VISIBLE); // Show the finish button
+            finishButton.setVisibility(View.VISIBLE);
         } else {
-            finishButton.setVisibility(View.GONE); // Hide the finish button
+            finishButton.setVisibility(View.GONE);
         }
     }
 
