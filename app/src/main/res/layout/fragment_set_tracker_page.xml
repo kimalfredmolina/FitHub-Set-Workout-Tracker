@@ -32,9 +32,6 @@
             android:orientation="vertical"
             android:paddingHorizontal="10dp">
 
-            <!-- Placeholder content for dynamic workout details -->
-            <!-- Workout items will be added programmatically here -->
-
         </LinearLayout>
     </ScrollView>
 
