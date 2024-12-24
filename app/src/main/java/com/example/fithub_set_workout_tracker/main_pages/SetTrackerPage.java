@@ -58,6 +58,24 @@ public class SetTrackerPage extends Fragment {
         return view;
     }
 
+    private String getMonthName(String monthNumber) {
+        switch (monthNumber) {
+            case "1": return "January";
+            case "2": return "February";
+            case "3": return "March";
+            case "4": return "April";
+            case "5": return "May";
+            case "6": return "June";
+            case "7": return "July";
+            case "8": return "August";
+            case "9": return "September";
+            case "10": return "October";
+            case "11": return "November";
+            case "12": return "December";
+            default: return "Invalid Month";
+        }
+    }
+
     private void loadWorkoutData() {
         String userId = mAuth.getCurrentUser().getUid();
         databaseReference.child("Users").child(userId).child("workout")
@@ -66,20 +84,23 @@ public class SetTrackerPage extends Fragment {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
                             for (DataSnapshot dateSnapshot : snapshot.getChildren()) {
-                                String date = dateSnapshot.getKey(); // Get date
+                                String date = dateSnapshot.getKey();
 
                                 for (DataSnapshot monthSnapshot : dateSnapshot.getChildren()) {
+                                    String monthNumber = monthSnapshot.getKey();
+                                    String monthName = getMonthName(monthNumber);
+
                                     for (DataSnapshot yearSnapshot : monthSnapshot.getChildren()) {
                                         String year = yearSnapshot.getKey();
 
                                         for (DataSnapshot workoutTypeSnapshot : yearSnapshot.getChildren()) {
-                                            String workoutName = workoutTypeSnapshot.getKey(); // e.g., Abs
+                                            String workoutName = workoutTypeSnapshot.getKey();
 
                                             StringBuilder details = new StringBuilder();
 
                                             for (DataSnapshot exerciseSnapshot : workoutTypeSnapshot.getChildren()) {
-                                                String exerciseName = exerciseSnapshot.getKey(); // e.g., Crunches
-                                                long setCount = exerciseSnapshot.child("sets").getChildrenCount(); // Count sets
+                                                String exerciseName = exerciseSnapshot.getKey();
+                                                long setCount = exerciseSnapshot.child("sets").getChildrenCount();
 
                                                 details.append(exerciseName)
                                                         .append(" x")
@@ -87,20 +108,18 @@ public class SetTrackerPage extends Fragment {
                                                         .append("\n");
                                             }
 
-                                            addWorkoutCard(date, workoutName, details.toString().trim());
+                                            addWorkoutCard(monthName + " " + date, workoutName, details.toString().trim());
                                         }
                                     }
                                 }
                             }
                         } else {
-                            // Handle no data found
                             addWorkoutCard("No Data", "No Workouts", "Add some workouts to track!");
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        // Handle database error
                     }
                 });
     }
