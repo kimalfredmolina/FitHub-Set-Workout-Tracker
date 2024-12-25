@@ -63,6 +63,11 @@
     <string name="add_set">+ Add Set</string>
     <string name="Menu_Description">menu_icon</string>
 
+    <!-- UpdateExercise Strings -->
+    <string name="update">Update</string>
+    <string name="update_name">Update Exercise</string>
+    <string name="add_name">Add Exercise</string>
+
 
     <!-- Homepage Strings -->
     <string name="appname">Navigation Drawer</string>

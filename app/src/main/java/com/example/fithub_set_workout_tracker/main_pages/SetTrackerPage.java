@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.fithub_set_workout_tracker.R;
+import com.example.fithub_set_workout_tracker.UpdateExercise;
 import com.example.fithub_set_workout_tracker.sets_tracker.AddExercise;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -144,6 +145,14 @@ public class SetTrackerPage extends Fragment {
         if (workoutDetailsText != null) {
             workoutDetailsText.setText(workoutDetails);
         }
+
+        // Make the card clickable
+        cardView.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), UpdateExercise.class);
+            intent.putExtra("date", date);  // Pass the date
+            intent.putExtra("workoutTitle", workoutTitle);  // Pass the workout type
+            startActivity(intent);  // Open update form
+        });
 
         // Add the card to the container
         dataLayout.addView(cardView);
