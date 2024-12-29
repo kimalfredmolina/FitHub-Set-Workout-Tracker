@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.fithub_set_workout_tracker.MainPage;
 import com.example.fithub_set_workout_tracker.R;
 import com.example.fithub_set_workout_tracker.main_pages.SetTrackerPage;
 
@@ -43,6 +44,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class AddExercise extends AppCompatActivity {
 
@@ -64,6 +66,19 @@ public class AddExercise extends AppCompatActivity {
     private String selectedExercise = null;
 
     private List<View> inflatedViews = new ArrayList<>();
+
+    private boolean isWorkoutSaved = false;
+
+    private void updateButtonVisibility() {
+        if (isWorkoutSaved) {
+            finishButton.setVisibility(View.VISIBLE);
+            backButton.setVisibility(View.GONE);
+        } else {
+            finishButton.setVisibility(View.GONE);
+            backButton.setVisibility(View.VISIBLE);
+        }
+    }
+
 
     private void saveData() {
         SharedPreferences preferences = getSharedPreferences("AddExerciseData", MODE_PRIVATE);
@@ -126,6 +141,11 @@ public class AddExercise extends AppCompatActivity {
         LayoutInflater inflaters = LayoutInflater.from(this);
         View anotherLayout = inflaters.inflate(R.layout.set_layout, null);
 
+        finishButton = findViewById(R.id.finish_button);
+        backButton = findViewById(R.id.arrow_back);
+
+        updateButtonVisibility();
+
         mAuth = FirebaseAuth.getInstance();
 
 
@@ -159,6 +179,13 @@ public class AddExercise extends AppCompatActivity {
 
         selectedExercise = getIntent().getStringExtra("selectedExercise");
         muscleGroup = getIntent().getStringExtra("selectedMuscleGroup");
+
+        finishButton.setOnClickListener(v -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            SetTrackerPage setTrackerPage = new SetTrackerPage();
+            transaction.replace(R.id.fragment_container, setTrackerPage);
+            transaction.commit();
+        });
 
         backButton.setOnClickListener(v -> {
             new AlertDialog.Builder(this)
@@ -255,7 +282,14 @@ public class AddExercise extends AppCompatActivity {
             databaseref.setValue(workoutData)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
+                            isWorkoutSaved = true; // Mark as saved
+                            updateButtonVisibility(); // Update button visibility
                             Toast.makeText(this, "Workout saved successfully!", Toast.LENGTH_SHORT).show();
+
+
+                            Intent intent = new Intent(AddExercise.this, MainPage.class);
+                            startActivity(intent);
+                            finish();
                         } else {
                             Log.e("AddExercise", "Failed to save workout", task.getException());
                         }
@@ -335,7 +369,7 @@ public class AddExercise extends AppCompatActivity {
                 .setPositiveButton("Yes", (dialog, which) -> {
                     clearData();
                     super.onBackPressed();
-                    Intent intent = new Intent(AddExercise.this, SetTrackerPage.class);
+                    Intent intent = new Intent(AddExercise.this, MainPage.class);
                     startActivity(intent);
                     finish();
                 })
@@ -452,54 +486,7 @@ public class AddExercise extends AppCompatActivity {
     }
 
     private void checkIfFinishButtonShouldBeVisible() {
-        // Retrieve the values of all relevant fields and check if they are empty
-        for (int i = 0; i < workout_Details.getChildCount(); i++) {
-            View child = workout_Details.getChildAt(i);
-            EditText lbField = child.findViewById(R.id.lb_field);
-            EditText repsField = child.findViewById(R.id.reps_field);
-
-            if (lbField != null && repsField != null) {
-                String lbs = lbField.getText().toString().trim();
-                String reps = repsField.getText().toString().trim();
-
-                if (lbs.isEmpty() || reps.isEmpty()) {
-                    finishButton.setVisibility(View.GONE);
-                    return;
-                }
-            }
-        }
-
-
-        boolean isAnySetFieldEmpty = false;
-        for (int i = 0; i < workout_Details.getChildCount(); i++) {
-            View setView = workout_Details.getChildAt(i);
-            if (setView instanceof LinearLayout) {
-                EditText setRepsField = setView.findViewById(R.id.reps_field);
-                EditText setLbsField = setView.findViewById(R.id.lb_field);
-
-                if (setRepsField != null && setLbsField != null) {
-                    String repsText = setRepsField.getText().toString().trim();
-                    String lbsText = setLbsField.getText().toString().trim();
-
-                    if (repsText.isEmpty() || lbsText.isEmpty()) {
-                        isAnySetFieldEmpty = true;
-                        break;  // If any field in a set is empty, don't show the finish button
-                    }
-                }
-            }
-        }
-
-        // Check if all required fields have data entered
-        if (!program.getText().toString().isEmpty() &&
-                !weight.getText().toString().isEmpty() &&
-                !notes.getText().toString().isEmpty() &&
-                !date.getText().toString().isEmpty() &&
-                !time.getText().toString().isEmpty() &&
-                !endTime.getText().toString().isEmpty()) {
-            finishButton.setVisibility(View.VISIBLE);
-        } else {
-            finishButton.setVisibility(View.GONE);
-        }
+        updateButtonVisibility();
     }
 
 }
