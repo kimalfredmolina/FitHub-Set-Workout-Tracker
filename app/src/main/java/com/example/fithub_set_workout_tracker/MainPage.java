@@ -154,7 +154,7 @@ public class MainPage extends AppCompatActivity {
             Log.d("Navigation", "About Us clicked");
 
             // Open external link for About Us
-            String url = "https://www.example.com/about-us"; // Replace with your desired URL
+            String url = "https://fithub-website-three.vercel.app/"; // Replace with your desired URL
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(android.net.Uri.parse(url));
             startActivity(intent);

@@ -74,7 +74,12 @@
     <string name="open">Open Navigation Drawer</string>
     <string name="close">Close Navigation Drawer</string>
     <string name="user">User</string>
-
+    <!-- Main Menu Strings -->
+    <string name="menu_dark">Dark Mode</string>
+    <string name="menu_feedback"><u>Feedback</u></string>
+    <string name="menu_terms"><u>Terms and Condition</u></string>
+    <string name="menu_about"><u>About Us</u></string>
+    <string name="log_out">Sign Out</string>
 
 
 </resources>
