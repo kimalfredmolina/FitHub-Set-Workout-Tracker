@@ -1,11 +1,17 @@
 package com.example.fithub_set_workout_tracker;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.fithub_set_workout_tracker.R;
@@ -16,98 +22,298 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+
 public class UpdateExercise extends AppCompatActivity {
 
-    private LinearLayout exerciseContainer;
+    private EditText u_program;
+    private EditText u_weight;
+    private EditText u_date;
+    private EditText u_time;
+    private EditText u_endTime;
+    private EditText u_notes;
     private Button updateButton;
-    private DatabaseReference databaseReference;
-    private FirebaseAuth mAuth;
 
-    private String date, workoutTitle;
+    private FirebaseAuth mAuth;
+    private DatabaseReference databaseref;
+    private DatabaseReference workoutref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_exercise);
 
-        exerciseContainer = findViewById(R.id.exercise_container);
+        // Get intent extras
+        String date = getIntent().getStringExtra("date");
+        String workoutTitle = getIntent().getStringExtra("workoutTitle");
+        String workoutType = getIntent().getStringExtra("workoutType");
+
+        if (date == null || workoutTitle == null || workoutType == null) {
+            Toast.makeText(this, "Invalid data passed!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        Log.d("UpdateExercise", "Date: " + date + ", WorkoutTitle: " + workoutTitle);
+
+
+        // Validate that the data was passed correctly
+
+
+        // Initialize EditTexts and Button
+        u_program = findViewById(R.id.Program_update);
+        u_weight = findViewById(R.id.weight_update);
+        u_date = findViewById(R.id.date_picker_update);
+        u_time = findViewById(R.id.time_update);
+        u_endTime = findViewById(R.id.end_time_update);
+        u_notes = findViewById(R.id.notes_update);
         updateButton = findViewById(R.id.update_btn);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        // Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
+        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        databaseref = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("workout");
 
-        // Retrieve data passed from previous page
-        date = getIntent().getStringExtra("date");
-        workoutTitle = getIntent().getStringExtra("workoutTitle");
+        // Load data from Firebase
+        loadWorkoutData();
 
-        //loadWorkoutDetails();
+        // Set up DatePicker dialog for the date EditText
+        u_date.setOnClickListener(v -> {
+            Toast.makeText(this, "You can't update the date!", Toast.LENGTH_SHORT).show();
+        });
 
-        //updateButton.setOnClickListener(v -> saveUpdatedData());
+        // Set up TimePicker for the start time (u_time)
+        u_time.setOnClickListener(v -> showTimePicker(u_time));
+
+        // Set up TimePicker for the end time (u_endTime)
+        u_endTime.setOnClickListener(v -> showTimePicker(u_endTime));
+
+        // Set up Update button click listener
+        updateButton.setOnClickListener(v -> updateDataInFirebase());
     }
 
-    /*private void loadWorkoutDetails() {
-        String userId = mAuth.getCurrentUser().getUid();
+    private void showTimePicker(EditText timeField) {
+        // Get the current time as default
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
 
-        // Firebase path: Users -> userId -> workout -> date -> workoutTitle
-        databaseReference.child("Users").child(userId)
-                .child("workout").child(date.replace("\n", "/"))
-                .child(workoutTitle)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot exerciseSnapshot : snapshot.getChildren()) {
-                            String exerciseName = exerciseSnapshot.getKey();
-                            String bodyWeight = exerciseSnapshot.child("bodyWeight").getValue(String.class);
-                            String note = exerciseSnapshot.child("note").getValue(String.class);
+        // Create a TimePickerDialog
+        TimePickerDialog timePickerDialog = new TimePickerDialog(
+                this,
+                (view, selectedHour, selectedMinute) -> {
+                    // Format the selected time
+                    String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute);
 
-                            addExerciseField(exerciseName, bodyWeight, note);
-                        }
-                    }
+                    // Set the selected time in the clicked field (start or end time)
+                    timeField.setText(formattedTime);
+                },
+                hour,
+                minute,
+                true // Use 24-hour format
+        );
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
-    }*/
+        timePickerDialog.show(); // Show the time picker
+    }
 
-    /*private void addExerciseField(String exerciseName, String bodyWeight, String note) {
-        View exerciseView = getLayoutInflater().inflate(R.layout.exercise_edit_item, exerciseContainer, false);
+    private void loadWorkoutData() {
+        String date = getIntent().getStringExtra("date");
+        String workoutTitle = getIntent().getStringExtra("workoutTitle");
+        String workoutType = getIntent().getStringExtra("workoutType");
 
-        TextView exerciseTitle = exerciseView.findViewById(R.id.exercise_title);
-        EditText bodyWeightInput = exerciseView.findViewById(R.id.bodyweight_input);
-        EditText noteInput = exerciseView.findViewById(R.id.note_input);
+        Log.d("UpdateExercise", "Loading data for - " +
+                "date: " + date +
+                ", workoutTitle: " + workoutTitle +
+                ", workoutType: " + workoutType);
 
-        exerciseTitle.setText(exerciseName);
-        bodyWeightInput.setText(bodyWeight);
-        noteInput.setText(note);
-
-        exerciseContainer.addView(exerciseView);
-    }*/
-
-    /*private void saveUpdatedData() {
-        String userId = mAuth.getCurrentUser().getUid();
-
-        for (int i = 0; i < exerciseContainer.getChildCount(); i++) {
-            View exerciseView = exerciseContainer.getChildAt(i);
-
-            TextView exerciseTitle = exerciseView.findViewById(R.id.exercise_title);
-            EditText bodyWeightInput = exerciseView.findViewById(R.id.bodyweight_input);
-            EditText noteInput = exerciseView.findViewById(R.id.note_input);
-
-            String exerciseName = exerciseTitle.getText().toString();
-            String updatedWeight = bodyWeightInput.getText().toString();
-            String updatedNote = noteInput.getText().toString();
-
-            // Update Firebase with new data
-            databaseReference.child("Users").child(userId)
-                    .child("workout").child(date.replace("\n", "/"))
-                    .child(workoutTitle).child(exerciseName)
-                    .child("bodyWeight").setValue(updatedWeight);
-            databaseReference.child("Users").child(userId)
-                    .child("workout").child(date.replace("\n", "/"))
-                    .child(workoutTitle).child(exerciseName)
-                    .child("note").setValue(updatedNote);
+        if (date == null || workoutTitle == null || workoutType == null) {
+            Log.e("UpdateExercise", "Invalid data for loading");
+            Toast.makeText(this, "Invalid data!", Toast.LENGTH_SHORT).show();
+            return;
         }
-        finish();
-    }*/
+
+        String[] dateParts = date.split("/");
+        if (dateParts.length != 3) {
+            Log.e("UpdateExercise", "Invalid date format: " + date);
+            Toast.makeText(this, "Invalid date format!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String day = dateParts[0];
+        String month = dateParts[1];
+        String year = dateParts[2];
+
+        Log.d("UpdateExercise", "Parsed date - day: " + day + ", month: " + month + ", year: " + year);
+
+        String userId = mAuth.getCurrentUser().getUid();
+        workoutref = FirebaseDatabase.getInstance().getReference()
+                .child("Users")
+                .child(userId)
+                .child("workout")
+                .child(day)
+                .child(month)
+                .child(year)
+                .child(workoutType)
+                .child(workoutTitle);
+
+        Log.d("UpdateExercise", "Database path: " + workoutref.toString());
+
+        workoutref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Log.d("UpdateExercise", "Data found: " + snapshot.getValue());
+
+                    // Get values from snapshot
+                    String program = snapshot.child("program").getValue(String.class);
+                    String bodyWeight = snapshot.child("bodyWeight").getValue(String.class);
+                    String startTime = snapshot.child("startTime").getValue(String.class);
+                    String endTimeValue = snapshot.child("endTime").getValue(String.class);
+                    String note = snapshot.child("note").getValue(String.class);
+
+                    // Set values to EditText fields
+                    runOnUiThread(() -> {
+                        u_program.setText(program);
+                        u_weight.setText(bodyWeight);
+                        u_date.setText(date);
+                        u_time.setText(startTime);
+                        u_endTime.setText(endTimeValue);
+                        u_notes.setText(note);
+                    });
+                } else {
+                    Log.e("UpdateExercise", "No data found at path: " + workoutref.toString());
+                    Toast.makeText(UpdateExercise.this, "No data found for this workout.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("UpdateExercise", "Database error: " + error.getMessage());
+                Toast.makeText(UpdateExercise.this, "Failed to load data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showDatePicker() {
+        // Get the current date or default to today's date
+        String currentDate = u_date.getText().toString().trim();
+        Calendar calendar = Calendar.getInstance();
+
+        if (!currentDate.isEmpty()) {
+            try {
+                Date date = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(currentDate);
+                calendar.setTime(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Show DatePickerDialog
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (DatePicker view, int selectedYear, int selectedMonth, int selectedDay) -> {
+            // Format and set the selected date in EditText
+            String selectedDate = String.format(Locale.getDefault(), "%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear);
+            u_date.setText(selectedDate);
+        }, year, month, day);
+
+        datePickerDialog.show();
+    }
+
+    private void updateDataInFirebase() {
+        // Get the workout type and title from Intent extras
+        String workoutType = getIntent().getStringExtra("workoutTitle");  // Changed to match save code
+        String workoutTitle = getIntent().getStringExtra("workoutType");    // Changed to match save code
+
+        // Validate workout type and title
+        if (workoutType == null || workoutTitle == null) {
+            Toast.makeText(this, "Missing workout information!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Retrieve updated values from EditTexts
+        String program = u_program.getText().toString().trim();
+        String bodyWeight = u_weight.getText().toString().trim();
+        String dateValue = u_date.getText().toString().trim();
+        String startTime = u_time.getText().toString().trim();
+        String endTime = u_endTime.getText().toString().trim();
+        String note = u_notes.getText().toString().trim();
+
+        // Validate the data
+        if (program.isEmpty() || bodyWeight.isEmpty() || dateValue.isEmpty() ||
+                startTime.isEmpty() || endTime.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = mAuth.getCurrentUser().getUid();
+
+        // Use the same reference structure as your save code
+        workoutref = FirebaseDatabase.getInstance().getReference()
+                .child("Users")
+                .child(userId)
+                .child("workout")
+                .child(dateValue)           // Use full date as one child
+                .child(workoutType)         // selectedMuscleGroup
+                .child(workoutTitle);       // selectedExercise
+
+        // Create a map for the updates
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("program", program);
+        updates.put("bodyWeight", bodyWeight);
+        updates.put("startTime", startTime);
+        updates.put("endTime", endTime);
+        updates.put("note", note);
+
+        // If you have sets data to update, include it here
+        // updates.put("sets", setsData);  // Uncomment and modify if updating sets
+
+        // Update all values at once
+        workoutref.updateChildren(updates)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(UpdateExercise.this,
+                            "Workout updated successfully!", Toast.LENGTH_SHORT).show();
+                    finish(); // Optional: close the activity after successful update
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(UpdateExercise.this,
+                            "Failed to update: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private String formatDateToInput(String firebaseDate) {
+        SimpleDateFormat firebaseFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+        try {
+            Date date = firebaseFormat.parse(firebaseDate);
+            return inputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return firebaseDate; // Return as-is if parsing fails
+        }
+    }
+
+    private String formatDateToFirebase(String inputDate) {
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat firebaseFormat = new SimpleDateFormat("dd//MM//yy", Locale.getDefault());
+
+        try {
+            Date date = inputFormat.parse(inputDate);
+            return firebaseFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return inputDate; // Return as-is if parsing fails
+        }
+    }
+
 }

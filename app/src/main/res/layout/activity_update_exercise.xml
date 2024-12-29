@@ -166,22 +166,23 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
+
                 <EditText
                     android:id="@+id/end_time_update"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/add_exercise_bg"
-                    android:hint="@string/E_time"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/medium"
-                    android:inputType="time"
-                    android:textColorHint="@color/black"
                     android:backgroundTint="@color/blue"
-                    android:padding="15dp"
-                    android:textColor="@color/black"
                     android:focusable="false"
                     android:focusableInTouchMode="true"
-                    android:onClick="showTimePicker" />
+                    android:fontFamily="@font/medium"
+                    android:hint="@string/E_time"
+                    android:inputType="time"
+                    android:onClick="showTimePicker"
+                    android:padding="15dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
