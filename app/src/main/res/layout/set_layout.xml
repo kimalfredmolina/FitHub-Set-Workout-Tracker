@@ -61,7 +61,7 @@
         android:id="@+id/Popup_Menu"
         android:layout_width="25dp"
         android:layout_height="match_parent"
-        android:src="@drawable/menu"
+        android:src="@drawable/ic_more_vert"
         android:contentDescription="@string/Menu_Description"
         android:background="@null"
         android:scaleType="fitCenter"/>
