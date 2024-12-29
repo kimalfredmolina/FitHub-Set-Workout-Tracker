@@ -1,11 +1,15 @@
 package com.example.fithub_set_workout_tracker;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -19,13 +23,12 @@ import java.util.Objects;
 
 public class MainPage extends AppCompatActivity {
 
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
-    private ActionBarDrawerToggle drawerToggle;
-
-    private TabLayout tabLayout;
-    private ViewPager2 viewPager2;
-    private ViewAdapter viewAdapter;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ActionBarDrawerToggle drawerToggle;
+    TabLayout tabLayout;
+    ViewPager2 viewPager2;
+    ViewAdapter viewAdapter;
 
     private final int[] tabIcons = {
             R.drawable.ic_sets,
@@ -45,9 +48,32 @@ public class MainPage extends AppCompatActivity {
         // Initialize DrawerLayout and NavigationView
         drawerLayout = findViewById(R.id.main);
         navigationView = findViewById(R.id.nav);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar, // Pass the MaterialToolbar instance here
+                R.string.open,
+                R.string.close
+        );
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        // Initialize Night Mode Switch
+        MenuItem nightModeItem = navigationView.getMenu().findItem(R.id.navmode);
+        Switch nightModeSwitch = (Switch) nightModeItem.getActionView();
+        if (nightModeSwitch != null) {
+            nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    // Enable Dark Mode
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    // Disable Dark Mode
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            });
+        }
 
         // Handle NavigationView item clicks
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -78,7 +104,8 @@ public class MainPage extends AppCompatActivity {
             }
         }).attach();
 
-        // Synchronize ViewPager2 with TabLayout
+
+        // Synchronize TabLayout with ViewPager2
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -94,7 +121,6 @@ public class MainPage extends AppCompatActivity {
             }
         });
 
-        // Synchronize TabLayout with ViewPager2
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
@@ -121,10 +147,19 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void handleNavigation(MenuItem item) {
-        switch (item.getItemId()) {
+        int itemId = item.getItemId();
 
-            default:
-                break;
+        if (itemId == R.id.navabout) {
+            // Log to check if the method is triggered
+            Log.d("Navigation", "About Us clicked");
+
+            // Open external link for About Us
+            String url = "https://www.example.com/about-us"; // Replace with your desired URL
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(android.net.Uri.parse(url));
+            startActivity(intent);
+        } else {
+            Log.d("Navigation", "Unhandled menu item clicked");
         }
     }
 }
