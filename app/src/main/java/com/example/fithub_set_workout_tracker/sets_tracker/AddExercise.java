@@ -193,6 +193,9 @@ public class AddExercise extends AppCompatActivity {
                     .setMessage("Are you sure you want to discard your workout and go back?")
                     .setPositiveButton("Yes", (dialog, which) -> {
                         clearData();
+                        Intent intent = new Intent(this, MainPage.class); // Replace MainPageActivity with the actual class name of your main page
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
                         finish();
                     })
                     .setNegativeButton("No", null)
@@ -361,7 +364,8 @@ public class AddExercise extends AppCompatActivity {
         saveData();
     }
 
-    @Override
+    //Dont need for now
+    /*@Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
                 .setTitle("Confirm Exit")
@@ -375,7 +379,7 @@ public class AddExercise extends AppCompatActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
-    }
+    }*/
 
     private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
