@@ -192,7 +192,7 @@ public class SetTrackerPage extends Fragment {
         // Long press to delete the card
         cardView.setOnLongClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Delete Card")
+            builder.setTitle("Delete Workout Data Card")
                     .setMessage("Are you sure you want to delete this workout?")
                     .setPositiveButton("Delete", (dialog, which) -> {
                         String userId = mAuth.getCurrentUser().getUid();

@@ -66,6 +66,7 @@
     <!-- UpdateExercise Strings -->
     <string name="update">Update</string>
     <string name="update_name">Update Exercise</string>
+    <string name="update_exercise">^ Update Exercise</string>
     <string name="add_name">Add Exercise</string>
 
 

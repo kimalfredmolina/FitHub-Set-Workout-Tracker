@@ -15,6 +15,12 @@
         android:theme="@style/Theme.FitHubSetWorkoutTracker"
         tools:targetApi="31">
         <activity
+            android:name=".sets_tracker.Update_Exercises"
+            android:exported="false" />
+        <activity
+            android:name=".sets_tracker.Update_SelectWorkout"
+            android:exported="false" />
+        <activity
             android:name=".UpdateExercise"
             android:exported="false" />
         <activity
@@ -41,7 +47,7 @@
         <activity
             android:name=".sets_tracker.SelectWorkout"
             android:exported="true" />
-        <activity android:name=".sets_tracker.Chest" />
+        <activity android:name=".sets_tracker.Exercises" />
     </application>
 
 </manifest>

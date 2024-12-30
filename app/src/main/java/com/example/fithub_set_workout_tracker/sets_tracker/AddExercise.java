@@ -141,16 +141,9 @@ public class AddExercise extends AppCompatActivity {
         LayoutInflater inflaters = LayoutInflater.from(this);
         View anotherLayout = inflaters.inflate(R.layout.set_layout, null);
 
-        finishButton = findViewById(R.id.finish_button);
-        backButton = findViewById(R.id.arrow_back);
-
         updateButtonVisibility();
 
         mAuth = FirebaseAuth.getInstance();
-
-
-
-
 
 
         date = findViewById(R.id.date_picker_actions);
@@ -193,7 +186,7 @@ public class AddExercise extends AppCompatActivity {
                     .setMessage("Are you sure you want to discard your workout and go back?")
                     .setPositiveButton("Yes", (dialog, which) -> {
                         clearData();
-                        Intent intent = new Intent(this, MainPage.class); // Replace MainPageActivity with the actual class name of your main page
+                        Intent intent = new Intent(this, MainPage.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();

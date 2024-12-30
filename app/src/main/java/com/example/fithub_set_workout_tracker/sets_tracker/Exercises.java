@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fithub_set_workout_tracker.R;
 
-public class Chest extends AppCompatActivity {
+public class Exercises extends AppCompatActivity {
 
     private ListView lvExercises;
     private ArrayAdapter<String> adapter;
@@ -19,7 +19,7 @@ public class Chest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.chest);
+        setContentView(R.layout.exercises);
 
         lvExercises = findViewById(R.id.Workout_list);
 
@@ -38,7 +38,7 @@ public class Chest extends AppCompatActivity {
         lvExercises.setOnItemClickListener((parent, view, position, id) -> {
             String selectedExercise = exercises[position];
 
-            Intent intent = new Intent(Chest.this, AddExercise.class);
+            Intent intent = new Intent(Exercises.this, AddExercise.class);
             intent.putExtra("selectedExercise", selectedExercise);
             intent.putExtra("selectedMuscleGroup", selectedMuscleGroup);
             startActivity(intent);

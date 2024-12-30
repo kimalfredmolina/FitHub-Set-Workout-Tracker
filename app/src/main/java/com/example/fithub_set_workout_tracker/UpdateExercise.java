@@ -2,19 +2,29 @@ package com.example.fithub_set_workout_tracker;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.fithub_set_workout_tracker.R;
+import com.example.fithub_set_workout_tracker.sets_tracker.AddExercise;
+import com.example.fithub_set_workout_tracker.sets_tracker.SelectWorkout;
+import com.example.fithub_set_workout_tracker.sets_tracker.Update_SelectWorkout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +43,8 @@ import java.util.Objects;
 
 public class UpdateExercise extends AppCompatActivity {
 
+    private static final String TAG = "AddExercise";
+
     private EditText u_program;
     private EditText u_weight;
     private EditText u_date;
@@ -44,6 +56,12 @@ public class UpdateExercise extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference databaseref;
     private DatabaseReference workoutref;
+
+    private int setCount = 1;
+    private static final int MAX_SETS = 5;
+    private TextView workoutName;
+    private Button upExerciseButton, upSetButton;
+    private LinearLayout workout_Details;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +83,12 @@ public class UpdateExercise extends AppCompatActivity {
 
 
         // Validate that the data was passed correctly
+
+        workoutName = findViewById(R.id.workout_name);
+        upExerciseButton = findViewById(R.id.btn_update_exercise);
+        workout_Details = findViewById(R.id.workout_details);
+        upSetButton = findViewById(R.id.btn_add_set);
+
 
 
         // Initialize EditTexts and Button
@@ -97,6 +121,92 @@ public class UpdateExercise extends AppCompatActivity {
 
         // Set up Update button click listener
         updateButton.setOnClickListener(v -> updateDataInFirebase());
+
+        Intent intent = getIntent();
+        String selectedExercise = intent.getStringExtra("selectedExercise");
+
+        if (selectedExercise != null && !selectedExercise.isEmpty()) {
+            workoutName.setVisibility(View.VISIBLE);
+            workoutName.setText(selectedExercise);
+            workout_Details.setVisibility(View.VISIBLE);
+        } else {
+            workoutName.setVisibility(View.GONE);
+        }
+
+        upExerciseButton.setOnClickListener(v -> {
+            Intent selectWorkoutIntent = new Intent(UpdateExercise.this, Update_SelectWorkout.class);
+            startActivityForResult(selectWorkoutIntent, 1);
+
+        });
+        upSetButton.setOnClickListener(v -> addSet());
+
+    }
+
+    private void addSet() {
+        if (setCount > MAX_SETS) {
+            upSetButton.setEnabled(false);
+            return;
+        }
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View setView = inflater.inflate(R.layout.set_layout, workout_Details, false);
+
+        TextView setNumber = setView.findViewById(R.id.set_number);
+        EditText lbField = setView.findViewById(R.id.lb_field);
+        EditText repsField = setView.findViewById(R.id.reps_field);
+        EditText notesField = setView.findViewById(R.id.notes_field);
+
+        setNumber.setText(String.valueOf(setCount));
+        setCount++;
+
+        lbField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        repsField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        ImageButton popupMenuButton = setView.findViewById(R.id.Popup_Menu);
+        popupMenuButton.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(UpdateExercise.this, v);
+            MenuInflater inflater1 = popupMenu.getMenuInflater();
+            inflater1.inflate(R.menu.custom_menu, popupMenu.getMenu());
+
+
+            popupMenu.show();
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+                if (item.getItemId() == R.id.edit) {
+                    Toast.makeText(UpdateExercise.this, "Edit clicked for set " + setNumber.getText(), Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (item.getItemId() == R.id.delete) {
+                    workout_Details.removeView(setView);
+                    setCount--;
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        workout_Details.removeView(upSetButton);
+        workout_Details.addView(setView);
+        workout_Details.addView(upSetButton);
     }
 
     private void showTimePicker(EditText timeField) {
