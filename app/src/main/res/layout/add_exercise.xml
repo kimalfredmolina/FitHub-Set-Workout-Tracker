@@ -308,10 +308,11 @@
 
         <Button
             android:id="@+id/save_btn"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/light_blue"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/green"
             android:fontFamily="@font/medium"
             android:text="@string/save"
             android:textColor="@android:color/black"
