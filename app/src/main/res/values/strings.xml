@@ -7,7 +7,8 @@
     <!-- Home Page Strings-->
     <string name="calendar_title">November 2024</string>
     <string name="name_txt">FitHub</string>
-    <string name="alarm">Set Alarm</string>
+    <string name="set_alarm">Set Alarm</string>
+    <string name="alarm">Alarm Timer</string>
 
     <!-- Bottom Navigation Strings -->
     <string name="nav_sets">Sets</string>
