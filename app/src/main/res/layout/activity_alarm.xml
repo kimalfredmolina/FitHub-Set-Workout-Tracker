@@ -8,13 +8,14 @@
     android:orientation="vertical"
     tools:context=".Alarm">
 
+    <!-- Container for the back button and title -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="12dp">
+        android:padding="16dp">
 
         <ImageView
-            android:id="@+id/back"
+            android:id="@+id/back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -27,14 +28,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_marginTop="16dp"
             android:text="@string/alarm"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
-
     </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -51,7 +50,6 @@
             android:textColor="@android:color/black"
             android:layout_marginBottom="32dp" />
 
-        <!-- ewan ko kung nagana ung minvalue at maxvalue tsaka warpselector triny ko yan kagabi ayaw binalik ko lng(ui lng)-->
         <NumberPicker
             android:id="@+id/minutePicker"
             android:layout_width="wrap_content"
@@ -73,7 +71,5 @@
             android:text="Stop Timer"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
-
     </LinearLayout>
 </LinearLayout>
-

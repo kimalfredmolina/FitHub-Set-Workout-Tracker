@@ -128,21 +128,11 @@
                 android:layout_marginTop="10dp">
 
                 <ImageView
-                    android:layout_width="50dp"
+                    android:layout_width="150dp"
                     android:layout_height="50dp"
                     android:id="@+id/googleAuth"
                     android:src="@drawable/google_logo"
                     android:contentDescription="@string/google_auth"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/login_icon"
-                    android:padding="10dp" />
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/facebookAuth"
-                    android:src="@drawable/fb_logo"
-                    android:contentDescription="@string/fb_auth"
                     android:layout_margin="10dp"
                     android:background="@drawable/login_icon"
                     android:padding="10dp" />

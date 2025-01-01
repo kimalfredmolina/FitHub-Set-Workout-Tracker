@@ -1,10 +1,14 @@
 package com.example.fithub_set_workout_tracker;
 
+import static com.example.fithub_set_workout_tracker.R.id.back_btn;
+
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
@@ -12,6 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.fithub_set_workout_tracker.main_pages.SetTrackerPage;
 
 public class Alarm extends AppCompatActivity {
 
@@ -21,6 +28,7 @@ public class Alarm extends AppCompatActivity {
     private Button stopButton;
     private CountDownTimer countDownTimer;
     private MediaPlayer mediaPlayer;
+    private ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,30 +36,32 @@ public class Alarm extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_alarm);
 
-        // Adjust layout for system insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Initialize views
         timerText = findViewById(R.id.timerText);
         minutePicker = findViewById(R.id.minutePicker);
         startButton = findViewById(R.id.startButton);
         stopButton = findViewById(R.id.stopButton);
+        back = findViewById(back_btn);
 
-        // Configure NumberPicker
         minutePicker.setMinValue(1);
         minutePicker.setMaxValue(10);
         minutePicker.setWrapSelectorWheel(true);
 
-        // Initialize MediaPlayer
         mediaPlayer = MediaPlayer.create(this, R.raw.alarm_sound);
 
-        // Set button click listeners
         startButton.setOnClickListener(v -> startTimer());
         stopButton.setOnClickListener(v -> stopTimer());
+
+        back.setOnClickListener(v -> {
+            Intent intent = new Intent(Alarm.this, MainPage.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void startTimer() {
@@ -82,16 +92,13 @@ public class Alarm extends AppCompatActivity {
     }
 
     private void stopTimer() {
-        // Cancel the timer
         if (countDownTimer != null) {
             countDownTimer.cancel();
             countDownTimer = null;
         }
 
-        // Reset timer text
         timerText.setText("00:00");
 
-        // Stop and reset the alarm sound
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             try {
