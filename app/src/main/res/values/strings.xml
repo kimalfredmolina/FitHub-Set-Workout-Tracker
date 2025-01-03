@@ -11,7 +11,7 @@
     <string name="alarm">Alarm Timer</string>
 
     <!-- Bottom Navigation Strings -->
-    <string name="nav_sets">Sets</string>
+    <string name="nav_sets">Workouts</string>
     <string name="nav_home">Home</string>
     <string name="nav_user">User</string>
     <string name="home">Home</string>

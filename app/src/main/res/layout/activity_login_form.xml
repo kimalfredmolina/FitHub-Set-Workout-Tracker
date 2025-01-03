@@ -128,7 +128,7 @@
                 android:layout_marginTop="10dp">
 
                 <ImageView
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:id="@+id/googleAuth"
                     android:src="@drawable/google_logo"

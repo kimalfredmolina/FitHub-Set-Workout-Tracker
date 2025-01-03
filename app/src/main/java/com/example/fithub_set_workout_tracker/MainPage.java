@@ -1,6 +1,8 @@
 package com.example.fithub_set_workout_tracker;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -11,9 +13,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
+import android.Manifest;
+
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -44,6 +50,15 @@ public class MainPage extends AppCompatActivity {
         // Setup Toolbar
         Toolbar toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
+
+        NotificationUtils.createNotificationChannel(this);
+        //NotificationUtils.showNotification(this);          // Show the notification immediately for testing
+        NotificationUtils.scheduleDailyReminder(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+        }
 
         // Initialize DrawerLayout and NavigationView
         drawerLayout = findViewById(R.id.main);
