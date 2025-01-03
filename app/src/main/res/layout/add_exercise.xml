@@ -55,7 +55,6 @@
                 android:id="@+id/Popup_menu_main"
                 android:layout_width="35dp"
                 android:layout_height="38dp"
-                android:src="@drawable/ic_more_vert"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:padding="3dp"

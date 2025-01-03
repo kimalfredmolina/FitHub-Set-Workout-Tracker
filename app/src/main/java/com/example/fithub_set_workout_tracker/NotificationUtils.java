@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
+import java.util.Calendar;
+
 public class NotificationUtils {
 
     private static final String CHANNEL_ID = "workout_reminder_channel";
@@ -27,8 +29,13 @@ public class NotificationUtils {
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, pendingIntentFlags);
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        long triggerTime = calendar.getTimeInMillis();
         //long triggerTime = System.currentTimeMillis() + 60000; "for this only"
-        long triggerTime = System.currentTimeMillis() + AlarmManager.INTERVAL_DAY;
         long repeatInterval = AlarmManager.INTERVAL_DAY;
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, triggerTime, repeatInterval, pendingIntent);
