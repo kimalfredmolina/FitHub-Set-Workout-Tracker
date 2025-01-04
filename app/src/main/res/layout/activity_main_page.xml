@@ -17,7 +17,8 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:navigationIcon="@drawable/ic_menu" />
+            app:navigationIcon="@drawable/ic_menu"
+            android:background="@color/bottombar"/>
 
         <!-- ViewPager for Tabs -->
         <androidx.viewpager2.widget.ViewPager2
@@ -25,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/topAppBar"
-            android:layout_above="@id/tablayout" />
+            android:layout_above="@id/tablayout"
+            android:background="@color/viewpager"/>
 
         <!-- Bottom TabLayout -->
         <com.google.android.material.tabs.TabLayout
@@ -33,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/light_blue"
+            android:background="@color/bottombar"
             app:tabTextColor="@color/black"
             app:tabIndicatorColor="@color/red"
             app:tabSelectedTextColor="@color/red"

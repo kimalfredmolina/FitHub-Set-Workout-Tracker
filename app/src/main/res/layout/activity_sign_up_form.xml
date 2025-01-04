@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-            android:padding="24dp">
+            android:padding="24dp"
+            android:background="@color/viewpager">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -40,7 +41,7 @@
                 android:textSize="36sp"
                 android:textAlignment="center"
                 android:textStyle="bold"
-                android:textColor="@color/dark_blue" />
+                android:textColor="@color/textcolor" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -48,6 +49,7 @@
                 android:id="@+id/username"
                 android:textSize="14sp"
                 android:background="@drawable/custom_login"
+
                 android:drawableLeft="@drawable/email_icon"
                 android:drawablePadding="8dp"
                 android:hint="@string/email"
@@ -70,6 +72,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/custom_login"
+
                     android:drawableLeft="@drawable/lock_icon"
                     android:drawablePadding="8dp"
                     android:fontFamily="@font/mediumitalic"
@@ -102,8 +105,8 @@
                 android:fontFamily="@font/bold"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                android:textColor="@color/dark_blue"
-                android:backgroundTint="@color/light_blue"
+                android:textColor="@color/textcolor"
+                android:backgroundTint="@color/button"
                 app:cornerRadius="20dp" />
 
             <TextView
@@ -112,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/login_here"
                 android:layout_gravity="center"
-                android:textColor="#77B5FE"
+                android:textColor="@color/textcolor"
                 android:fontFamily="@font/medium"
                 android:padding="8dp"
                 android:layout_marginTop="10dp"/>

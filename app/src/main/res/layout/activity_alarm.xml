@@ -12,7 +12,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/bottombar">
 
         <ImageView
             android:id="@+id/back_btn"
@@ -30,7 +31,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="@string/alarm"
-            android:textColor="@color/black"
+            android:textColor="@color/textcolor"
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -47,14 +48,15 @@
             android:layout_height="wrap_content"
             android:text="00:00"
             android:textSize="48sp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/textcolor"
             android:layout_marginBottom="32dp" />
 
         <NumberPicker
             android:id="@+id/minutePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            />
         <Button
             android:id="@+id/startButton"
             android:layout_width="wrap_content"

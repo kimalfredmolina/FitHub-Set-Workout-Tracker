@@ -5,15 +5,21 @@
 
     <!-- LightMode Theme -->
     <color name="dark_blue">#3C5069</color>
+    <color name="white2">#DCDCDC</color>
     <color name="light_blue">#89CFF0</color>
-    <color name="baby_blue">#F0F8FF</color>
-    <color name="light_grey">#B0B3C3</color>
-
+    <color name="baby_blue">#B8E2F2</color>
+    <color name="whiteblue">#F5FBFF</color>
+    <color name="light_grey">#636363</color>
+    <color name="light_background">#F8F9FA</color>
     <color name="red">#BF0A0A</color>
     <color name="blue">#D0E7FF</color>
     <color name="gold">#FFD700</color>
     <color name="dark_red">#742222</color>
     <color name="green">#4CAF50</color>
+    <color name="colorPrimary">#FFFFFFFF</color>
+    <color name="colorOnPrimary">#FF000000</color>
+    <color name="darkgrey">#181818</color>
+
 
     <!-- NightMode Theme -->
 

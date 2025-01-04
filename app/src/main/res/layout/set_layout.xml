@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/one"
-        android:textColor="@android:color/black"
+        android:textColor="@color/textcolor"
         android:textStyle="bold"
         android:layout_marginEnd="8dp" />
 
@@ -20,9 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/add_exercise_bg"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/textbg"
         android:inputType="number"
-        android:textColor="@color/black"
+        android:textColor="@color/textcolor"
         android:fontFamily="@font/medium"
         android:textColorHint="@color/black"
         android:padding="8dp"
@@ -35,9 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/add_exercise_bg"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/textbg"
         android:inputType="number"
-        android:textColor="@color/black"
+        android:textColor="@color/textcolor"
         android:fontFamily="@font/medium"
         android:textColorHint="@color/black"
         android:padding="8dp"
@@ -50,10 +50,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/add_exercise_bg"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/textbg"
         android:padding="8dp"
         android:layout_marginEnd="5dp"
-        android:textColor="@color/black"
+        android:textColor="@color/textcolor"
         android:fontFamily="@font/light"
         android:textColorHint="@color/black" />
 
@@ -64,6 +64,7 @@
         android:src="@drawable/ic_more_vert"
         android:contentDescription="@string/Menu_Description"
         android:background="@null"
+
         android:scaleType="fitCenter"/>
 
 </LinearLayout>

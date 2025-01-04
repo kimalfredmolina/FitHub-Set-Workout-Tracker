@@ -37,7 +37,6 @@
                     android:layout_gravity="center"
                     android:text="@string/acc_page"
                     android:fontFamily="@font/black"
-                    android:textColor="@android:color/black"
                     android:textSize="28sp"
                     android:textStyle="bold" />
             </com.google.android.material.appbar.MaterialToolbar>
@@ -45,7 +44,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="#000000"
+                android:background="@color/textcolor"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp" />
 
@@ -67,7 +66,8 @@
                 android:fontFamily="@font/blackitalic"
                 android:text="@string/account"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/textcolor"/>
 
             <!-- Sign Out Button -->
             <Button
@@ -75,15 +75,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sign_out"
-                android:backgroundTint="#5FBAFF"
+                android:backgroundTint="@color/button"
                 android:fontFamily="@font/bold"
-                android:textColor="@color/black"
+                android:textColor="@color/textcolor"
                 android:layout_marginBottom="24dp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="#000000"
+                android:background="@color/textcolor"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp" />
 
@@ -97,7 +97,8 @@
                 android:fontFamily="@font/medium"
                 android:gravity="center_vertical"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/textcolor"/>
 
             <TextView
                 android:id="@+id/help_support"
@@ -108,7 +109,8 @@
                 android:fontFamily="@font/medium"
                 android:gravity="center_vertical"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/textcolor"/>
 
             <TextView
                 android:id="@+id/terms"
@@ -119,14 +121,16 @@
                 android:fontFamily="@font/medium"
                 android:gravity="center_vertical"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/textcolor"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="#000000"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/textcolor"/>
 
             <!-- Follow Section -->
             <TextView
@@ -138,7 +142,8 @@
                 android:fontFamily="@font/medium"
                 android:gravity="center_vertical"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_marginBottom="0dp" />
+                android:layout_marginBottom="0dp"
+                android:textColor="@color/textcolor"/>
 
             <View
                 android:layout_width="match_parent"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/viewpager"
     android:padding="16dp">
 
     <LinearLayout
@@ -47,7 +47,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="@string/add_name"
-                android:textColor="@color/black"
+                android:textColor="@color/textcolor"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -83,14 +83,14 @@
                     android:layout_marginBottom="4dp"
                     android:autofillHints="Exercise"
                     android:background="@drawable/add_exercise_bg"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/textbg"
                     android:hint="@string/Program"
                     android:textSize="14sp"
                     android:fontFamily="@font/medium"
                     android:inputType="text"
                     android:padding="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black" />
+                    android:textColor="@color/textcolor"
+                    android:textColorHint="@color/textcolor" />
             </LinearLayout>
 
             <LinearLayout
@@ -108,9 +108,9 @@
                     android:textSize="14sp"
                     android:fontFamily="@font/medium"
                     android:inputType="number"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:backgroundTint="@color/blue"
+                    android:textColor="@color/textcolor"
+                    android:textColorHint="@color/textcolor"
+                    android:backgroundTint="@color/textbg"
                     android:padding="15dp"
                     android:layout_marginBottom="4dp"
                     android:focusable="true" />
@@ -139,9 +139,9 @@
                     android:textSize="14sp"
                     android:fontFamily="@font/medium"
                     android:inputType="date"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:backgroundTint="@color/blue"
+                    android:textColor="@color/textcolor"
+                    android:textColorHint="@color/textcolor"
+                    android:backgroundTint="@color/textbg"
                     android:padding="15dp"
                     android:focusable="false"
                     android:focusableInTouchMode="true"
@@ -164,9 +164,9 @@
                     android:textSize="14sp"
                     android:fontFamily="@font/medium"
                     android:inputType="time"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:backgroundTint="@color/blue"
+                    android:textColor="@color/textcolor"
+                    android:textColorHint="@color/textcolor"
+                    android:backgroundTint="@color/textbg"
                     android:padding="15dp"
                     android:focusable="false"
                     android:focusableInTouchMode="true"
@@ -187,10 +187,10 @@
                     android:textSize="14sp"
                     android:fontFamily="@font/medium"
                     android:inputType="time"
-                    android:textColorHint="@color/black"
-                    android:backgroundTint="@color/blue"
+                    android:textColorHint="@color/textcolor"
+                    android:backgroundTint="@color/textbg"
                     android:padding="15dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textcolor"
                     android:focusable="false"
                     android:focusableInTouchMode="true"
                     android:onClick="showTimePicker" />
@@ -207,14 +207,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/add_exercise_bg"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="@color/textbg"
                 android:hint="@string/Notes"
                 android:textSize="17sp"
                 android:inputType="text"
                 android:fontFamily="@font/medium"
                 android:autofillHints="notes"
-                android:textColorHint="@color/black"
-                android:textColor="@color/black"
+                android:textColorHint="@color/textcolor"
+                android:textColor="@color/textcolor"
                 android:padding="15dp" />
         </LinearLayout>
 
@@ -222,7 +222,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
-            android:background="@android:color/black" />
+            android:background="@color/textcolor" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -301,8 +301,8 @@
             android:text="@string/Add_Exercise"
             android:textSize="16sp"
             android:fontFamily="@font/medium"
-            android:backgroundTint="@color/light_blue"
-            android:textColor="@android:color/black"
+            android:backgroundTint="@color/button"
+            android:textColor="@color/textcolor"
             android:layout_marginTop="16dp" />
 
         <Button
@@ -314,7 +314,7 @@
             android:backgroundTint="@color/green"
             android:fontFamily="@font/medium"
             android:text="@string/save"
-            android:textColor="@android:color/black"
+            android:textColor="@color/textcolor"
             android:textSize="16sp" />
 
 

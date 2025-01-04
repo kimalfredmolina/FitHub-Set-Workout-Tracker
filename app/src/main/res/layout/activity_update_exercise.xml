@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/viewpager"
     android:padding="16dp"
     tools:context=".UpdateExercise">
 
@@ -26,7 +26,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:contentDescription="@string/Back_arrow_description"
-                android:src="@drawable/arrow_back" />
+                android:src="@drawable/arrow_back"/>
 
             <Button
                 android:id="@+id/finish_button"
@@ -48,7 +48,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="@string/update_name"
-                android:textColor="@color/black"
+                android:textColor="@color/textcolor"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -83,14 +83,14 @@
                     android:layout_marginBottom="4dp"
                     android:autofillHints="Exercise"
                     android:background="@drawable/add_exercise_bg"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/textbg"
                     android:hint="@string/Program"
                     android:textSize="14sp"
                     android:fontFamily="@font/medium"
                     android:inputType="text"
                     android:padding="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black" />
+                    android:textColor="@color/textcolor"
+                    android:textColorHint="@color/textcolor" />
             </LinearLayout>
 
             <LinearLayout
@@ -108,9 +108,9 @@
                     android:textSize="14sp"
                     android:fontFamily="@font/medium"
                     android:inputType="number"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:backgroundTint="@color/blue"
+                    android:textColor="@color/textcolor"
+                    android:textColorHint="@color/textcolor"
+                    android:backgroundTint="@color/textbg"
                     android:padding="15dp"
                     android:layout_marginBottom="4dp"
                     android:focusable="true" />
@@ -139,9 +139,9 @@
                     android:textSize="14sp"
                     android:fontFamily="@font/medium"
                     android:inputType="date"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:backgroundTint="@color/blue"
+                    android:textColor="@color/textcolor"
+                    android:textColorHint="@color/textcolor"
+                    android:backgroundTint="@color/textbg"
                     android:padding="15dp"
                     android:focusable="false"
                     android:focusableInTouchMode="true"
@@ -164,9 +164,9 @@
                     android:textSize="14sp"
                     android:fontFamily="@font/medium"
                     android:inputType="time"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:backgroundTint="@color/blue"
+                    android:textColor="@color/textcolor"
+                    android:textColorHint="@color/textcolor"
+                    android:backgroundTint="@color/textbg"
                     android:padding="15dp"
                     android:focusable="false"
                     android:focusableInTouchMode="true"
@@ -183,7 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/add_exercise_bg"
-                    android:backgroundTint="@color/blue"
+                    android:backgroundTint="@color/textbg"
                     android:focusable="false"
                     android:focusableInTouchMode="true"
                     android:fontFamily="@font/medium"
@@ -191,8 +191,8 @@
                     android:inputType="time"
                     android:onClick="showTimePicker"
                     android:padding="15dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
+                    android:textColor="@color/textcolor"
+                    android:textColorHint="@color/textcolor"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
@@ -207,14 +207,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/add_exercise_bg"
-                android:backgroundTint="@color/blue"
+                android:backgroundTint="@color/textbg"
                 android:hint="@string/Notes"
                 android:textSize="17sp"
                 android:inputType="text"
                 android:fontFamily="@font/medium"
                 android:autofillHints="notes"
-                android:textColorHint="@color/black"
-                android:textColor="@color/black"
+                android:textColorHint="@color/textcolor"
+                android:textColor="@color/textcolor"
                 android:padding="15dp" />
         </LinearLayout>
 
@@ -236,7 +236,7 @@
                 android:id="@+id/workoutname"
                 android:text="@string/workoutName"
                 android:textSize="18sp"
-                android:textColor="@color/black"
+                android:textColor="@color/textcolor"
                 android:textColorHint="@color/black"
                 android:layout_gravity="center"
                 android:textStyle="bold"
@@ -246,13 +246,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:background="@color/textbg">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hashtag"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textcolor"
                     android:fontFamily="@font/bold"
                     android:layout_marginEnd="8dp" />
 
@@ -261,7 +262,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/LB"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textcolor"
                     android:fontFamily="@font/bold" />
 
                 <TextView
@@ -269,7 +270,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/Reps"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textcolor"
                     android:fontFamily="@font/bold" />
 
                 <TextView
@@ -277,7 +278,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/Notes"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textcolor"
                     android:fontFamily="@font/bold" />
             </LinearLayout>
 
@@ -288,8 +289,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/add_set"
-                android:backgroundTint="@color/light_blue"
-                android:textColor="@android:color/black"
+                android:backgroundTint="@color/button"
+                android:textColor="@color/textcolor"
                 android:layout_marginTop="8dp" />
         </LinearLayout>
 
@@ -300,8 +301,8 @@
             android:text="@string/update_exercise"
             android:textSize="16sp"
             android:fontFamily="@font/medium"
-            android:backgroundTint="@color/light_blue"
-            android:textColor="@android:color/black"
+            android:backgroundTint="@color/button"
+            android:textColor="@color/textcolor"
             android:layout_marginTop="16dp" />
 
         <Button
@@ -313,7 +314,7 @@
             android:backgroundTint="@color/green"
             android:fontFamily="@font/medium"
             android:text="@string/update"
-            android:textColor="@android:color/black"
+            android:textColor="@color/textcolor"
             android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>

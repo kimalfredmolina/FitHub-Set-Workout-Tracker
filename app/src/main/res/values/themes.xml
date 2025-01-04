@@ -1,9 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.FitHubSetWorkoutTracker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Primary colors for the app theme -->
+        <item name="colorPrimary">@color/light_blue</item>
+        <item name="colorPrimaryVariant">@color/light_blue</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
     </style>
+
+    <!-- Default app theme -->
     <style name="Theme.FitHubSetWorkoutTracker" parent="Base.Theme.FitHubSetWorkoutTracker" />
 
+    <!-- Light mode colors -->
+    <color name="calendarlight">@color/baby_blue</color>
+    <color name="bottombar">@color/light_blue</color>
+    <color name="viewpager">@color/whiteblue</color>
+    <color name="button">@color/light_blue</color>
+    <color name="textcolor">@color/black</color>
+    <color name="textbg">@color/white2</color>
+    <color name="textin">@color/black</color>
 </resources>

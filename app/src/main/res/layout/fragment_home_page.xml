@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="@color/viewpager"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".MainPage">
@@ -13,7 +12,8 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/viewpager">
 
         <!-- Centered Title -->
         <TextView
@@ -23,18 +23,18 @@
             android:layout_gravity="center"
             android:text="@string/home"
             android:fontFamily="@font/black"
-            android:textColor="@android:color/black"
+            android:textColor="@color/textcolor"
             android:textSize="28sp"
             android:textStyle="bold" />
-
     </com.google.android.material.appbar.MaterialToolbar>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#000000"
+        android:background="@color/textcolor"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp" />
+
     <!-- CalendarView -->
     <CalendarView
         android:id="@+id/calendarView"
@@ -42,12 +42,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="#BBDEFB" />
+        android:background="@color/calendarlight" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#000000"
+        android:background="@color/textcolor"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp" />
 
@@ -60,8 +60,7 @@
         android:backgroundTint="@color/red"
         android:fontFamily="@font/bold"
         android:text="@string/set_alarm"
-        android:textColor="@android:color/black"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:drawablePadding="8dp" />
-
 </LinearLayout>

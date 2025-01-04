@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-            android:padding="24dp">
+            android:padding="24dp"
+            android:background="@color/viewpager">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -41,7 +42,7 @@
                 android:textSize="36sp"
                 android:textAlignment="center"
                 android:textStyle="bold"
-                android:textColor="@color/dark_blue" />
+                android:textColor="@color/textcolor" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -49,13 +50,14 @@
                 android:textSize="14sp"
                 android:id="@+id/email"
                 android:background="@drawable/custom_login"
+
                 android:drawableLeft="@drawable/email_icon"
                 android:drawablePadding="8dp"
                 android:hint="@string/email"
                 android:fontFamily="@font/mediumitalic"
                 android:inputType="textEmailAddress"
                 android:padding="8dp"
-                android:textColor="@color/black"
+                android:textColor="@color/textcolor"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="40dp" />
 
@@ -71,6 +73,8 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/custom_login"
+
+
                     android:drawableLeft="@drawable/lock_icon"
                     android:drawablePadding="8dp"
                     android:fontFamily="@font/mediumitalic"
@@ -104,8 +108,8 @@
                 android:fontFamily="@font/bold"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
-                android:textColor="@color/dark_blue"
-                android:backgroundTint="@color/light_blue"
+                android:textColor="@color/textcolor"
+                android:backgroundTint="@color/button"
                 app:cornerRadius="20dp" />
 
             <TextView
@@ -117,7 +121,7 @@
                 android:textSize="12sp"
                 android:textAlignment="center"
                 android:textStyle="bold"
-                android:textColor="@color/black"/>
+                android:textColor="@color/textcolor"/>
 
             <!-- Social Media Auth Section -->
             <LinearLayout
@@ -125,7 +129,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                >
 
                 <ImageView
                     android:layout_width="match_parent"
