@@ -42,6 +42,7 @@ public class SetTrackerPage extends Fragment {
 
     private static final int REQUEST_CODE = 1;
     private DatabaseReference databseref;
+    private String isoDate;
 
     public SetTrackerPage() {
     }
@@ -88,7 +89,9 @@ public class SetTrackerPage extends Fragment {
 
     private void loadWorkoutData() {
         String userId = mAuth.getCurrentUser().getUid();
-        databaseReference.child("Users").child(userId).child("workout")
+        databaseReference.child("users")
+                .child(userId)
+                .child("workouts")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -96,46 +99,64 @@ public class SetTrackerPage extends Fragment {
                             for (DataSnapshot dateSnapshot : snapshot.getChildren()) {
                                 String date = dateSnapshot.getKey();
 
-                                for (DataSnapshot monthSnapshot : dateSnapshot.getChildren()) {
-                                    String monthNumber = monthSnapshot.getKey();
-                                    String monthName = getMonthName(monthNumber);
+                                // Navigate through the "1" -> "2025" structure
+                                DataSnapshot yearSnapshot = dateSnapshot.child("1").child("2025");
+                                String program = yearSnapshot.child("program").getValue(String.class);
 
-                                    for (DataSnapshot yearSnapshot : monthSnapshot.getChildren()) {
-                                        String year = yearSnapshot.getKey();
+                                StringBuilder details = new StringBuilder();
+                                DataSnapshot ex1Snapshot = yearSnapshot.child("exercises").child("ex1");
 
-                                        for (DataSnapshot workoutTypeSnapshot : yearSnapshot.getChildren()) {
-                                            String workoutName = workoutTypeSnapshot.getKey();
+                                if (ex1Snapshot.exists()) {
+                                    String exerciseName = ex1Snapshot.child("name").getValue(String.class);
+                                    long setCount = ex1Snapshot.child("sets").getChildrenCount();
 
-                                            StringBuilder details = new StringBuilder();
-
-                                            for (DataSnapshot exerciseSnapshot : workoutTypeSnapshot.getChildren()) {
-                                                String exerciseName = exerciseSnapshot.getKey();
-                                                long setCount = exerciseSnapshot.child("sets").getChildrenCount();
-
-                                                details.append(exerciseName)
-                                                        .append(" x")
-                                                        .append(setCount)
-                                                        .append("\n");
-                                            }
-
-                                            addWorkoutCard(monthName + " " + date, workoutName, details.toString().trim());
-                                        }
+                                    if (exerciseName != null) {
+                                        details.append(exerciseName)
+                                                .append(" x")
+                                                .append(setCount);
                                     }
                                 }
+
+                                addWorkoutCard(date, program != null ? program : "Workout",
+                                        details.toString().trim());
                             }
-                        } else {
-                            addWorkoutCard("No Data", "No Workouts", "Add some workouts to track!");
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getContext(), "Failed to load workouts", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
+    private String formatDate(String dateStr) {
+        try {
+            // Check if dateStr is just a number
+            if (dateStr.matches("\\d+")) {
+                return "Day " + dateStr; // Simple format for numeric dates
+            }
+
+            // Handle ISO format (2025-01-03)
+            String[] parts = dateStr.split("-");
+            if (parts.length == 3) {
+                int month = Integer.parseInt(parts[1]);
+                int day = Integer.parseInt(parts[2]);
+                String monthName = getMonthName(String.valueOf(month));
+                return monthName + " " + day;
+            }
+
+            // If no format matches, return original
+            return dateStr;
+        } catch (Exception e) {
+            Log.e("SetTrackerPage", "Error formatting date: " + dateStr, e);
+            return dateStr;
+        }
+    }
     private void addWorkoutCard(String date, String workoutTitle, String workoutDetails) {
         View cardView = LayoutInflater.from(getContext()).inflate(R.layout.workout_item, dataLayout, false);
+
+
 
         // Set date
         TextView dateText = cardView.findViewById(R.id.date_text);
@@ -155,40 +176,32 @@ public class SetTrackerPage extends Fragment {
             workoutDetailsText.setText(workoutDetails);
         }
 
-        // Extract month, day, year, and workout type
-        String[] dateParts = date.split(" "); // Example date: "Dec 25"
-        if (dateParts.length != 2) {
-            Log.e("SetTrackerPage", "Invalid date format: " + date);
-            Toast.makeText(getContext(), "Invalid date format", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        // Convert month name to number and extract the day
-        String monthStr = dateParts[0]; // "Dec"
-        String day = dateParts[1]; // "25"
-        String month = String.valueOf(getMonthNumber(monthStr)); // Convert "Dec" to "12"
-        String year = "2025";
+
 
         // Extract the workout type (e.g., "Leg Press" from "Leg Press x1")
-        String workoutType = workoutDetails.split(" x")[0];
+
 
         // Make the card clickable
         cardView.setOnClickListener(v -> {
-            String userId = mAuth.getCurrentUser().getUid();
+            // Extract exercise name from details
+            String exerciseName = "";
+            if (workoutDetails.contains(" x")) {
+                exerciseName = workoutDetails.split(" x")[0];
+            }
 
             Intent intent = new Intent(getContext(), UpdateExercise.class);
-            intent.putExtra("date", day + "/" + month + "/" + year); // Example: "25/12/2025"
-            intent.putExtra("workoutTitle", workoutType); // Example: "Leg Press"
-            intent.putExtra("workoutType", workoutTitle); // Example: "Legs"
+            intent.putExtra("date", date); // Pass the ISO date directly
+            intent.putExtra("workoutTitle", exerciseName);
+            intent.putExtra("workoutType", workoutTitle);
 
             Log.d("SetTrackerPage", "Sending to UpdateExercise - " +
-                    "date: " + (day + "/" + month + "/" + year) +
-                    ", workoutTitle: " + workoutType +
+                    "date: " + date +
+                    ", workoutTitle: " + exerciseName +
                     ", workoutType: " + workoutTitle);
 
             startActivity(intent);
         });
-
         // Long press to delete the card
         cardView.setOnLongClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -197,17 +210,16 @@ public class SetTrackerPage extends Fragment {
                     .setPositiveButton("Delete", (dialog, which) -> {
                         String userId = mAuth.getCurrentUser().getUid();
 
-                        // Format the date to match your save format
-                        String formattedDate = day + "/" + month + "/" + year;  // This matches your save format
+                        // Since we now pass isoDate to addWorkoutCard, we can use it directly
+                        // No need to reformat the date since it's already in the correct format
+                        String formattedDate = isoDate;  // Using the ISO format date (2025-01-03)
 
-                        // Database reference using the same structure as your save code
+                        // Updated database reference to match new structure
                         databseref = FirebaseDatabase.getInstance()
-                                .getReference("Users")
+                                .getReference("users")      // Changed from "Users" to "users"
                                 .child(userId)
-                                .child("workout")
-                                .child(formattedDate)    // Use the full date as one child
-                                .child(workoutTitle)     // This is your muscle group (e.g., "Legs")
-                                .child(workoutType);     // This is your exercise (e.g., "Leg Press")
+                                .child("workouts")          // Changed from "workout" to "workouts"
+                                .child(formattedDate);      // Using the full ISO date
 
                         // Add logging to debug the path
                         Log.d("SetTrackerPage", "Deleting from path: " + databseref.toString());
@@ -236,11 +248,7 @@ public class SetTrackerPage extends Fragment {
     }
 
 
-    private String formatDate(String date) {
-        // Example date formatting logic (adjust based on your date format)
-        // You can use SimpleDateFormat for more advanced formatting
-        return date.replace("/", "\n");
-    }
+
     private int getMonthNumber(String monthName) {
         switch (monthName.toLowerCase()) {
             case "jan": return 1;
