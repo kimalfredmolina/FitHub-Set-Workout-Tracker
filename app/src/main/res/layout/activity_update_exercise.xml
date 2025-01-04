@@ -89,8 +89,7 @@
                     android:fontFamily="@font/medium"
                     android:inputType="text"
                     android:padding="15dp"
-                    android:textColor="@color/textcolor"
-                    android:textColorHint="@color/textcolor" />
+                    android:textColor="@color/textcolor" />
             </LinearLayout>
 
             <LinearLayout
@@ -109,7 +108,6 @@
                     android:fontFamily="@font/medium"
                     android:inputType="number"
                     android:textColor="@color/textcolor"
-                    android:textColorHint="@color/textcolor"
                     android:backgroundTint="@color/textbg"
                     android:padding="15dp"
                     android:layout_marginBottom="4dp"
@@ -140,7 +138,6 @@
                     android:fontFamily="@font/medium"
                     android:inputType="date"
                     android:textColor="@color/textcolor"
-                    android:textColorHint="@color/textcolor"
                     android:backgroundTint="@color/textbg"
                     android:padding="15dp"
                     android:focusable="false"
@@ -165,7 +162,6 @@
                     android:fontFamily="@font/medium"
                     android:inputType="time"
                     android:textColor="@color/textcolor"
-                    android:textColorHint="@color/textcolor"
                     android:backgroundTint="@color/textbg"
                     android:padding="15dp"
                     android:focusable="false"
@@ -192,7 +188,6 @@
                     android:onClick="showTimePicker"
                     android:padding="15dp"
                     android:textColor="@color/textcolor"
-                    android:textColorHint="@color/textcolor"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
@@ -213,7 +208,6 @@
                 android:inputType="text"
                 android:fontFamily="@font/medium"
                 android:autofillHints="notes"
-                android:textColorHint="@color/textcolor"
                 android:textColor="@color/textcolor"
                 android:padding="15dp" />
         </LinearLayout>
