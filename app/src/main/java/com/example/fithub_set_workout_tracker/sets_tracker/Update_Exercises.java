@@ -54,22 +54,25 @@ public class Update_Exercises extends AppCompatActivity {
     private void loadExercisesForMuscleGroup(String muscleGroup) {
         switch (muscleGroup) {
             case "Chest":
-                exercises = new String[]{"Bench Press", "Push Ups", "Chest Fly"};
+                exercises = new String[]{"Bench Press", "Cable Crossover", "Dumbbell Press", "Dumbbell Flies", "Inclined Dumbbell Press", "Inclined Bench Press", "Chest Fly"};
                 break;
             case "Back":
-                exercises = new String[]{"Pull Ups", "Lat Pulldown", "Rows"};
+                exercises = new String[]{"Pull Ups", "Lat Pulldown", "Rows", "Chin Up", "Barbell Row", "Cable Row",  "Deadlift", "Dumbbell Row",  "Pull Downs"};
                 break;
             case "Abs":
                 exercises = new String[]{"Crunches", "Leg Raises", "Plank"};
                 break;
             case "Legs":
-                exercises = new String[]{"Squats", "Lunges", "Leg Press"};
+                exercises = new String[]{"Squats", "Lunges", "Leg Press", "Calf Raises", "Front Squat", "Leg Curl", "Leg Extension"};
                 break;
             case "Biceps":
                 exercises = new String[]{"Bicep Curl", "Hammer Curl", "Chin Ups"};
                 break;
             case "Triceps":
-                exercises = new String[]{"Tricep Dips", "Tricep Pushdown", "Overhead Tricep Extension"};
+                exercises = new String[]{"Tricep Dips", "Tricep Pushdown", "Overhead Tricep Extension", "Skull Crush"};
+                break;
+            case "Shoulders":
+                exercises = new String[]{"Overhead Press", "Lateral Raise", "Front Raise", "Reverse Fly", "Arnold Press", "Face Pull"};
                 break;
             default:
                 exercises = new String[]{"No exercises available"};

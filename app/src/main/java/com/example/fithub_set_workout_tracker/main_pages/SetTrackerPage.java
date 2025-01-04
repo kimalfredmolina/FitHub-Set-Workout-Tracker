@@ -136,7 +136,6 @@ public class SetTrackerPage extends Fragment {
             if (dateStr.matches("\\d+")) {
                 return "Day " + dateStr; // Simple format for numeric dates
             }
-
             // Handle ISO format (2025-01-03)
             String[] parts = dateStr.split("-");
             if (parts.length == 3) {
@@ -145,7 +144,6 @@ public class SetTrackerPage extends Fragment {
                 String monthName = getMonthName(String.valueOf(month));
                 return monthName + " " + day;
             }
-
             // If no format matches, return original
             return dateStr;
         } catch (Exception e) {
@@ -156,35 +154,23 @@ public class SetTrackerPage extends Fragment {
     private void addWorkoutCard(String date, String workoutTitle, String workoutDetails) {
         View cardView = LayoutInflater.from(getContext()).inflate(R.layout.workout_item, dataLayout, false);
 
-
-
-        // Set date
-        TextView dateText = cardView.findViewById(R.id.date_text);
+        TextView dateText = cardView.findViewById(R.id.date_text); // Set date
         if (dateText != null) {
             dateText.setText(formatDate(date));
         }
 
-        // Set workout title
-        TextView workoutTitleText = cardView.findViewById(R.id.workout_title);
+        TextView workoutTitleText = cardView.findViewById(R.id.workout_title); // Set workout title
         if (workoutTitleText != null) {
             workoutTitleText.setText(workoutTitle);
         }
 
-        // Set workout details
-        TextView workoutDetailsText = cardView.findViewById(R.id.workout_details);
+        TextView workoutDetailsText = cardView.findViewById(R.id.workout_details); // Set workout details
         if (workoutDetailsText != null) {
             workoutDetailsText.setText(workoutDetails);
         }
 
-
-
-
-        // Extract the workout type (e.g., "Leg Press" from "Leg Press x1")
-
-
         // Make the card clickable
         cardView.setOnClickListener(v -> {
-            // Extract exercise name from details
             String exerciseName = "";
             if (workoutDetails.contains(" x")) {
                 exerciseName = workoutDetails.split(" x")[0];
@@ -202,7 +188,7 @@ public class SetTrackerPage extends Fragment {
 
             startActivity(intent);
         });
-        // Long press to delete the card
+
         cardView.setOnLongClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Delete Workout Data Card")
@@ -210,21 +196,16 @@ public class SetTrackerPage extends Fragment {
                     .setPositiveButton("Delete", (dialog, which) -> {
                         String userId = mAuth.getCurrentUser().getUid();
 
-                        // Since we now pass isoDate to addWorkoutCard, we can use it directly
-                        // No need to reformat the date since it's already in the correct format
-                        String formattedDate = isoDate;  // Using the ISO format date (2025-01-03)
+                        String formattedDate = isoDate;  //ISO format date (2025-01-03)
 
-                        // Updated database reference to match new structure
                         databseref = FirebaseDatabase.getInstance()
-                                .getReference("users")      // Changed from "Users" to "users"
+                                .getReference("users")
                                 .child(userId)
-                                .child("workouts")          // Changed from "workout" to "workouts"
-                                .child(formattedDate);      // Using the full ISO date
+                                .child("workouts")
+                                .child(formattedDate);
 
-                        // Add logging to debug the path
                         Log.d("SetTrackerPage", "Deleting from path: " + databseref.toString());
 
-                        // Remove the node from the database
                         databseref.removeValue()
                                 .addOnSuccessListener(aVoid -> {
                                     // Remove the card from the UI
@@ -243,30 +224,6 @@ public class SetTrackerPage extends Fragment {
 
             return true;
         });
-        // Add the card to the container
         dataLayout.addView(cardView);
     }
-
-
-
-    private int getMonthNumber(String monthName) {
-        switch (monthName.toLowerCase()) {
-            case "jan": return 1;
-            case "feb": return 2;
-            case "mar": return 3;
-            case "apr": return 4;
-            case "may": return 5;
-            case "jun": return 6;
-            case "jul": return 7;
-            case "aug": return 8;
-            case "sep": return 9;
-            case "oct": return 10;
-            case "nov": return 11;
-            case "dec": return 12;
-            default: return 1;
-        }
-    }
-
-
-
 }

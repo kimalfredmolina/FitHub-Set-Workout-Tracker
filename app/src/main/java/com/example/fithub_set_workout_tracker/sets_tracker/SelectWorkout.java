@@ -13,7 +13,7 @@ public class SelectWorkout extends AppCompatActivity {
 
     private ListView lvMuscleGroups;
     private ArrayAdapter<String> adapter;
-    private String[] muscleGroups = {"Chest", "Back", "Abs", "Legs", "Biceps", "Triceps"};
+    private String[] muscleGroups = {"Chest", "Back", "Abs", "Legs", "Biceps", "Triceps", "Shoulders"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
