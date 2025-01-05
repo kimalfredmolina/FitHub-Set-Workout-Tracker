@@ -10,6 +10,6 @@
         android:id="@+id/Workout_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="@color/textbg"
+        android:divider="@color/textcolor"
         android:dividerHeight="1dp"/>
 </LinearLayout>

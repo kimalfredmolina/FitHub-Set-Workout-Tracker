@@ -54,10 +54,11 @@
                 android:drawableLeft="@drawable/email_icon"
                 android:drawablePadding="8dp"
                 android:hint="@string/email"
+                android:textColorHint="@color/textin"
                 android:fontFamily="@font/mediumitalic"
                 android:inputType="textEmailAddress"
                 android:padding="8dp"
-                android:textColor="@color/textcolor"
+                android:textColor="@color/textbg"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="40dp" />
 
@@ -79,6 +80,7 @@
                     android:drawablePadding="8dp"
                     android:fontFamily="@font/mediumitalic"
                     android:hint="@string/pass"
+                    android:textColorHint="@color/textin"
                     android:inputType="textPassword"
                     android:padding="8dp"
                     android:textColor="@color/black"
