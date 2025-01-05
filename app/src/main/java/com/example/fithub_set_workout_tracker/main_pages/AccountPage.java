@@ -50,7 +50,6 @@ public class AccountPage extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_account_page, container, false);
     }
 
@@ -123,7 +122,6 @@ public class AccountPage extends Fragment {
                             String year = yearSnapshot.getKey();
                             float weight = yearSnapshot.getValue(Float.class);
 
-                            // Group by month and day (e.g., 4.1 -> April 1st)
                             String formattedDate = monthSnapshot.getKey() + "." + daySnapshot.getKey();
                             float dateValue = Float.parseFloat(formattedDate);
 
@@ -159,8 +157,6 @@ public class AccountPage extends Fragment {
 
 
     private float parseDateToFloat(String dateKey) {
-        // Dummy implementation to convert date (e.g., "2025-01-01") to a float value
-        // You can use a library like Joda-Time or SimpleDateFormat to parse dates properly
         String[] parts = dateKey.split("-");
         return Float.parseFloat(parts[0] + "." + parts[1] + parts[2]);
     }

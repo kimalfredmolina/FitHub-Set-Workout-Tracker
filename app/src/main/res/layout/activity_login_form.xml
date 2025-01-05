@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/fithub_bg2"
+    android:background="@drawable/gym_bg"
     tools:context=".LoginForm">
 
 
@@ -142,35 +142,33 @@
                     android:background="@drawable/login_icon"
                     android:padding="10dp" />
             </LinearLayout>
+            <TextView
+                android:id="@+id/signupText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/signup_now"
+                android:fontFamily="@font/mediumitalic"
+                android:textSize="17sp"
+                android:textAlignment="center"
+                android:textColor="@color/dark_red"
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/terms"
+                android:fontFamily="@font/mediumitalic"
+                android:textSize="14sp"
+                android:textAlignment="center"
+                android:id="@+id/terms"
+                android:textColor="@color/button"
+                android:layout_marginTop="10dp"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-
-    <TextView
-        android:id="@+id/signupText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="@string/signup_now"
-        android:fontFamily="@font/mediumitalic"
-        android:textSize="17sp"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:layout_marginBottom="20dp"
-        android:clickable="true"
-        android:focusable="true" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="@string/terms"
-        android:fontFamily="@font/mediumitalic"
-        android:textSize="14sp"
-        android:textAlignment="center"
-        android:id="@+id/terms"
-        android:textColor="@color/white"
-        android:layout_marginTop="10dp"/>
 
 </LinearLayout>
