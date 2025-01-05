@@ -49,7 +49,7 @@
                 android:id="@+id/username"
                 android:textSize="14sp"
                 android:background="@drawable/custom_login"
-
+                android:textColorHint="@color/textin"
                 android:drawableLeft="@drawable/email_icon"
                 android:drawablePadding="8dp"
                 android:hint="@string/email"
@@ -72,7 +72,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:background="@drawable/custom_login"
-
+                    android:textColorHint="@color/textin"
                     android:drawableLeft="@drawable/lock_icon"
                     android:drawablePadding="8dp"
                     android:fontFamily="@font/mediumitalic"
