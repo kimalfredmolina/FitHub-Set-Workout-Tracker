@@ -196,10 +196,7 @@ public class UpdateExercise extends AppCompatActivity {
             popupMenu.show();
 
             popupMenu.setOnMenuItemClickListener(item -> {
-                if (item.getItemId() == R.id.edit) {
-                    Toast.makeText(UpdateExercise.this, "Edit clicked for set " + setNumber.getText(), Toast.LENGTH_SHORT).show();
-                    return true;
-                } else if (item.getItemId() == R.id.delete) {
+                if (item.getItemId() == R.id.delete) {
                     workout_Details.removeView(setView);
                     setCount--;
                     return true;
@@ -282,12 +279,7 @@ public class UpdateExercise extends AppCompatActivity {
                                     inflater.inflate(R.menu.custom_menu, popupMenu.getMenu());
 
                                     popupMenu.setOnMenuItemClickListener(item -> {
-                                        if (item.getItemId() == R.id.edit) {
-                                            Toast.makeText(UpdateExercise.this,
-                                                    "Edit clicked for set " + ((TextView) setView.findViewById(R.id.set_number)).getText(),
-                                                    Toast.LENGTH_SHORT).show();
-                                            return true;
-                                        } else if (item.getItemId() == R.id.delete) {
+                                        if (item.getItemId() == R.id.delete) {
                                             workout_Details.removeView(setView);
                                             upSetButton.setEnabled(true);
                                             return true;

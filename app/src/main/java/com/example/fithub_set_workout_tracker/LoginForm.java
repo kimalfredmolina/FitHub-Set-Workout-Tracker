@@ -1,6 +1,7 @@
 package com.example.fithub_set_workout_tracker;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -76,6 +77,14 @@ public class LoginForm extends AppCompatActivity {
             Intent intent = new Intent(LoginForm.this, SignUpForm.class);
             startActivity(intent);
         });
+
+        TextView termsTextView = findViewById(R.id.terms);
+        termsTextView.setOnClickListener(v -> {
+            String url = "https://fithub-website-three.vercel.app";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
+        });
+
     }
 
     private void togglePasswordVisibility() {

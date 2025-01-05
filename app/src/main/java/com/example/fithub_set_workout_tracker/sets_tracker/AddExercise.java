@@ -490,10 +490,7 @@ public class AddExercise extends AppCompatActivity {
             popupMenu.show();
 
             popupMenu.setOnMenuItemClickListener(item -> {
-                if (item.getItemId() == R.id.edit) {
-                    Toast.makeText(AddExercise.this, "Edit clicked for set " + setNumber.getText(), Toast.LENGTH_SHORT).show();
-                    return true;
-                } else if (item.getItemId() == R.id.delete) {
+                if (item.getItemId() == R.id.delete) {
                     workout_Details.removeView(setView);
                     inflatedViews.remove(setView);
                     setCount--;

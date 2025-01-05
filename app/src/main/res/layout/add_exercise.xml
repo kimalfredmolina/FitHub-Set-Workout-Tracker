@@ -231,7 +231,7 @@
                 android:id="@+id/workout_name"
                 android:text="@string/workoutName"
                 android:textSize="18sp"
-                android:textColor="@color/black"
+                android:textColor="@color/textcolor"
                 android:textColorHint="@color/black"
                 android:layout_gravity="center"
                 android:textStyle="bold"
@@ -247,7 +247,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hashtag"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textcolor"
                     android:fontFamily="@font/bold"
                     android:layout_marginEnd="8dp" />
 
@@ -256,7 +256,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/LB"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textcolor"
                     android:fontFamily="@font/bold" />
 
                 <TextView
@@ -264,7 +264,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/Reps"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textcolor"
                     android:fontFamily="@font/bold" />
 
                 <TextView
@@ -272,7 +272,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/Notes"
-                    android:textColor="@android:color/black"
+                    android:textColor="@color/textcolor"
                     android:fontFamily="@font/bold" />
             </LinearLayout>
 
