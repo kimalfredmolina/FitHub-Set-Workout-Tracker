@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.fithub_set_workout_tracker.R;
 
 public class Update_SelectWorkout extends AppCompatActivity {
+    private static final int EXERCISE_REQUEST_CODE = 2;  // Add this constant
 
     private ListView lvMuscleGroups;
     private ArrayAdapter<String> adapter;
@@ -32,8 +33,19 @@ public class Update_SelectWorkout extends AppCompatActivity {
         lvMuscleGroups.setOnItemClickListener((parent, view, position, id) -> {
             String selectedMuscleGroup = muscleGroups[position];
             Intent intent = new Intent(Update_SelectWorkout.this, Update_Exercises.class);
-            intent.putExtra("selectedMuscleGroup", selectedMuscleGroup); // Pass selected muscle group
-            startActivity(intent);
+            intent.putExtra("selectedMuscleGroup", selectedMuscleGroup);
+            // Change this line: use startActivityForResult instead of startActivity
+            startActivityForResult(intent, EXERCISE_REQUEST_CODE);
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == EXERCISE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            // Forward the result back to UpdateExercise
+            setResult(RESULT_OK, data);
+            finish();
+        }
     }
 }

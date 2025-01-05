@@ -43,10 +43,11 @@ public class Update_Exercises extends AppCompatActivity {
         lvExercises.setOnItemClickListener((parent, view, position, id) -> {
             String selectedExercise = exercises[position];
 
-            Intent intent = new Intent(Update_Exercises.this, UpdateExercise.class);
-            intent.putExtra("selectedExercise", selectedExercise);
-            intent.putExtra("selectedMuscleGroup", selectedMuscleGroup);
-            startActivity(intent);
+            Intent resultIntent = new Intent();  // Changed this line
+            resultIntent.putExtra("selectedExercise", selectedExercise);
+            resultIntent.putExtra("selectedMuscleGroup", selectedMuscleGroup);
+            setResult(RESULT_OK, resultIntent);
+            finish();
         });
     }
 

@@ -33,15 +33,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -51,6 +54,8 @@ import java.util.Set;
 public class AddExercise extends AppCompatActivity {
 
     private static final String TAG = "AddExercise";
+
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private TextView workoutName, date, time, endTime;
     private ImageView backButton;
@@ -63,11 +68,15 @@ public class AddExercise extends AppCompatActivity {
     private EditText program, weight, notes;
     FirebaseAuth mAuth;
     private DatabaseReference userRef;
+    private DatabaseReference workoutref;
 
     private String muscleGroup = null;
     private String selectedExercise = null;
 
     private List<View> inflatedViews = new ArrayList<>();
+
+
+
 
     private boolean isWorkoutSaved = false;
 
@@ -238,94 +247,184 @@ public class AddExercise extends AppCompatActivity {
                 return;
             }
 
-            // Update reference path to match new structure
-            userRef = FirebaseDatabase.getInstance().getReference()
-                    .child("users")
-                    .child(uid);
+            // Parse date for new structure
+            try {
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                Date parsedDate = inputFormat.parse(dateValue);
 
-            // Save body weight to profile
-            userRef.child("profile")
-                    .child("bodyWeight")
-                    .child(dateValue)
-                    .setValue(Double.parseDouble(bodyWeight));
+                // Format date components
+                SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.US);
+                SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.US);
+                SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.US);
 
-            // Create workout ID
+                String year = yearFormat.format(parsedDate);
+                String month = monthFormat.format(parsedDate);
+                String day = dayFormat.format(parsedDate);
 
-            // Standardize date format before saving
-            if (dateValue.matches("\\d+")) {
-                // If it's just a number, convert to ISO format
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateValue));
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-                dateValue = sdf.format(cal.getTime());
-            }
-            String workoutId = userRef.child("workouts").push().getKey();
+                // Update reference path
+                userRef = FirebaseDatabase.getInstance().getReference()
+                        .child("users")
+                        .child(uid);
 
-            // Prepare exercise sets
-            Map<String, Object> sets = new HashMap<>();
-            for (int i = 0; i < inflatedViews.size(); i++) {
-                View inflatedView = inflatedViews.get(i);
-                EditText lbField = inflatedView.findViewById(R.id.lb_field);
-                EditText repsField = inflatedView.findViewById(R.id.reps_field);
-                EditText exerciseNoteField = inflatedView.findViewById(R.id.notes_field);
+                // Save body weight to profile with formatted date
+                userRef.child("profile")
+                        .child("bodyWeight")
+                        .child(dateValue)
+                        .setValue(Double.parseDouble(bodyWeight));
 
-                String lbs = lbField.getText().toString().trim();
-                String reps = repsField.getText().toString().trim();
-                String exerciseNote = exerciseNoteField.getText().toString().trim();
+                // Reference to the specific date's workout
+                DatabaseReference workoutRef = userRef.child("workouts")
+                        .child(year)
+                        .child(month)
+                        .child(day);
 
-                if (lbs.isEmpty() || reps.isEmpty()) {
-                    Toast.makeText(this, "Please fill out all fields in each set.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                // First, check if a workout exists for this date
+                workoutRef.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DataSnapshot snapshot = task.getResult();
+                        String workoutId;
+                        Map<String, Object> workoutData = new HashMap<>();
 
-                Map<String, Object> setData = new HashMap<>();
-                setData.put("weight", Double.parseDouble(lbs));
-                setData.put("reps", Integer.parseInt(reps));
-                setData.put("notes", exerciseNote);
-                sets.put(String.valueOf(i + 1), setData);
-            }
+                        if (snapshot.exists()) {
+                            // Workout exists for this date - get existing data
+                            workoutData = (Map<String, Object>) snapshot.getValue();
+                            workoutId = (String) workoutData.get("workoutId");
 
-            // Create exercise object
-            Map<String, Object> exercise = new HashMap<>();
-            exercise.put("name", selectedExercise);
-            exercise.put("sets", sets);
+                            // Get existing exercises or create new map
+                            Map<String, Object> existingExercises = (Map<String, Object>) workoutData.get("exercises");
+                            if (existingExercises == null) {
+                                existingExercises = new HashMap<>();
+                            }
 
-            // Create exercises map
-            Map<String, Object> exercises = new HashMap<>();
-            exercises.put("ex1", exercise);
+                            // Generate new exercise key (ex1, ex2, etc.)
+                            String newExKey = "ex" + (existingExercises.size() + 1);
 
-            // Create complete workout data
-            Map<String, Object> workoutData = new HashMap<>();
-            workoutData.put("workoutId", workoutId);
-            workoutData.put("program", programText);
-            workoutData.put("startTime", startTime);
-            workoutData.put("endTime", endTimeValue);
-            workoutData.put("notes", note);
-            workoutData.put("exercises", exercises);
+                            // Prepare new exercise sets
+                            Map<String, Object> sets = new HashMap<>();
+                            for (int i = 0; i < inflatedViews.size(); i++) {
+                                View inflatedView = inflatedViews.get(i);
+                                EditText lbField = inflatedView.findViewById(R.id.lb_field);
+                                EditText repsField = inflatedView.findViewById(R.id.reps_field);
+                                EditText exerciseNoteField = inflatedView.findViewById(R.id.notes_field);
 
-            // Save workout data
-            userRef.child("workouts")
-                    .child(dateValue)
-                    .setValue(workoutData)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            isWorkoutSaved = true;
-                            updateButtonVisibility();
-                            Toast.makeText(this, "Workout saved successfully!", Toast.LENGTH_SHORT).show();
+                                String lbs = lbField.getText().toString().trim();
+                                String reps = repsField.getText().toString().trim();
+                                String exerciseNote = exerciseNoteField.getText().toString().trim();
 
-                            Intent intent = new Intent(AddExercise.this, MainPage.class);
-                            startActivity(intent);
-                            finish();
+                                if (lbs.isEmpty() || reps.isEmpty()) {
+                                    Toast.makeText(AddExercise.this, "Please fill out all fields in each set.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                Map<String, Object> setData = new HashMap<>();
+                                setData.put("weight", Double.parseDouble(lbs));
+                                setData.put("reps", Integer.parseInt(reps));
+                                setData.put("notes", exerciseNote);
+                                sets.put(String.valueOf(i + 1), setData);
+                            }
+
+                            // Create new exercise object
+                            Map<String, Object> newExercise = new HashMap<>();
+                            newExercise.put("name", selectedExercise);
+                            newExercise.put("muscleGroup", selectedMuscleGroup);
+                            newExercise.put("sets", sets);
+
+                            // Add new exercise to existing exercises
+                            existingExercises.put(newExKey, newExercise);
+                            workoutData.put("exercises", existingExercises);
+
                         } else {
-                            Log.e("AddExercise", "Failed to save workout", task.getException());
-                            Toast.makeText(this, "Failed to save workout", Toast.LENGTH_SHORT).show();
+                            // No workout exists for this date - create new workout
+                            workoutId = workoutRef.push().getKey();
+
+                            // Prepare exercise sets
+                            Map<String, Object> sets = new HashMap<>();
+                            for (int i = 0; i < inflatedViews.size(); i++) {
+                                View inflatedView = inflatedViews.get(i);
+                                EditText lbField = inflatedView.findViewById(R.id.lb_field);
+                                EditText repsField = inflatedView.findViewById(R.id.reps_field);
+                                EditText exerciseNoteField = inflatedView.findViewById(R.id.notes_field);
+
+                                String lbs = lbField.getText().toString().trim();
+                                String reps = repsField.getText().toString().trim();
+                                String exerciseNote = exerciseNoteField.getText().toString().trim();
+
+                                if (lbs.isEmpty() || reps.isEmpty()) {
+                                    Toast.makeText(AddExercise.this, "Please fill out all fields in each set.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                Map<String, Object> setData = new HashMap<>();
+                                setData.put("weight", Double.parseDouble(lbs));
+                                setData.put("reps", Integer.parseInt(reps));
+                                setData.put("notes", exerciseNote);
+                                sets.put(String.valueOf(i + 1), setData);
+                            }
+
+                            // Create first exercise object
+                            Map<String, Object> exercise = new HashMap<>();
+                            exercise.put("name", selectedExercise);
+                            exercise.put("muscleGroup", selectedMuscleGroup);
+                            exercise.put("sets", sets);
+
+                            // Create exercises map
+                            Map<String, Object> exercises = new HashMap<>();
+                            exercises.put("ex1", exercise);
+
+                            // Create complete workout data
+                            workoutData.put("workoutId", workoutId);
+                            workoutData.put("program", programText);
+                            workoutData.put("startTime", startTime);
+                            workoutData.put("endTime", endTimeValue);
+                            workoutData.put("notes", note);
+                            workoutData.put("exercises", exercises);
+                            workoutData.put("date", dateValue);
                         }
-                    });
+
+                        // Save workout data
+                        workoutRef.setValue(workoutData)
+                                .addOnCompleteListener(saveTask -> {
+                                    if (saveTask.isSuccessful()) {
+                                        isWorkoutSaved = true;
+                                        updateButtonVisibility();
+                                        Toast.makeText(AddExercise.this, "Workout saved successfully!", Toast.LENGTH_SHORT).show();
+
+                                        Intent intent = new Intent(AddExercise.this, MainPage.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Log.e("AddExercise", "Failed to save workout", saveTask.getException());
+                                        Toast.makeText(AddExercise.this, "Failed to save workout", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        Log.e("AddExercise", "Failed to check existing workout", task.getException());
+                        Toast.makeText(AddExercise.this, "Failed to check existing workout", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            } catch (ParseException e) {
+                Log.e("AddExercise", "Error parsing date", e);
+                Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();
+            }
         });
 
         date.setOnClickListener(v -> {
-            showDatePicker();
-            checkIfFinishButtonShouldBeVisible();
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    this,
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        // Format the date as YYYY-MM-DD
+                        String selectedDate = String.format(Locale.US, "%04d-%02d-%02d",
+                                selectedYear, selectedMonth + 1, selectedDay);
+                        date.setText(selectedDate);
+                    },
+                    year, month, day);
+            datePickerDialog.show();
         });
 
         time.setOnClickListener(v -> {
@@ -431,8 +530,6 @@ public class AddExercise extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-    private List<EditText> lbsFields = new ArrayList<>();
-    private List<EditText> repsFields = new ArrayList<>();
 
     private void addSet() {
         if (setCount > MAX_SETS) {

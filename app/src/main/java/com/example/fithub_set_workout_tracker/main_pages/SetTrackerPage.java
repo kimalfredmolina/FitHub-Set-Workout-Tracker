@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -96,29 +97,75 @@ public class SetTrackerPage extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
-                            for (DataSnapshot dateSnapshot : snapshot.getChildren()) {
-                                String date = dateSnapshot.getKey();
+                            // Iterate through years
+                            for (DataSnapshot yearSnapshot : snapshot.getChildren()) {
+                                // Iterate through months
+                                for (DataSnapshot monthSnapshot : yearSnapshot.getChildren()) {
+                                    // Iterate through days
+                                    for (DataSnapshot daySnapshot : monthSnapshot.getChildren()) {
+                                        // Construct the full date
+                                        String year = yearSnapshot.getKey();
+                                        String month = monthSnapshot.getKey();
+                                        String day = daySnapshot.getKey();
+                                        String fullDate = String.format("%s-%s-%s", year, month, day);
 
-                                // Navigate through the "1" -> "2025" structure
-                                DataSnapshot yearSnapshot = dateSnapshot.child("1").child("2025");
-                                String program = yearSnapshot.child("program").getValue(String.class);
+                                        // Get workout data
+                                        String program = daySnapshot.child("program").getValue(String.class);
 
-                                StringBuilder details = new StringBuilder();
-                                DataSnapshot ex1Snapshot = yearSnapshot.child("exercises").child("ex1");
+                                        StringBuilder details = new StringBuilder();
+                                        DataSnapshot exercisesSnapshot = daySnapshot.child("exercises");
 
-                                if (ex1Snapshot.exists()) {
-                                    String exerciseName = ex1Snapshot.child("name").getValue(String.class);
-                                    long setCount = ex1Snapshot.child("sets").getChildrenCount();
+                                        // Count total exercises and sets
+                                        int totalExercises = 0;
+                                        int totalSets = 0;
 
-                                    if (exerciseName != null) {
-                                        details.append(exerciseName)
-                                                .append(" x")
-                                                .append(setCount);
+                                        // Iterate through all exercises (ex1, ex2, etc.)
+                                        for (DataSnapshot exerciseSnapshot : exercisesSnapshot.getChildren()) {
+                                            totalExercises++;
+                                            String exerciseName = exerciseSnapshot.child("name").getValue(String.class);
+                                            DataSnapshot setsSnapshot = exerciseSnapshot.child("sets");
+                                            int setCount = (int) setsSnapshot.getChildrenCount();
+                                            totalSets += setCount;
+
+                                            if (exerciseName != null) {
+                                                if (details.length() > 0) {
+                                                    details.append("\n");
+                                                }
+                                                details.append(exerciseName)
+                                                        .append(" x")
+                                                        .append(setCount)
+                                                        .append(" sets");
+                                            }
+                                        }
+
+                                        // Add time information
+                                        String startTime = daySnapshot.child("startTime").getValue(String.class);
+                                        String endTime = daySnapshot.child("endTime").getValue(String.class);
+                                        if (startTime != null && endTime != null) {
+                                            if (details.length() > 0) {
+                                                details.append("\n");
+                                            }
+                                            details.append(startTime)
+                                                    .append(" - ")
+                                                    .append(endTime);
+                                        }
+
+
+                                        // Format the date for display
+                                        String formattedDate = formatDate(fullDate);
+
+                                        // Add summary of total exercises and sets
+                                        String summaryTitle = String.format("%s (%d exercises)",
+                                                program != null ? program : "Workout",
+                                                totalExercises,
+                                                totalSets);
+
+                                        // Add the workout card
+                                        addWorkoutCard(formattedDate,
+                                                summaryTitle,
+                                                details.toString().trim());
                                     }
                                 }
-
-                                addWorkoutCard(date, program != null ? program : "Workout",
-                                        details.toString().trim());
                             }
                         }
                     }
@@ -132,31 +179,24 @@ public class SetTrackerPage extends Fragment {
 
     private String formatDate(String dateStr) {
         try {
-            // Check if dateStr is just a number
-            if (dateStr.matches("\\d+")) {
-                return "Day " + dateStr; // Simple format for numeric dates
-            }
-            // Handle ISO format (2025-01-03)
-            String[] parts = dateStr.split("-");
-            if (parts.length == 3) {
-                int month = Integer.parseInt(parts[1]);
-                int day = Integer.parseInt(parts[2]);
-                String monthName = getMonthName(String.valueOf(month));
-                return monthName + " " + day;
-            }
-            // If no format matches, return original
-            return dateStr;
-        } catch (Exception e) {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            SimpleDateFormat outputFormat = new SimpleDateFormat("MMM d", Locale.US);
+            Date date = inputFormat.parse(dateStr);
+            return outputFormat.format(date);
+        } catch (ParseException e) {
             Log.e("SetTrackerPage", "Error formatting date: " + dateStr, e);
             return dateStr;
         }
     }
+
+
+
     private void addWorkoutCard(String date, String workoutTitle, String workoutDetails) {
         View cardView = LayoutInflater.from(getContext()).inflate(R.layout.workout_item, dataLayout, false);
 
         TextView dateText = cardView.findViewById(R.id.date_text); // Set date
         if (dateText != null) {
-            dateText.setText(formatDate(date));
+            dateText.setText(date);
         }
 
         TextView workoutTitleText = cardView.findViewById(R.id.workout_title); // Set workout title
@@ -171,22 +211,32 @@ public class SetTrackerPage extends Fragment {
 
         // Make the card clickable
         cardView.setOnClickListener(v -> {
-            String exerciseName = "";
-            if (workoutDetails.contains(" x")) {
-                exerciseName = workoutDetails.split(" x")[0];
+            // Get the full date in ISO format (YYYY-MM-DD)
+            try {
+                SimpleDateFormat displayFormat = new SimpleDateFormat("MMM d", Locale.US);
+                SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+
+                // Parse the display date and convert to ISO format
+                Date parsedDate = displayFormat.parse(date);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(parsedDate);
+                cal.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR)); // Set current year
+                String isoDate = isoFormat.format(cal.getTime());
+
+                // Split the details to get individual exercises
+                String[] exercises = workoutDetails.split("\n");
+                String firstExercise = exercises[0].split(" x")[0]; // Get first exercise name
+
+                Intent intent = new Intent(getContext(), UpdateExercise.class);
+                intent.putExtra("date", isoDate); // Send full ISO date
+                intent.putExtra("workoutTitle", firstExercise);
+                intent.putExtra("workoutType", workoutTitle);
+                startActivity(intent);
+
+            } catch (ParseException e) {
+                Log.e("SetTrackerPage", "Error parsing date", e);
+                Toast.makeText(getContext(), "Error opening workout details", Toast.LENGTH_SHORT).show();
             }
-
-            Intent intent = new Intent(getContext(), UpdateExercise.class);
-            intent.putExtra("date", date); // Pass the ISO date directly
-            intent.putExtra("workoutTitle", exerciseName);
-            intent.putExtra("workoutType", workoutTitle);
-
-            Log.d("SetTrackerPage", "Sending to UpdateExercise - " +
-                    "date: " + date +
-                    ", workoutTitle: " + exerciseName +
-                    ", workoutType: " + workoutTitle);
-
-            startActivity(intent);
         });
 
         cardView.setOnLongClickListener(v -> {
