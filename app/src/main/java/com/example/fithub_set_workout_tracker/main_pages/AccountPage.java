@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
@@ -83,9 +84,17 @@ public class AccountPage extends Fragment {
             profileImage.setImageResource(R.drawable.fithub_logo);
         }
 
+        // Add confirmation dialog for sign-out
         signOut.setOnClickListener(v -> {
-            mAuth.signOut();
-            signOutUser();
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Log Out")
+                    .setMessage("Are you sure you want to log out?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        mAuth.signOut();
+                        signOutUser();
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                    .show();
         });
 
         MaterialToolbar toolbar = view.findViewById(R.id.topAppBar);

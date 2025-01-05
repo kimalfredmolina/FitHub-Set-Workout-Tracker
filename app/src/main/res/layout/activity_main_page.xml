@@ -37,10 +37,11 @@
             android:layout_alignParentBottom="true"
             android:background="@color/bottombar"
             app:tabTextColor="@color/textcolor"
-            app:tabIndicatorColor="@color/red"
-            app:tabSelectedTextColor="@color/textcolor"
-            app:tabSelectedTextAppearance="@color/textcolor"
+            app:tabSelectedTextColor="@color/dark_red"
+            app:tabIconTint="@color/tab_icon_color"
+            app:tabIndicatorColor="@color/dark_red"
             android:contentDescription="Navigation Tabs" />
+
     </RelativeLayout>
 
     <!-- Navigation Drawer -->

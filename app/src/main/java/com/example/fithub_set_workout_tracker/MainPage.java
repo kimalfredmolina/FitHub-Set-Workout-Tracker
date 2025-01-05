@@ -7,7 +7,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View; // Import View
 import android.widget.Switch;
+import android.widget.TextView; // Import TextView
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
@@ -64,10 +68,25 @@ public class MainPage extends AppCompatActivity {
         // Initialize DrawerLayout and NavigationView
         drawerLayout = findViewById(R.id.main);
         navigationView = findViewById(R.id.nav);
+
+        // *** Firebase Authentication and Email Display ***
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        View headerView = navigationView.getHeaderView(0);
+        TextView emailTextView = headerView.findViewById(R.id.email);
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String email = currentUser.getEmail();
+            emailTextView.setText(email);
+        } else {
+            emailTextView.setText("No User Signed In");
+        }
+        // *** End of Firebase and Email Display Code ***
+
         drawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
-                toolbar, // Pass the MaterialToolbar instance here
+                toolbar,
                 R.string.open,
                 R.string.close
         );
@@ -82,29 +101,24 @@ public class MainPage extends AppCompatActivity {
         if (nightModeSwitch != null) {
             nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (isChecked) {
-                    // Enable Dark Mode
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
-                    // Disable Dark Mode
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
             });
         }
 
-        // Handle NavigationView item clicks
         navigationView.setNavigationItemSelectedListener(item -> {
             handleNavigation(item);
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
 
-        // Initialize TabLayout and ViewPager2
         tabLayout = findViewById(R.id.tablayout);
         viewPager2 = findViewById(R.id.view_pager);
         viewAdapter = new ViewAdapter(this);
         viewPager2.setAdapter(viewAdapter);
 
-        // Setup TabLayout with ViewPager2 and Icons
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
             tab.setIcon(tabIcons[position]);
             switch (position) {
@@ -120,7 +134,6 @@ public class MainPage extends AppCompatActivity {
             }
         }).attach();
 
-        // Synchronize TabLayout with ViewPager2
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -142,23 +155,6 @@ public class MainPage extends AppCompatActivity {
                 Objects.requireNonNull(tabLayout.getTabAt(position)).select();
             }
         });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     private void handleNavigation(MenuItem item) {

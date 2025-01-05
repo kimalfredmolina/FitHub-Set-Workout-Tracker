@@ -19,4 +19,5 @@
     <color name="textcolor">@color/black</color>
     <color name="textbg">@color/white2</color>
     <color name="textin">@color/black</color>
+    <color name="chart_text_color">@color/black</color>
 </resources>
