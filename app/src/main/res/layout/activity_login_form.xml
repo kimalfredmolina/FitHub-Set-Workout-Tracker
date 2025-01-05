@@ -58,7 +58,7 @@
                 android:fontFamily="@font/mediumitalic"
                 android:inputType="textEmailAddress"
                 android:padding="8dp"
-                android:textColor="@color/textbg"
+                android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
                 android:layout_marginTop="40dp" />
 

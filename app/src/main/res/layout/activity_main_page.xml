@@ -36,9 +36,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/bottombar"
-            app:tabTextColor="@color/black"
+            app:tabTextColor="@color/textcolor"
             app:tabIndicatorColor="@color/red"
-            app:tabSelectedTextColor="@color/red"
+            app:tabSelectedTextColor="@color/textcolor"
+            app:tabSelectedTextAppearance="@color/textcolor"
             android:contentDescription="Navigation Tabs" />
     </RelativeLayout>
 

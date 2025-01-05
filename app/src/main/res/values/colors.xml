@@ -19,6 +19,9 @@
     <color name="colorPrimary">#FFFFFFFF</color>
     <color name="colorOnPrimary">#FF000000</color>
     <color name="darkgrey">#181818</color>
+    <color name="unselectedTextColor">@color/textcolor</color>
+    <color name="selectedTextColor">@color/textcolor</color>
+
 
 
     <!-- NightMode Theme -->

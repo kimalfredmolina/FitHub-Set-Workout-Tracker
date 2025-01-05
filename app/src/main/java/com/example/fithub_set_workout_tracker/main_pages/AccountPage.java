@@ -2,6 +2,7 @@ package com.example.fithub_set_workout_tracker.main_pages;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,12 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.bumptech.glide.Glide;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.fithub_set_workout_tracker.LoginForm;
 import com.example.fithub_set_workout_tracker.R;
 import com.github.mikephil.charting.charts.BarChart;
@@ -23,10 +25,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -63,7 +61,7 @@ public class AccountPage extends Fragment {
         signedEmail = view.findViewById(R.id.signed_in_as);
         signOut = view.findViewById(R.id.sign_out_button);
         ImageView profileImage = view.findViewById(R.id.profile_image);
-        bodyWeightChart = (BarChart) view.findViewById(R.id.body_weight_chart);// Initialize chart
+        bodyWeightChart = view.findViewById(R.id.body_weight_chart); // Initialize chart
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -114,18 +112,17 @@ public class AccountPage extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<BarEntry> entries = new ArrayList<>();
-
                 int groupIndex = 0;
+
                 for (DataSnapshot monthSnapshot : snapshot.getChildren()) {
                     for (DataSnapshot daySnapshot : monthSnapshot.getChildren()) {
                         for (DataSnapshot yearSnapshot : daySnapshot.getChildren()) {
-                            String year = yearSnapshot.getKey();
-                            float weight = yearSnapshot.getValue(Float.class);
-
-                            String formattedDate = monthSnapshot.getKey() + "." + daySnapshot.getKey();
-                            float dateValue = Float.parseFloat(formattedDate);
-
-                            entries.add(new BarEntry(groupIndex++, weight));
+                            try {
+                                float weight = yearSnapshot.getValue(Float.class);
+                                entries.add(new BarEntry(groupIndex++, weight));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -133,18 +130,28 @@ public class AccountPage extends Fragment {
                 if (!entries.isEmpty()) {
                     BarDataSet dataSet = new BarDataSet(entries, "Body Weight Progress");
                     dataSet.setColor(requireContext().getColor(R.color.light_blue));
-                    dataSet.setValueTextColor(requireContext().getColor(R.color.textcolor));
+
+                    // Dynamically set text color based on theme
+                    int textColor = isDarkMode() ? Color.WHITE : Color.BLACK;
+                    dataSet.setValueTextColor(textColor);
                     dataSet.setValueTextSize(10f);
 
                     BarData barData = new BarData(dataSet);
                     bodyWeightChart.setData(barData);
                     bodyWeightChart.getDescription().setText("Bodyweight Over Time");
+                    bodyWeightChart.getDescription().setTextColor(textColor);
+                    bodyWeightChart.getXAxis().setTextColor(textColor);
+                    bodyWeightChart.getAxisLeft().setTextColor(textColor);
+                    bodyWeightChart.getAxisRight().setTextColor(textColor);
+                    bodyWeightChart.getLegend().setTextColor(textColor);
+
                     bodyWeightChart.getXAxis().setDrawGridLines(false);
                     bodyWeightChart.animateY(1000);
                     bodyWeightChart.invalidate();
                 } else {
                     bodyWeightChart.clear();
                     bodyWeightChart.setNoDataText("No chart data available.");
+                    bodyWeightChart.setNoDataTextColor(isDarkMode() ? Color.WHITE : Color.BLACK);
                 }
             }
 
@@ -155,9 +162,7 @@ public class AccountPage extends Fragment {
         });
     }
 
-
-    private float parseDateToFloat(String dateKey) {
-        String[] parts = dateKey.split("-");
-        return Float.parseFloat(parts[0] + "." + parts[1] + parts[2]);
+    private boolean isDarkMode() {
+        return AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES;
     }
 }
