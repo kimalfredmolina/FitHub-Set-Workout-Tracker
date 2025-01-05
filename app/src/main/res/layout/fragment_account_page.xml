@@ -36,6 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/acc_page"
+                    android:textColor="@color/black"
                     android:fontFamily="@font/black"
                     android:textSize="28sp"
                     android:textStyle="bold" />
@@ -87,72 +88,13 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Options Section -->
-            <TextView
-                android:id="@+id/send_feedback"
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/body_weight_chart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/send_feedback"
-                android:padding="12dp"
-                android:fontFamily="@font/medium"
-                android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_marginBottom="8dp"
-                android:textColor="@color/textcolor"/>
-
-            <TextView
-                android:id="@+id/help_support"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/help_and_support"
-                android:padding="12dp"
-                android:fontFamily="@font/medium"
-                android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_marginBottom="8dp"
-                android:textColor="@color/textcolor"/>
-
-            <TextView
-                android:id="@+id/terms"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/terms"
-                android:padding="12dp"
-                android:fontFamily="@font/medium"
-                android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_marginBottom="8dp"
-                android:textColor="@color/textcolor"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#000000"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:textColor="@color/textcolor"/>
-
-            <!-- Follow Section -->
-            <TextView
-                android:id="@+id/follow_cbz"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/follow"
-                android:padding="12dp"
-                android:fontFamily="@font/medium"
-                android:gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground"
-                android:layout_marginBottom="0dp"
-                android:textColor="@color/textcolor"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#000000"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp" />
-
-
+                android:layout_height="300dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@color/white" />
 
         </LinearLayout>
     </ScrollView>
