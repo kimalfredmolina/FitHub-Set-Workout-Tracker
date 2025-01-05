@@ -60,7 +60,7 @@
         android:backgroundTint="@color/red"
         android:fontFamily="@font/bold"
         android:text="@string/set_alarm"
-        android:textColor="@color/black"
+        android:textColor="@color/textcolor"
         android:textSize="16sp"
         android:drawablePadding="8dp" />
 </LinearLayout>
