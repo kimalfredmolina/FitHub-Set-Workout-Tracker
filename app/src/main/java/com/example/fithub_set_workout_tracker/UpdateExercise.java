@@ -442,7 +442,7 @@ public class UpdateExercise extends AppCompatActivity {
                         }
                         updatedExercise.put("sets", setsData);
 
-                        // Use the stored exercise key or generate a new one if needed
+                        // Use the stored exercise key or generate a new one if needed for updaating
                         String exerciseKey = currentExerciseKey != null ? currentExerciseKey : "ex" + (exercises.size() + 1);
 
                         // Update the specific exercise and workout data
