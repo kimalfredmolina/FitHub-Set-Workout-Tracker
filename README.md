@@ -18,13 +18,22 @@ FitHub - Set Workout Tracker is an Android app designed to help users organize a
 - **Secure Authentication**
   - Seamless login with Google Authentication or traditional email-based sign-up.
 
-## Minimum SDK
-API 25("Nougat"; Android 7.1.1)
+## Setup Instructions
 
-## Figma App Design Layout
-https://www.figma.com/design/jdiIjHkIKRPao3kmhUU23C/Software-Engineering?node-id=0-1&t=g1K2sX6PHCDKtHEV-1
+### Prerequisites
+- API 25("Nougat"; Android 7.1.1)
+- Firebase Database
+-  Android Chart view (Repository [here](https://github.com/PhilJay/MPAndroidChart))
+- Figma App Design Layout (Figma [here](https://www.figma.com/design/jdiIjHkIKRPao3kmhUU23C/Software-Engineering?node-id=0-1&t=g1K2sX6PHCDKtHEV-1))
 
+### Project Setup
+- Clone the repository:
 
+    ```bash
+    git clone https://github.com/yourusername/Employee-Management-System.git
+    ```
+
+    
 ## Git Contol Guide
 
 ### Switching to a Different Branch
