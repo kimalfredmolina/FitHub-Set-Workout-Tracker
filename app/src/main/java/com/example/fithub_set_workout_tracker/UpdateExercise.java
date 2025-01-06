@@ -1,5 +1,6 @@
 package com.example.fithub_set_workout_tracker;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -21,7 +23,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.example.fithub_set_workout_tracker.R;
+import com.example.fithub_set_workout_tracker.main_pages.SetTrackerPage;
 import com.example.fithub_set_workout_tracker.sets_tracker.AddExercise;
 import com.example.fithub_set_workout_tracker.sets_tracker.SelectWorkout;
 import com.example.fithub_set_workout_tracker.sets_tracker.Update_SelectWorkout;
@@ -64,6 +69,7 @@ public class UpdateExercise extends AppCompatActivity {
     private LinearLayout workout_Details;
     private String originalExerciseName;
     private String originalMuscleGroup;
+    private View arrow_back_update;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +131,14 @@ public class UpdateExercise extends AppCompatActivity {
             selectWorkoutIntent.putExtra("originalExercise", originalExerciseName);
             selectWorkoutIntent.putExtra("originalMuscleGroup", originalMuscleGroup);
             startActivityForResult(selectWorkoutIntent, 1);
+        });
+
+        arrow_back_update = findViewById(R.id.arrow_back_update);
+        arrow_back_update.setOnClickListener(v -> {
+            Intent intent = new Intent(UpdateExercise.this, MainPage.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         });
     }
 

@@ -122,16 +122,16 @@ public class AccountPage extends Fragment {
                 ArrayList<BarEntry> entries = new ArrayList<>();
                 int groupIndex = 0;
 
-                for (DataSnapshot monthSnapshot : snapshot.getChildren()) {
-                    for (DataSnapshot daySnapshot : monthSnapshot.getChildren()) {
-                        for (DataSnapshot yearSnapshot : daySnapshot.getChildren()) {
-                            try {
-                                float weight = yearSnapshot.getValue(Float.class);
-                                entries.add(new BarEntry(groupIndex++, weight));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                for (DataSnapshot dateSnapshot : snapshot.getChildren()) {
+                    try {
+                        String date = dateSnapshot.getKey();
+                        Float weight = dateSnapshot.getValue(Float.class);
+
+                        if (date != null && weight != null) {
+                            entries.add(new BarEntry(groupIndex++, weight));
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -163,7 +163,7 @@ public class AccountPage extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // handle database error
+                // Handle database error
             }
         });
     }
