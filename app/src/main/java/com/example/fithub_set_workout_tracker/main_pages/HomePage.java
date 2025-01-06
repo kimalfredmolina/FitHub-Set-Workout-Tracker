@@ -15,8 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 
+import com.example.fithub_set_workout_tracker.Alarm;
 import com.example.fithub_set_workout_tracker.LoginForm;
 import com.example.fithub_set_workout_tracker.R;
+import com.example.fithub_set_workout_tracker.sets_tracker.AddExercise;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -58,10 +60,20 @@ public class HomePage extends Fragment {
 
         initializeViews();
         setupCalendar();
-
         loadMonthlyStats();
 
+        // Set up alarm button
+        Button alarmButton = rootView.findViewById(R.id.alarm_btn);
+        alarmButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), Alarm.class);
+            startActivity(intent);
+        });
+
         return rootView;
+
+
+
+
     }
 
     private void initializeViews() {
@@ -73,6 +85,15 @@ public class HomePage extends Fragment {
         logWorkoutBtn = rootView.findViewById(R.id.log_workout_btn);
 
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        startWorkoutBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), AddExercise.class);
+            startActivity(intent);
+        });
+        logWorkoutBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), AddExercise.class);
+            startActivity(intent);
+        });
+
     }
 
     private void setupCalendar() {
@@ -83,6 +104,8 @@ public class HomePage extends Fragment {
             loadWorkoutForDate(dateStr);
         });
     }
+
+
 
     private void loadMonthlyStats() {
         Calendar cal = Calendar.getInstance();
@@ -205,4 +228,6 @@ public class HomePage extends Fragment {
         super.onResume();
         loadMonthlyStats();
     }
+
+
 }

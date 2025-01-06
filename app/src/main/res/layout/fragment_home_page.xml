@@ -28,7 +28,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="FitHub-Set Workout Tracker"
+                    android:text="@string/app_name"
                     android:textColor="@color/primary_text"
                     android:textSize="24sp"
                     android:textStyle="bold" />
@@ -102,7 +102,7 @@
                         android:id="@+id/streak_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0 days"
+                        android:text="0 day/s"
                         android:textColor="@color/primary_text"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -136,7 +136,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/primary_text"
-                        android:textSize="20sp"
+                        android:textSize="12sp"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end" />
@@ -177,7 +177,7 @@
                     android:id="@+id/calendar_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white" />
+                    android:background="@color/calendarlight" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
