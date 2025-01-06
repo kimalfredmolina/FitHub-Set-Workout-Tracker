@@ -55,6 +55,22 @@ public class HomePage extends Fragment {
             return rootView;
         }
 
+        TextView emailTxt = rootView.findViewById(R.id.email_txt);
+        String userEmail = currentUser.getEmail();
+
+        if (userEmail != null) {
+            if (userEmail.endsWith("@gmail.com")) {
+                // Extract and display the Gmail username (before @)
+                String gmailName = userEmail.split("@")[0];
+                emailTxt.setText(gmailName);
+            } else {
+                // Display the full email for non-Gmail accounts
+                emailTxt.setText(userEmail);
+            }
+        } else {
+            emailTxt.setText("No email available");
+        }
+
         userId = currentUser.getUid();
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
