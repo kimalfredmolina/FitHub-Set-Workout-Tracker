@@ -23,7 +23,8 @@ FitHub - Set Workout Tracker is an Android app designed to help users organize a
 ### Prerequisites
 - API 25("Nougat"; Android 7.1.1)
 - Firebase Database
--  Android Chart view (Repository [here](https://github.com/PhilJay/MPAndroidChart))
+- Android Chart view (Repository [here](https://github.com/PhilJay/MPAndroidChart))
+- Image loading and caching library for Android focused on smooth scrolling (Repository [here](https://github.com/bumptech/glide))
 - Figma App Design Layout (Figma [here](https://www.figma.com/design/jdiIjHkIKRPao3kmhUU23C/Software-Engineering?node-id=0-1&t=g1K2sX6PHCDKtHEV-1))
 
 ### Project Setup
