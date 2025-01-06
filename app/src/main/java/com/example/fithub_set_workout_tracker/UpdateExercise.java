@@ -140,6 +140,8 @@ public class UpdateExercise extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        upSetButton.setOnClickListener(v -> addSet());
     }
 
     @Override
