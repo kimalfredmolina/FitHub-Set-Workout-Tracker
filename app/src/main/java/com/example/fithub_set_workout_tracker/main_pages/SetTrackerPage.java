@@ -225,28 +225,46 @@ public class SetTrackerPage extends Fragment {
                     .setPositiveButton("Delete", (dialog, which) -> {
                         String userId = mAuth.getCurrentUser().getUid();
 
-                        String formattedDate = isoDate;  //ISO format date (2025-01-03)
+                        try {
+                            // Convert display date (MMM d) to ISO format (yyyy-MM-dd)
+                            SimpleDateFormat displayFormat = new SimpleDateFormat("MMM d", Locale.US);
+                            SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-                        databseref = FirebaseDatabase.getInstance()
-                                .getReference("users")
-                                .child(userId)
-                                .child("workouts")
-                                .child(formattedDate);
+                            Date parsedDate = displayFormat.parse(date);
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(parsedDate);
+                            cal.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
 
-                        Log.d("SetTrackerPage", "Deleting from path: " + databseref.toString());
+                            // Format the date components
+                            String year = String.valueOf(cal.get(Calendar.YEAR));
+                            String month = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+                            String day = String.format("%02d", cal.get(Calendar.DAY_OF_MONTH));
 
-                        databseref.removeValue()
-                                .addOnSuccessListener(aVoid -> {
-                                    // Remove the card from the UI
-                                    dataLayout.removeView(cardView);
-                                    Toast.makeText(getContext(), "Workout deleted successfully", Toast.LENGTH_SHORT).show();
-                                    Log.d("SetTrackerPage", "Successfully deleted workout");
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(getContext(), "Failed to delete workout: " + e.getMessage(),
-                                            Toast.LENGTH_SHORT).show();
-                                    Log.e("SetTrackerPage", "Failed to delete workout", e);
-                                });
+                            // Create database reference with the correct path
+                            databseref = FirebaseDatabase.getInstance()
+                                    .getReference("users")
+                                    .child(userId)
+                                    .child("workouts")
+                                    .child(year)
+                                    .child(month)
+                                    .child(day);
+
+                            databseref.removeValue()
+                                    .addOnSuccessListener(aVoid -> {
+                                        dataLayout.removeView(cardView);
+                                        Toast.makeText(getContext(), "Workout deleted successfully", Toast.LENGTH_SHORT).show();
+                                        Log.d("SetTrackerPage", "Successfully deleted workout");
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(getContext(), "Failed to delete workout: " + e.getMessage(),
+                                                Toast.LENGTH_SHORT).show();
+                                        Log.e("SetTrackerPage", "Failed to delete workout", e);
+                                    });
+
+                        } catch (ParseException e) {
+                            Log.e("SetTrackerPage", "Error parsing date", e);
+                            Toast.makeText(getContext(), "Error deleting workout: Invalid date format", Toast.LENGTH_SHORT).show();
+                        }
                     })
                     .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
                     .show();

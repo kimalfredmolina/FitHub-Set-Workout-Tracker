@@ -70,6 +70,7 @@ public class UpdateExercise extends AppCompatActivity {
     private String originalExerciseName;
     private String originalMuscleGroup;
     private View arrow_back_update;
+    private String currentExerciseKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +158,14 @@ public class UpdateExercise extends AppCompatActivity {
             // Store these new values to use when updating
             originalExerciseName = newExercise;
             originalMuscleGroup = newMuscleGroup;
+            // Clear existing sets when changing exercise
+            for (int i = workout_Details.getChildCount() - 1; i >= 0; i--) {
+                View view = workout_Details.getChildAt(i);
+                if (view.findViewById(R.id.set_number) != null) {
+                    workout_Details.removeView(view);
+                }
+            }
+            setCount = 1;
         }
     }
 
@@ -287,6 +296,7 @@ public class UpdateExercise extends AppCompatActivity {
                             Log.d("UpdateExercise", "Checking exercise: " + exerciseName);
 
                             if (exerciseName != null && exerciseName.equals(workoutTitle)) {
+                                currentExerciseKey = exerciseSnapshot.getKey();
                                 // if found the matching exercise
                                 DataSnapshot setsSnapshot = exerciseSnapshot.child("sets");
                                 for (DataSnapshot setSnapshot : setsSnapshot.getChildren()) {
@@ -391,7 +401,6 @@ public class UpdateExercise extends AppCompatActivity {
                     .child(month)
                     .child(day);
 
-            // First, get the current data
             workoutref.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     DataSnapshot snapshot = task.getResult();
@@ -399,56 +408,62 @@ public class UpdateExercise extends AppCompatActivity {
                         Map<String, Object> workoutData = (Map<String, Object>) snapshot.getValue();
                         Map<String, Object> exercises = (Map<String, Object>) workoutData.get("exercises");
 
-                        // Find the exercise to update
-                        String exerciseKeyToUpdate = null;
-                        for (Map.Entry<String, Object> entry : exercises.entrySet()) {
-                            Map<String, Object> exercise = (Map<String, Object>) entry.getValue();
-                            if (originalExerciseName.equals(exercise.get("name"))) {
-                                exerciseKeyToUpdate = entry.getKey();
-                                break;
-                            }
-                        }
+                        // Create updated exercise data
+                        Map<String, Object> updatedExercise = new HashMap<>();
+                        updatedExercise.put("name", workoutTitle);
+                        updatedExercise.put("muscleGroup", originalMuscleGroup);
 
-                        if (exerciseKeyToUpdate != null) {
-                            // create updated workout/exercise data
-                            Map<String, Object> updatedExercise = new HashMap<>();
-                            updatedExercise.put("name", workoutTitle);
-                            updatedExercise.put("muscleGroup", originalMuscleGroup);
+                        // Collect sets data
+                        Map<String, Object> setsData = new HashMap<>();
+                        int setNumber = 1;
+                        for (int i = 0; i < workout_Details.getChildCount(); i++) {
+                            View setView = workout_Details.getChildAt(i);
+                            if (setView.findViewById(R.id.set_number) != null) {
+                                EditText lbField = setView.findViewById(R.id.lb_field);
+                                EditText repsField = setView.findViewById(R.id.reps_field);
+                                EditText notesField = setView.findViewById(R.id.notes_field);
 
-                            // collect sets data
-                            Map<String, Object> setsData = new HashMap<>();
-                            for (int i = 0; i < workout_Details.getChildCount(); i++) {
-                                View setView = workout_Details.getChildAt(i);
-                                if (setView.findViewById(R.id.set_number) != null) {
-                                    String setNumber = ((TextView)setView.findViewById(R.id.set_number)).getText().toString();
-                                    Map<String, Object> setData = new HashMap<>();
-                                    setData.put("weight", Double.parseDouble(((EditText)setView.findViewById(R.id.lb_field)).getText().toString()));
-                                    setData.put("reps", Integer.parseInt(((EditText)setView.findViewById(R.id.reps_field)).getText().toString()));
-                                    setData.put("notes", ((EditText)setView.findViewById(R.id.notes_field)).getText().toString());
-                                    setsData.put(setNumber, setData);
+                                String weight = lbField.getText().toString();
+                                String reps = repsField.getText().toString();
+                                String notes = notesField.getText().toString();
+
+                                if (weight.isEmpty() || reps.isEmpty()) {
+                                    Toast.makeText(UpdateExercise.this, "Please fill all fields in set " + setNumber, Toast.LENGTH_SHORT).show();
+                                    return;
                                 }
+
+                                Map<String, Object> setData = new HashMap<>();
+                                setData.put("weight", Double.parseDouble(weight));
+                                setData.put("reps", Integer.parseInt(reps));
+                                setData.put("notes", notes);
+                                setsData.put(String.valueOf(setNumber), setData);
+                                setNumber++;
                             }
-                            updatedExercise.put("sets", setsData);
-
-                            // update the specific exercise
-                            Map<String, Object> updates = new HashMap<>();
-                            updates.put("exercises/" + exerciseKeyToUpdate, updatedExercise);
-                            updates.put("program", u_program.getText().toString().trim());
-                            updates.put("startTime", u_time.getText().toString().trim());
-                            updates.put("endTime", u_endTime.getText().toString().trim());
-                            updates.put("notes", u_notes.getText().toString().trim());
-
-                            workoutref.updateChildren(updates)
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(UpdateExercise.this, "Exercise updated successfully!", Toast.LENGTH_SHORT).show();
-                                        finish();
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Log.e("UpdateExercise", "Update failed", e);
-                                        Toast.makeText(UpdateExercise.this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                    });
                         }
+                        updatedExercise.put("sets", setsData);
+
+                        // Use the stored exercise key or generate a new one if needed
+                        String exerciseKey = currentExerciseKey != null ? currentExerciseKey : "ex" + (exercises.size() + 1);
+
+                        // Update the specific exercise and workout data
+                        Map<String, Object> updates = new HashMap<>();
+                        updates.put("exercises/" + exerciseKey, updatedExercise);
+                        updates.put("program", u_program.getText().toString().trim());
+                        updates.put("startTime", u_time.getText().toString().trim());
+                        updates.put("endTime", u_endTime.getText().toString().trim());
+                        updates.put("notes", u_notes.getText().toString().trim());
+
+                        workoutref.updateChildren(updates)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(UpdateExercise.this, "Exercise updated successfully!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(UpdateExercise.this, MainPage.class);
+                                    startActivity(intent);
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("UpdateExercise", "Update failed", e);
+                                    Toast.makeText(UpdateExercise.this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
                     }
                 }
             });
@@ -457,6 +472,7 @@ public class UpdateExercise extends AppCompatActivity {
             Toast.makeText(this, "Invalid date format", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void showTimePicker(EditText timeField) {
         Calendar calendar = Calendar.getInstance();
