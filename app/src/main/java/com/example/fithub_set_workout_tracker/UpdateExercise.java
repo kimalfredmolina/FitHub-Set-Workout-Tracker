@@ -62,8 +62,8 @@ public class UpdateExercise extends AppCompatActivity {
     private TextView workoutName;
     private Button upExerciseButton, upSetButton;
     private LinearLayout workout_Details;
-    private String originalExerciseName; // To store the original exercise name
-    private String originalMuscleGroup; // To store the original muscle group
+    private String originalExerciseName;
+    private String originalMuscleGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +75,6 @@ public class UpdateExercise extends AppCompatActivity {
         workout_Details = findViewById(R.id.workout_details);
         upSetButton = findViewById(R.id.btn_add_set);
 
-
-
-
-        // Get intent extras
         String date = getIntent().getStringExtra("date");
         String workoutTitle = getIntent().getStringExtra("workoutTitle");
         String workoutType = getIntent().getStringExtra("workoutType");
@@ -94,24 +90,12 @@ public class UpdateExercise extends AppCompatActivity {
             runOnUiThread(() -> workoutName.setText(workoutTitle));
         }
 
-
-
         Log.d("UpdateExercise", "Date: " + date + ", WorkoutTitle: " + workoutTitle);
 
         originalExerciseName = getIntent().getStringExtra("workoutTitle");
         originalMuscleGroup = getIntent().getStringExtra("workoutType");
 
-
-
-
-        // Validate that the data was passed correctly
-
-
-
-
-
-
-        // Initialize EditTexts and Button
+        // initialize EditTexts and Button
         u_program = findViewById(R.id.Program_update);
         u_weight = findViewById(R.id.weight_update);
         u_date = findViewById(R.id.date_picker_update);
@@ -120,33 +104,24 @@ public class UpdateExercise extends AppCompatActivity {
         u_notes = findViewById(R.id.notes_update);
         updateButton = findViewById(R.id.update_btn);
 
-        // Initialize Firebase
+        // initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         databaseref = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("workout");
 
-        // Load data from Firebase
         loadWorkoutData();
 
-        // Set up DatePicker dialog for the date EditText
         u_date.setOnClickListener(v -> {
             Toast.makeText(this, "You can't update the date!", Toast.LENGTH_SHORT).show();
         });
-
-        // Set up TimePicker for the start time (u_time)
         u_time.setOnClickListener(v -> showTimePicker(u_time));
-
-        // Set up TimePicker for the end time (u_endTime)
         u_endTime.setOnClickListener(v -> showTimePicker(u_endTime));
-
-        // Set up Update button click listener
         updateButton.setOnClickListener(v -> updateDataInFirebase());
 
 
-
+        // pass the original exercise details to potentially use in comparison
         upExerciseButton.setOnClickListener(v -> {
             Intent selectWorkoutIntent = new Intent(UpdateExercise.this, Update_SelectWorkout.class);
-            // Pass the original exercise details to potentially use in comparison
             selectWorkoutIntent.putExtra("originalExercise", originalExerciseName);
             selectWorkoutIntent.putExtra("originalMuscleGroup", originalMuscleGroup);
             startActivityForResult(selectWorkoutIntent, 1);
@@ -234,7 +209,7 @@ public class UpdateExercise extends AppCompatActivity {
     }
 
 
-
+    //for fetching data from set tracker to update form
     private void loadWorkoutData() {
         String workoutTitle = getIntent().getStringExtra("workoutTitle");
         String date = getIntent().getStringExtra("date");
@@ -244,7 +219,7 @@ public class UpdateExercise extends AppCompatActivity {
             return;
         }
 
-        // Parse the date string to get year, month, day
+        // parse the date string to get year, month, day
         try {
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             Date parsedDate = inputFormat.parse(date);
@@ -289,14 +264,14 @@ public class UpdateExercise extends AppCompatActivity {
 
                         workoutName.setText(workoutTitle);
 
-                        // Look through all exercises to find the matching one
+                        // look through all exercises to find the matching one
                         DataSnapshot exercisesSnapshot = snapshot.child("exercises");
                         for (DataSnapshot exerciseSnapshot : exercisesSnapshot.getChildren()) {
                             String exerciseName = exerciseSnapshot.child("name").getValue(String.class);
                             Log.d("UpdateExercise", "Checking exercise: " + exerciseName);
 
                             if (exerciseName != null && exerciseName.equals(workoutTitle)) {
-                                // Found the matching exercise
+                                // if found the matching exercise
                                 DataSnapshot setsSnapshot = exerciseSnapshot.child("sets");
                                 for (DataSnapshot setSnapshot : setsSnapshot.getChildren()) {
                                     View setView = getLayoutInflater().inflate(R.layout.set_layout, workout_Details, false);
@@ -321,13 +296,13 @@ public class UpdateExercise extends AppCompatActivity {
                                                 .setText(setNotes);
                                     }
 
-                                    // Add popup menu
+                                    // add the popup menu
                                     setupPopupMenu(setView);
 
                                     workout_Details.addView(setView);
-                                    setCount++; // Increment setCount to keep track of total sets
+                                    setCount++; // increment set count to keep track of total sets
                                 }
-                                break; // Exit loop once we've found and processed the matching exercise
+                                break;
                             }
                         }
                     } else {
@@ -349,7 +324,7 @@ public class UpdateExercise extends AppCompatActivity {
         }
     }
 
-    // Helper method to setup popup menu
+    //setup popup menu
     private void setupPopupMenu(View setView) {
         ImageButton popupMenuButton = setView.findViewById(R.id.Popup_Menu);
         popupMenuButton.setOnClickListener(v -> {
@@ -371,6 +346,7 @@ public class UpdateExercise extends AppCompatActivity {
         });
     }
 
+    //update function for firebase
     private void updateDataInFirebase() {
         String date = u_date.getText().toString();
         String workoutTitle = workoutName.getText().toString();
@@ -404,7 +380,6 @@ public class UpdateExercise extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DataSnapshot snapshot = task.getResult();
                     if (snapshot.exists()) {
-                        // Get the current workout data
                         Map<String, Object> workoutData = (Map<String, Object>) snapshot.getValue();
                         Map<String, Object> exercises = (Map<String, Object>) workoutData.get("exercises");
 
@@ -419,12 +394,12 @@ public class UpdateExercise extends AppCompatActivity {
                         }
 
                         if (exerciseKeyToUpdate != null) {
-                            // Create updated exercise data
+                            // create updated workout/exercise data
                             Map<String, Object> updatedExercise = new HashMap<>();
                             updatedExercise.put("name", workoutTitle);
                             updatedExercise.put("muscleGroup", originalMuscleGroup);
 
-                            // Collect sets data
+                            // collect sets data
                             Map<String, Object> setsData = new HashMap<>();
                             for (int i = 0; i < workout_Details.getChildCount(); i++) {
                                 View setView = workout_Details.getChildAt(i);
@@ -439,7 +414,7 @@ public class UpdateExercise extends AppCompatActivity {
                             }
                             updatedExercise.put("sets", setsData);
 
-                            // Update the specific exercise
+                            // update the specific exercise
                             Map<String, Object> updates = new HashMap<>();
                             updates.put("exercises/" + exerciseKeyToUpdate, updatedExercise);
                             updates.put("program", u_program.getText().toString().trim());
@@ -467,34 +442,23 @@ public class UpdateExercise extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
-
     private void showTimePicker(EditText timeField) {
-        // Get the current time as default
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
-        // Create a TimePickerDialog
         TimePickerDialog timePickerDialog = new TimePickerDialog(
                 this,
                 (view, selectedHour, selectedMinute) -> {
-                    // Format the selected time
                     String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute);
-
-                    // Set the selected time in the clicked field (start or end time)
                     timeField.setText(formattedTime);
                 },
                 hour,
                 minute,
-                true // Use 24-hour format
+                true // Using 24-hour format
         );
 
-        timePickerDialog.show(); // Show the time picker
+        timePickerDialog.show();
     }
 
 

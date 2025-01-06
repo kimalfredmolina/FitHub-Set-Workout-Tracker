@@ -35,7 +35,7 @@ import java.util.Locale;
 
 public class SetTrackerPage extends Fragment {
 
-    private LinearLayout dataLayout; // Should match your container layout inside ScrollView
+    private LinearLayout dataLayout;
     private FloatingActionButton addExerciseButton;
 
     private FirebaseAuth mAuth;
@@ -55,7 +55,7 @@ public class SetTrackerPage extends Fragment {
         View view = inflater.inflate(R.layout.fragment_set_tracker_page, container, false);
 
         addExerciseButton = view.findViewById(R.id.add_exercise);
-        dataLayout = view.findViewById(R.id.exercise_container); // Ensure this matches your XML ID for the container
+        dataLayout = view.findViewById(R.id.exercise_container);
 
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -70,24 +70,6 @@ public class SetTrackerPage extends Fragment {
         return view;
     }
 
-    private String getMonthName(String monthNumber) {
-        switch (monthNumber) {
-            case "1": return "Jan";
-            case "2": return "Feb";
-            case "3": return "Mar";
-            case "4": return "Apr";
-            case "5": return "May";
-            case "6": return "Jun";
-            case "7": return "Jul";
-            case "8": return "Aug";
-            case "9": return "Sep";
-            case "10": return "Oct";
-            case "11": return "Nov";
-            case "12": return "Dec";
-            default: return "Invalid Month";
-        }
-    }
-
     private void loadWorkoutData() {
         String userId = mAuth.getCurrentUser().getUid();
         databaseReference.child("users")
@@ -97,29 +79,27 @@ public class SetTrackerPage extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
-                            // Iterate through years
+                            // Iterate through years, months, and days
                             for (DataSnapshot yearSnapshot : snapshot.getChildren()) {
-                                // Iterate through months
                                 for (DataSnapshot monthSnapshot : yearSnapshot.getChildren()) {
-                                    // Iterate through days
                                     for (DataSnapshot daySnapshot : monthSnapshot.getChildren()) {
-                                        // Construct the full date
+                                        // construct the full date
                                         String year = yearSnapshot.getKey();
                                         String month = monthSnapshot.getKey();
                                         String day = daySnapshot.getKey();
                                         String fullDate = String.format("%s-%s-%s", year, month, day);
 
-                                        // Get workout data
+                                        // get workout data
                                         String program = daySnapshot.child("program").getValue(String.class);
 
                                         StringBuilder details = new StringBuilder();
                                         DataSnapshot exercisesSnapshot = daySnapshot.child("exercises");
 
-                                        // Count total exercises and sets
+                                        // count total exercises and sets
                                         int totalExercises = 0;
                                         int totalSets = 0;
 
-                                        // Iterate through all exercises (ex1, ex2, etc.)
+                                        // it will iterate through all exercises (ex1, ex2, etc.)
                                         for (DataSnapshot exerciseSnapshot : exercisesSnapshot.getChildren()) {
                                             totalExercises++;
                                             String exerciseName = exerciseSnapshot.child("name").getValue(String.class);
@@ -138,7 +118,7 @@ public class SetTrackerPage extends Fragment {
                                             }
                                         }
 
-                                        // Add time information
+                                        // add time information
                                         String startTime = daySnapshot.child("startTime").getValue(String.class);
                                         String endTime = daySnapshot.child("endTime").getValue(String.class);
                                         if (startTime != null && endTime != null) {
@@ -151,16 +131,15 @@ public class SetTrackerPage extends Fragment {
                                         }
 
 
-                                        // Format the date for display
+                                        // format the date for display
                                         String formattedDate = formatDate(fullDate);
 
-                                        // Add summary of total exercises and sets
+                                        // add summary of total exercises and sets
                                         String summaryTitle = String.format("%s (%d exercises)",
                                                 program != null ? program : "Workout",
                                                 totalExercises,
                                                 totalSets);
 
-                                        // Add the workout card
                                         addWorkoutCard(formattedDate,
                                                 summaryTitle,
                                                 details.toString().trim());
@@ -209,26 +188,25 @@ public class SetTrackerPage extends Fragment {
             workoutDetailsText.setText(workoutDetails);
         }
 
-        // Make the card clickable
+        // it will make the card clickable and open the workout details
         cardView.setOnClickListener(v -> {
-            // Get the full date in ISO format (YYYY-MM-DD)
             try {
                 SimpleDateFormat displayFormat = new SimpleDateFormat("MMM d", Locale.US);
                 SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
-                // Parse the display date and convert to ISO format
+                // parse the display date and convert to ISO format
                 Date parsedDate = displayFormat.parse(date);
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(parsedDate);
-                cal.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR)); // Set current year
+                cal.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
                 String isoDate = isoFormat.format(cal.getTime());
 
-                // Split the details to get individual exercises
+                // it will split the workout details into an array of exercises
                 String[] exercises = workoutDetails.split("\n");
-                String firstExercise = exercises[0].split(" x")[0]; // Get first exercise name
+                String firstExercise = exercises[0].split(" x")[0];
 
                 Intent intent = new Intent(getContext(), UpdateExercise.class);
-                intent.putExtra("date", isoDate); // Send full ISO date
+                intent.putExtra("date", isoDate);
                 intent.putExtra("workoutTitle", firstExercise);
                 intent.putExtra("workoutType", workoutTitle);
                 startActivity(intent);
@@ -239,6 +217,7 @@ public class SetTrackerPage extends Fragment {
             }
         });
 
+        //for deleting the workout
         cardView.setOnLongClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Delete Workout Data Card")

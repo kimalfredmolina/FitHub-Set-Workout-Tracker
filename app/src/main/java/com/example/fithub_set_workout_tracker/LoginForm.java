@@ -87,6 +87,7 @@ public class LoginForm extends AppCompatActivity {
 
     }
 
+    //function for see/hide password
     private void togglePasswordVisibility() {
         if (isPasswordVisible) {
             passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());

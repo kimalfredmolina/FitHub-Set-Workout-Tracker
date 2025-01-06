@@ -29,7 +29,7 @@ public class SplashScreenForm extends AppCompatActivity {
             Intent intent = new Intent(SplashScreenForm.this, LoginForm.class);
             startActivity(intent);
             finish();
-        }, 3000);
+        }, 4000);
     }
 
     private void showElementWithDelay(ImageView imageView, long delay) {

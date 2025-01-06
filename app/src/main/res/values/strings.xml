@@ -81,7 +81,7 @@
     <string name="menu_feedback"><u>Feedback</u></string>
     <string name="menu_terms"><u>Terms and Condition</u></string>
     <string name="menu_about"><u>About Us</u></string>
-    <string name="log_out">Log Out</string>
+    <string name="log_out">Sign Out</string>
 
 
 </resources>

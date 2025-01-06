@@ -35,7 +35,7 @@ public class NotificationUtils {
         calendar.set(Calendar.SECOND, 0);
 
         long triggerTime = calendar.getTimeInMillis();
-        //long triggerTime = System.currentTimeMillis() + 60000; "for this only"
+        //long triggerTime = System.currentTimeMillis() + 60000; "uncomment for testing only"
         long repeatInterval = AlarmManager.INTERVAL_DAY;
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, triggerTime, repeatInterval, pendingIntent);

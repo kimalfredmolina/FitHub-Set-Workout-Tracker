@@ -58,6 +58,7 @@ public class SignUpForm extends AppCompatActivity {
             return insets;
         });
 
+        //to store newly created account to firebase
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

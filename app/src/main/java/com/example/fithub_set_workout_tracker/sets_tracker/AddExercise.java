@@ -90,7 +90,7 @@ public class AddExercise extends AppCompatActivity {
         }
     }
 
-
+    //for save intent when navigating throughout another activity
     private void saveData() {
         SharedPreferences preferences = getSharedPreferences("AddExerciseData", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -138,7 +138,7 @@ public class AddExercise extends AppCompatActivity {
         endTime.setText("");
         workoutName.setText("");
         workout_Details.removeAllViews();
-        setCount = 2; // Reset set counter
+        setCount = 2;
         finishButton.setVisibility(View.GONE);
     }
 
@@ -209,7 +209,7 @@ public class AddExercise extends AppCompatActivity {
         Btnsave.setOnClickListener(v -> {
             mAuth = FirebaseAuth.getInstance();
 
-            // Get all input values
+            // get all input values
             String programText = program.getText().toString().trim();
             String bodyWeight = weight.getText().toString().trim();
             String startTime = time.getText().toString().trim();
@@ -217,7 +217,7 @@ public class AddExercise extends AppCompatActivity {
             String note = notes.getText().toString().trim();
             String dateValue = date.getText().toString().trim();
 
-            // Input validation
+            // input validation
             if (programText.isEmpty() || bodyWeight.isEmpty() || startTime.isEmpty() ||
                     endTimeValue.isEmpty() || note.isEmpty() || dateValue.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
@@ -229,7 +229,7 @@ public class AddExercise extends AppCompatActivity {
                 return;
             }
 
-            // User authentication check
+            // user authentication check
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user == null) {
                 Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
@@ -238,7 +238,7 @@ public class AddExercise extends AppCompatActivity {
 
             String uid = user.getUid();
 
-            // Get muscle group and exercise
+            // it will get the muscle group and exercise
             String selectedMuscleGroup = getIntent().getStringExtra("selectedMuscleGroup");
             String selectedExercise = getIntent().getStringExtra("selectedExercise");
 
@@ -261,24 +261,24 @@ public class AddExercise extends AppCompatActivity {
                 String month = monthFormat.format(parsedDate);
                 String day = dayFormat.format(parsedDate);
 
-                // Update reference path
+                // update reference path
                 userRef = FirebaseDatabase.getInstance().getReference()
                         .child("users")
                         .child(uid);
 
-                // Save body weight to profile with formatted date
+                // save body weight to profile with formatted date
                 userRef.child("profile")
                         .child("bodyWeight")
                         .child(dateValue)
                         .setValue(Double.parseDouble(bodyWeight));
 
-                // Reference to the specific date's workout
+                // reference to the specific date's workout
                 DatabaseReference workoutRef = userRef.child("workouts")
                         .child(year)
                         .child(month)
                         .child(day);
 
-                // First, check if a workout exists for this date
+                // first, check if a workout exists for this date
                 workoutRef.get().addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DataSnapshot snapshot = task.getResult();
@@ -286,20 +286,20 @@ public class AddExercise extends AppCompatActivity {
                         Map<String, Object> workoutData = new HashMap<>();
 
                         if (snapshot.exists()) {
-                            // Workout exists for this date - get existing data
+                            // workout exists for this date - get existing data
                             workoutData = (Map<String, Object>) snapshot.getValue();
                             workoutId = (String) workoutData.get("workoutId");
 
-                            // Get existing exercises or create new map
+                            // get existing exercises or create new map
                             Map<String, Object> existingExercises = (Map<String, Object>) workoutData.get("exercises");
                             if (existingExercises == null) {
                                 existingExercises = new HashMap<>();
                             }
 
-                            // Generate new exercise key (ex1, ex2, etc.)
+                            // generate new exercise key (ex1, ex2, etc.)
                             String newExKey = "ex" + (existingExercises.size() + 1);
 
-                            // Prepare new exercise sets
+                            // prepare new exercise sets
                             Map<String, Object> sets = new HashMap<>();
                             for (int i = 0; i < inflatedViews.size(); i++) {
                                 View inflatedView = inflatedViews.get(i);
@@ -323,21 +323,21 @@ public class AddExercise extends AppCompatActivity {
                                 sets.put(String.valueOf(i + 1), setData);
                             }
 
-                            // Create new exercise object
+                            // create new exercise object
                             Map<String, Object> newExercise = new HashMap<>();
                             newExercise.put("name", selectedExercise);
                             newExercise.put("muscleGroup", selectedMuscleGroup);
                             newExercise.put("sets", sets);
 
-                            // Add new exercise to existing exercises
+                            // add new exercise to existing exercises
                             existingExercises.put(newExKey, newExercise);
                             workoutData.put("exercises", existingExercises);
 
                         } else {
-                            // No workout exists for this date - create new workout
+                            // if no workout exists for this date - create new workout
                             workoutId = workoutRef.push().getKey();
 
-                            // Prepare exercise sets
+                            // prepare exercise sets
                             Map<String, Object> sets = new HashMap<>();
                             for (int i = 0; i < inflatedViews.size(); i++) {
                                 View inflatedView = inflatedViews.get(i);
@@ -361,17 +361,17 @@ public class AddExercise extends AppCompatActivity {
                                 sets.put(String.valueOf(i + 1), setData);
                             }
 
-                            // Create first exercise object
+                            // create first exercise object
                             Map<String, Object> exercise = new HashMap<>();
                             exercise.put("name", selectedExercise);
                             exercise.put("muscleGroup", selectedMuscleGroup);
                             exercise.put("sets", sets);
 
-                            // Create exercises map
+                            // create exercises map
                             Map<String, Object> exercises = new HashMap<>();
                             exercises.put("ex1", exercise);
 
-                            // Create complete workout data
+                            // create complete workout data
                             workoutData.put("workoutId", workoutId);
                             workoutData.put("program", programText);
                             workoutData.put("startTime", startTime);
@@ -437,7 +437,7 @@ public class AddExercise extends AppCompatActivity {
             checkIfFinishButtonShouldBeVisible();
         });
 
-
+        //for selecting workouts and exercise
         Intent intent = getIntent();
         String selectedExercise = intent.getStringExtra("selectedExercise");
 
@@ -501,7 +501,7 @@ public class AddExercise extends AppCompatActivity {
                 .show();
     }*/
 
-    private void showDatePicker() {
+    /*private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -514,7 +514,7 @@ public class AddExercise extends AppCompatActivity {
                 },
                 year, month, dayOfMonth);
         datePickerDialog.show();
-    }
+    }*/
 
     private void showTimePicker(final TextView timeField) {
         Calendar calendar = Calendar.getInstance();
@@ -530,7 +530,7 @@ public class AddExercise extends AppCompatActivity {
         timePickerDialog.show();
     }
 
-
+    //it will add dynamically and it will add to the firebase the inflated data's
     private void addSet() {
         if (setCount > MAX_SETS) {
             addSetButton.setEnabled(false);

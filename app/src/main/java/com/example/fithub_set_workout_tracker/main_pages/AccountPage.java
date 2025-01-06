@@ -77,14 +77,13 @@ public class AccountPage extends Fragment {
                 profileImage.setImageResource(R.drawable.fithub_logo);
             }
 
-            // Fetch and populate graph data
+            // fetch and populate graph data
             fetchBodyWeightData(currentUser.getUid());
         } else {
             signedEmail.setText("No Current email signed in");
             profileImage.setImageResource(R.drawable.fithub_logo);
         }
 
-        // Add confirmation dialog for sign-out
         signOut.setOnClickListener(v -> {
             new AlertDialog.Builder(requireContext())
                     .setTitle("Log Out")
@@ -99,7 +98,6 @@ public class AccountPage extends Fragment {
 
         MaterialToolbar toolbar = view.findViewById(R.id.topAppBar);
         toolbar.setNavigationOnClickListener(v -> {
-            // Handle navigation if needed
         });
     }
 
@@ -110,6 +108,7 @@ public class AccountPage extends Fragment {
         requireActivity().finish();
     }
 
+    //it will fetch the data for body weight in firebase and populate the graph
     private void fetchBodyWeightData(String uid) {
         DatabaseReference bodyWeightRef = FirebaseDatabase.getInstance()
                 .getReference("users")
@@ -139,8 +138,6 @@ public class AccountPage extends Fragment {
                 if (!entries.isEmpty()) {
                     BarDataSet dataSet = new BarDataSet(entries, "Body Weight Progress");
                     dataSet.setColor(requireContext().getColor(R.color.light_blue));
-
-                    // Dynamically set text color based on theme
                     int textColor = isDarkMode() ? Color.WHITE : Color.BLACK;
                     dataSet.setValueTextColor(textColor);
                     dataSet.setValueTextSize(10f);
@@ -166,7 +163,7 @@ public class AccountPage extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle database error
+                // handle database error
             }
         });
     }

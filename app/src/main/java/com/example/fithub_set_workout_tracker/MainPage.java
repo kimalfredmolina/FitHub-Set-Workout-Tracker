@@ -51,7 +51,6 @@ public class MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
-        // Setup Toolbar
         Toolbar toolbar = findViewById(R.id.topAppBar);
         setSupportActionBar(toolbar);
 
@@ -65,11 +64,10 @@ public class MainPage extends AppCompatActivity {
             }
         }
 
-        // Initialize DrawerLayout and NavigationView
         drawerLayout = findViewById(R.id.main);
         navigationView = findViewById(R.id.nav);
 
-        // *** Firebase Authentication and Email Display ***
+        // firebase authentication
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         View headerView = navigationView.getHeaderView(0);
         TextView emailTextView = headerView.findViewById(R.id.email);
@@ -81,7 +79,6 @@ public class MainPage extends AppCompatActivity {
         } else {
             emailTextView.setText("No User Signed In");
         }
-        // *** End of Firebase and Email Display Code ***
 
         drawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -95,7 +92,7 @@ public class MainPage extends AppCompatActivity {
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        // Initialize Night Mode Switch
+        // initialize Night Mode Switch
         MenuItem nightModeItem = navigationView.getMenu().findItem(R.id.navmode);
         Switch nightModeSwitch = (Switch) nightModeItem.getActionView();
         if (nightModeSwitch != null) {
@@ -161,62 +158,48 @@ public class MainPage extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.navabout) {
-            // Log to check if the method is triggered
+            //log checking
             Log.d("Navigation", "About Us clicked");
 
-            // Open external link for About Us
-            String url = "https://fithub-website-three.vercel.app/"; // your desired URL
+            String url = "https://fithub-website-three.vercel.app/";
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(android.net.Uri.parse(url));
             startActivity(intent);
         } else if (itemId == R.id.navtc) {
-            // Log to check if the method is triggered
             Log.d("Navigation", "Terms and Conditions clicked");
 
-            // Open external link for Terms and Conditions
             String url = "https://fithub-website-three.vercel.app/#terms";
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(android.net.Uri.parse(url));
             startActivity(intent);
         } else if (itemId == R.id.navfeedback) {
-            // Log to check if the method is triggered
             Log.d("Navigation", "Feedback clicked");
 
-            // Open external link for Feedback
             String url = "https://fithub-website-three.vercel.app/#feedback";
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(android.net.Uri.parse(url));
             startActivity(intent);
         } else if (itemId == R.id.navlogout) {
-            // Handle logout functionality
             logOutUser();
         } else {
             Log.d("Navigation", "Unhandled menu item clicked");
         }
     }
 
-    /**
-     * Logs out the user and redirects to the login screen.
-     */
+    //logout function
     private void logOutUser() {
-        // Show a confirmation dialog before logging out
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("Log Out")
                 .setMessage("Are you sure you want to log out?")
                 .setPositiveButton("Yes", (dialog, which) -> {
-                    // Perform logout operations here (e.g., clearing user session, shared preferences, etc.)
                     Log.d("Navigation", "User confirmed logout");
 
-                    // Redirect to the login screen
                     Intent intent = new Intent(MainPage.this, LoginForm.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear the back stack
                     startActivity(intent);
-
-                    // Show a toast message
                     Toast.makeText(MainPage.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Cancel", (dialog, which) -> {
-                    // Dismiss the dialog if the user cancels
                     Log.d("Navigation", "User canceled logout");
                     dialog.dismiss();
                 })
