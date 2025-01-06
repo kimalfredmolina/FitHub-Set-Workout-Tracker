@@ -29,24 +29,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
-                    android:textColor="@color/primary_text"
+                    android:textColor="@color/textcolor"
                     android:textSize="24sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/date_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:textColor="@color/secondary_text"
-                    android:textSize="14sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <!-- Stats Cards -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="90dp"
             android:orientation="horizontal"
             android:layout_marginBottom="16dp">
 
@@ -69,17 +61,18 @@
                         android:id="@+id/total_workouts_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textColor="@color/primary_text"
+                        android:text="@string/zero"
+                        android:textColor="@color/textcolor"
                         android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Workouts"
-                        android:textColor="@color/secondary_text"
-                        android:textSize="14sp" />
+                        android:text="@string/workout"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/medium"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -102,17 +95,18 @@
                         android:id="@+id/streak_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0 day/s"
-                        android:textColor="@color/primary_text"
+                        android:text="@string/zero_days"
+                        android:textColor="@color/textcolor"
                         android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:fontFamily="@font/bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Streak"
-                        android:textColor="@color/secondary_text"
-                        android:textSize="14sp" />
+                        android:text="@string/streak"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/medium"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -127,7 +121,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:padding="16dp">
 
@@ -135,18 +129,19 @@
                         android:id="@+id/program_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/primary_text"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
+                        android:ellipsize="end"
                         android:maxLines="1"
-                        android:ellipsize="end" />
+                        android:textColor="@color/textcolor"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Top Program"
-                        android:textColor="@color/secondary_text"
-                        android:textSize="14sp" />
+                        android:text="@string/top_program"
+                        android:textColor="@color/red"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/medium"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
@@ -167,8 +162,8 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Workout Calendar"
-                    android:textColor="@color/primary_text"
+                    android:text="@string/workout_calendar"
+                    android:textColor="@color/textcolor"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:padding="16dp" />
@@ -181,37 +176,17 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-
-
-        <!-- Action Buttons -->
-        <LinearLayout
+        <Button
+            android:id="@+id/start_workout_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="16dp">
-
-            <Button
-                android:id="@+id/start_workout_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:text="Start Workout"
-                android:textColor="@android:color/white"
-                android:backgroundTint="@color/primary_color"
-                android:padding="16dp" />
-
-            <Button
-                android:id="@+id/log_workout_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:text="Log Workout"
-                android:textColor="@android:color/white"
-                android:backgroundTint="@color/secondary_color"
-                android:padding="16dp" />
-        </LinearLayout>
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:text="@string/start_workout"
+            android:fontFamily="@font/bold"
+            android:textColor="@color/textcolor"
+            android:backgroundTint="@color/primary_color"
+            android:padding="16dp" />
         <!-- Alarm Button -->
         <Button
             android:id="@+id/alarm_btn"

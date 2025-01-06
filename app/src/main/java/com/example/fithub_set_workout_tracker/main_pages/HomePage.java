@@ -70,10 +70,6 @@ public class HomePage extends Fragment {
         });
 
         return rootView;
-
-
-
-
     }
 
     private void initializeViews() {
@@ -82,14 +78,9 @@ public class HomePage extends Fragment {
         programText = rootView.findViewById(R.id.program_text);
         calendarView = rootView.findViewById(R.id.calendar_view);
         startWorkoutBtn = rootView.findViewById(R.id.start_workout_btn);
-        logWorkoutBtn = rootView.findViewById(R.id.log_workout_btn);
 
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         startWorkoutBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), AddExercise.class);
-            startActivity(intent);
-        });
-        logWorkoutBtn.setOnClickListener(v -> {
             Intent intent = new Intent(requireActivity(), AddExercise.class);
             startActivity(intent);
         });
