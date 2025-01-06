@@ -8,7 +8,7 @@ FitHub - Set Workout Tracker is an Android app designed to help users organize a
 - **App Notifications**
   - Notify user to stay on track with timely notifications to workouts.
 - **Calendar Integration**
-  - Plan and track your fitness schedule with an in-app calendar feature.
+  - Calendar view only.
 - **Dark/Light Mode Theme**
   - Choose between dark and light mode themes to suit your visual preferences.
 - **Progression Graphs**
