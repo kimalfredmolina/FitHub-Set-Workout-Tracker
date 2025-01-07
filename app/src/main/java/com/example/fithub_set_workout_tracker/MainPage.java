@@ -158,26 +158,26 @@ public class MainPage extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.navabout) {
-            //log checking
             Log.d("Navigation", "About Us clicked");
-
             String url = "https://fithub-website-three.vercel.app/";
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(android.net.Uri.parse(url));
             startActivity(intent);
         } else if (itemId == R.id.navtc) {
             Log.d("Navigation", "Terms and Conditions clicked");
-
             String url = "https://fithub-website-three.vercel.app/#terms";
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(android.net.Uri.parse(url));
             startActivity(intent);
         } else if (itemId == R.id.navfeedback) {
             Log.d("Navigation", "Feedback clicked");
-
             String url = "https://fithub-website-three.vercel.app/#feedback";
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(android.net.Uri.parse(url));
+            startActivity(intent);
+        } else if (itemId == R.id.alarm_btn) {
+            Log.d("Navigation", "Alarm clicked");
+            Intent intent = new Intent(this, Alarm.class);
             startActivity(intent);
         } else if (itemId == R.id.navlogout) {
             logOutUser();

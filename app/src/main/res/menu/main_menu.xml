@@ -12,6 +12,13 @@
             app:actionViewClass="android.widget.Switch"/>
 
         <item
+            android:id="@+id/alarm_btn"
+            android:title="@string/set_alarm"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:icon="@drawable/ic_alarm"
+            app:actionViewClass="android.widget.Switch"/>
+
+        <item
             android:id="@+id/navtc"
             android:icon="@drawable/baseline_fact_check_24"
             android:title="@string/menu_terms" />
