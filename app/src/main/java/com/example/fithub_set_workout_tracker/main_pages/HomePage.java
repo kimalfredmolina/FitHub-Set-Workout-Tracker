@@ -167,14 +167,30 @@ public class HomePage extends Fragment {
     }
 
     private void updateMostFrequentProgram(Map<String, Integer> programCounts) {
-        if (programCounts.isEmpty()) {
-            programText.setText("No programs yet");
-            return;
-        }
+        String today = dateFormat.format(Calendar.getInstance().getTime());
 
-        String mostFrequent = Collections.max(programCounts.entrySet(),
-                Map.Entry.comparingByValue()).getKey();
-        programText.setText(mostFrequent);
+        userRef.child("profile")
+                .child("bodyWeight")
+                .orderByKey()
+                .limitToLast(1)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            for (DataSnapshot weightSnapshot : snapshot.getChildren()) {
+                                Double weight = weightSnapshot.getValue(Double.class);
+                                programText.setText(weight != null ? weight + " kg " : "No weight logged");
+                                return;
+                            }
+                        }
+                        programText.setText("No weight logged");
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        programText.setText("Error loading weight");
+                    }
+                });
     }
 
 
@@ -209,7 +225,14 @@ public class HomePage extends Fragment {
 
         StringBuilder details = new StringBuilder();
         details.append("Program: ").append(program).append("\n");
-        details.append("Start Time: ").append(startTime).append("\n\n");
+        details.append("Start Time: ").append(startTime).append("\n");
+
+        // Add overall workout note
+        String workoutNote = workout.child("notes").getValue(String.class);
+        if (workoutNote != null && !workoutNote.isEmpty()) {
+            details.append("Workout Note: ").append(workoutNote).append("\n");
+        }
+        details.append("\n");
 
         DataSnapshot exercisesSnapshot = workout.child("exercises");
         for (DataSnapshot exerciseSnapshot : exercisesSnapshot.getChildren()) {
@@ -220,7 +243,13 @@ public class HomePage extends Fragment {
             for (DataSnapshot setSnapshot : setsSnapshot.getChildren()) {
                 double weight = setSnapshot.child("weight").getValue(Double.class);
                 int reps = setSnapshot.child("reps").getValue(Integer.class);
-                details.append("- ").append(weight).append("lbs x ").append(reps).append(" reps\n");
+                String setNote = setSnapshot.child("notes").getValue(String.class);
+
+                details.append("- ").append(weight).append("lbs x ").append(reps).append(" reps");
+                if (setNote != null && !setNote.isEmpty()) {
+                    details.append(" (Note: ").append(setNote).append(")");
+                }
+                details.append("\n");
             }
             details.append("\n");
         }
